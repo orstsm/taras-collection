@@ -23,7 +23,7 @@
                         rust: '#C86D39',
                         ocean: '#2E4C63',
                         charcoal: '#2C2927',
-                        alabaster: '#FBF9F6', // The new soft body background
+                        alabaster: '#FBF9F6',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -35,12 +35,23 @@
     </script>
     <style>
         .product-card:hover .overlay-btn { opacity: 1; }
-        #cart-modal, #about-modal, #contact-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        #cart-modal, #about-modal, #contact-modal, #image-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
+        
+        /* Auto-Scrolling Animation for Proof of Transactions */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
     </style>
 </head>
-<!-- Replaced bg-white with bg-alabaster -->
 <body class="bg-alabaster text-charcoal font-sans antialiased relative selection:bg-clay selection:text-white">
 
     <!-- HEADER & SOCIAL ICONS -->
@@ -84,7 +95,6 @@
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <svg class="w-5 h-5 text-stone" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <!-- Input field remains white to pop off the alabaster background -->
                 <input type="text" id="search-input" class="w-full pl-11 pr-12 py-3 border border-stone/30 bg-white rounded-full focus:outline-none focus:border-ocean focus:ring-1 focus:ring-ocean text-sm transition-shadow shadow-sm text-charcoal placeholder-stone" placeholder="Search for Crystals, Bracelets, or Stones...">
                 <button id="clear-search" onclick="resetSearch()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-stone hover:text-rust hidden">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -105,7 +115,6 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10" id="unified-product-grid">
                 
                 <div class="product-card group flex flex-col relative text-center">
-                    <!-- Added bg-white, rounded-sm, shadow-sm, and border to act as a "photo frame" -->
                     <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
                         <img src="https://via.placeholder.com/400" alt="Rose Quartz" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                     </a>
@@ -201,6 +210,7 @@
                     </div>
                 </div>
 
+                <!-- Hidden 12 Products injected by JS -->
                 <script>
                     const extraStones = [
                         {name: "Colorful Moonstone", price: 850}, {name: "Xiuyu Jade", price: 850}, 
@@ -307,7 +317,7 @@
         <!-- ========================================== -->
         <!-- SECTION 2: YOUTUBE SHORTS GALLERY          -->
         <!-- ========================================== -->
-        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30">
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-t border-stone/30">
              <div class="text-center mb-10">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
                     See Them In Action
@@ -358,6 +368,41 @@
                 </a>
             </div>
         </section>
+
+        <!-- ========================================== -->
+        <!-- SECTION 3: WE LOVE OUR CUSTOMERS (Marquee) -->
+        <!-- ========================================== -->
+        <section class="py-16 w-full overflow-hidden bg-alabaster border-t border-stone/30">
+            <div class="text-center mb-10 max-w-7xl mx-auto px-4">
+                <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
+                    We Love Our Customers
+                </h2>
+                <p class="text-sm text-ocean mt-4 uppercase tracking-wide">Proof of Transactions & Happy Clients</p>
+            </div>
+            
+            <!-- Infinite Auto-Scrolling Carousel -->
+            <div class="relative w-full flex overflow-hidden">
+                <div class="flex animate-marquee space-x-4 w-max hover:animation-play-state-paused">
+                    
+                    <!-- Batch 1 of Images (Replace srcs with your proofs) -->
+                    <img src="https://via.placeholder.com/300x500?text=Proof+1" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+2" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+3" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+4" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+5" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+6" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+
+                    <!-- Batch 2 (Identical Duplicate to create the seamless infinite loop) -->
+                    <img src="https://via.placeholder.com/300x500?text=Proof+1" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+2" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+3" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+4" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+5" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    <img src="https://via.placeholder.com/300x500?text=Proof+6" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
+                    
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- FLOATING CART BUTTON -->
@@ -365,6 +410,15 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-sm">View Cart (<span id="cart-count">0</span>)</span>
     </button>
+
+    <!-- ENLARGED IMAGE MODAL (For Proof of Transactions) -->
+    <div id="image-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('image-modal')">
+        <button onclick="closeModal('image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-50">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <!-- The clicked image will load here -->
+        <img id="enlarged-image" src="" class="max-h-[85vh] max-w-full rounded-sm shadow-2xl p-2 bg-white" onclick="event.stopPropagation()">
+    </div>
 
     <!-- INQUIRE HANDOFF MODAL -->
     <div id="inquire-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
@@ -403,6 +457,7 @@
                     <span>Total:</span>
                     <span class="text-ocean">₱ <span id="cart-total">0</span></span>
                 </div>
+                <!-- This now calls the updated logic to show HTML handoff instead of window.alert -->
                 <button id="checkout-btn" onclick="prepareCheckout()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg cursor-pointer">
                     Checkout Now
                 </button>
@@ -463,7 +518,7 @@
     </div>
 
     <!-- FOOTER WITH NEW LINKS -->
-    <footer class="bg-charcoal text-sand pt-16 pb-8 mt-12 border-t-4 border-clay">
+    <footer class="bg-charcoal text-sand pt-16 pb-8 border-t-4 border-clay">
         <div class="max-w-7xl mx-auto px-4 text-center">
             
             <div class="flex justify-center space-x-8 mb-8">
@@ -479,7 +534,9 @@
     <script>
         const searchInput = document.getElementById('search-input');
         const clearSearchBtn = document.getElementById('clear-search');
+        const websiteURL = "https://orstsm.github.io/taras-collection/"; // For deep linking in messages
         
+        // --- SEARCH LOGIC ---
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
             const allCards = document.querySelectorAll('.product-card');
@@ -544,6 +601,7 @@
             });
         }
 
+        // --- GENERAL MODAL LOGIC ---
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('hidden');
@@ -556,8 +614,16 @@
             modal.classList.remove('flex');
         }
 
+        // --- IMAGE MODAL LOGIC FOR TRANSACTION PROOFS ---
+        function openImageModal(src) {
+            document.getElementById('enlarged-image').src = src;
+            openModal('image-modal');
+        }
+
+        // --- INQUIRY BUTTON LOGIC ---
         function inquireItem(itemName) {
-            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}. Can you provide more details?`;
+            // Appends the store link to the inquiry so you know exactly where they came from
+            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}. Can you provide more details?\n\nLink: ${websiteURL}`;
             
             navigator.clipboard.writeText(message).then(() => {
                 openModal('inquire-modal');
@@ -567,6 +633,7 @@
             });
         }
 
+        // --- CART LOGIC ---
         let cart = [];
 
         function addToCart(name, price) {
@@ -644,31 +711,24 @@
             let message = "Hi Tara's Collection! I would like to order the following items:\n\n";
             let total = 0;
             
+            // Loop through the cart and append the website link to the order list
             cart.forEach(item => {
                 message += `- ${item.name} (₱${item.price})\n`;
+                message += `  Link: ${websiteURL}\n`;
                 total += item.price;
             });
             
             message += `\nEstimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
             
             navigator.clipboard.writeText(message).then(() => {
-                const btn = document.getElementById('checkout-btn');
-                btn.innerText = "ORDER COPIED! OPENING MESSENGER...";
-                btn.classList.replace("bg-ocean", "bg-clay");
+                // FIXED: Replace ugly alert with the beautiful HTML modal transition
+                document.getElementById('cart-standard-view').classList.add('hidden');
+                document.getElementById('cart-standard-view').classList.remove('flex');
                 
-                setTimeout(() => {
-                    window.open('https://m.me/109568137198741', '_blank');
-                    
-                    btn.innerText = "Checkout Now";
-                    btn.classList.replace("bg-clay", "bg-ocean");
-                    
-                    alert("Order copied to your clipboard! Just hold down in the chat box and tap PASTE to send your order.");
-                    
-                    cart = [];
-                    updateCartUI();
-                    toggleCart(true);
-                }, 2000);
+                document.getElementById('cart-handoff-view').classList.remove('hidden');
+                document.getElementById('cart-handoff-view').classList.add('flex');
             }).catch(err => {
+                // Fallback for browsers that block clipboard API
                 document.getElementById('cart-standard-view').classList.add('hidden');
                 document.getElementById('cart-standard-view').classList.remove('flex');
                 
