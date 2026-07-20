@@ -489,31 +489,31 @@
             
             message += `\nEstimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
             
+            // 1. Copy to clipboard
             navigator.clipboard.writeText(message).then(() => {
-                document.getElementById('cart-standard-view').classList.add('hidden');
-                document.getElementById('cart-standard-view').classList.remove('flex');
                 
-                document.getElementById('cart-handoff-view').classList.remove('hidden');
-                document.getElementById('cart-handoff-view').classList.add('flex');
-            }).catch(err => {
-                alert("Oops! Your browser prevented us from copying the order. Please try again.");
+                // 2. Change the button to be very clear
+                const btn = document.getElementById('checkout-btn');
+                btn.innerText = "ORDER COPIED! OPENING MESSENGER...";
+                btn.classList.replace("bg-blue-600", "bg-green-600");
+                
+                // 3. Give them 2 seconds to read that the order is copied
+                setTimeout(() => {
+                    // 4. Open the specific Messenger URL
+                    window.open('https://m.me/109568137198741', '_blank');
+                    
+                    // 5. Reset button
+                    btn.innerText = "Checkout via Messenger";
+                    btn.classList.replace("bg-green-600", "bg-blue-600");
+                    
+                    // 6. Alert them one last time so they don't forget to paste
+                    alert("Order copied to your clipboard! Just hold down in the chat box and tap PASTE to send your order.");
+                    
+                    cart = [];
+                    updateCartUI();
+                    toggleCart(true);
+                }, 2000);
             });
-        }
-
-        function cancelHandoff() {
-            document.getElementById('cart-handoff-view').classList.add('hidden');
-            document.getElementById('cart-handoff-view').classList.remove('flex');
-            
-            document.getElementById('cart-standard-view').classList.remove('hidden');
-            document.getElementById('cart-standard-view').classList.add('flex');
-        }
-
-        function resetCartAfterHandoff() {
-            setTimeout(() => {
-                cart = [];
-                updateCartUI();
-                toggleCart(true);
-            }, 500);
         }
     </script>
 
