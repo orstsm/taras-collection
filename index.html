@@ -35,11 +35,10 @@
     </script>
     <style>
         .product-card:hover .overlay-btn { opacity: 1; }
-        #cart-modal, #about-modal, #contact-modal, #image-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        #cart-modal, #about-modal, #contact-modal, #image-modal, #product-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
         
-        /* Auto-Scrolling Animation for Proof of Transactions */
         @keyframes marquee {
             0% { transform: translateX(0%); }
             100% { transform: translateX(-50%); }
@@ -56,7 +55,6 @@
 
     <!-- HEADER & SOCIAL ICONS -->
     <header class="w-full pt-16 pb-8 text-center bg-sand relative flex flex-col items-center shadow-sm border-b border-stone/30">
-        
         <div class="absolute top-4 right-4 md:right-8 flex space-x-4 md:space-x-5 items-center z-30">
             <!-- Messenger Icon -->
             <a href="https://m.me/109568137198741" target="_blank" class="text-ocean hover:text-rust transition-transform hover:scale-110" title="Message Us on FB">
@@ -64,7 +62,6 @@
                     <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
                 </svg>
             </a>
-            
             <!-- Cart Icon -->
             <button onclick="toggleCart()" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative" title="View Cart">
                 <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
@@ -73,7 +70,7 @@
         </div>
 
         <div class="flex items-center justify-center space-x-3 mb-1 px-4">
-            <img src="https://via.placeholder.com/150?text=Logo" alt="Tara's Collection Logo" id="main-logo" class="w-12 h-12 md:w-16 md:h-16 object-cover rounded-full border border-stone shadow-sm shrink-0">
+            <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-12 h-12 md:w-16 md:h-16 object-cover rounded-full border border-stone shadow-sm shrink-0">
             <h1 class="text-2xl sm:text-3xl md:text-5xl tracking-wide font-serif font-semibold text-charcoal mt-1 leading-tight">Tara's Collection</h1>
         </div>
         <p class="text-[10px] md:text-sm tracking-wide text-ocean uppercase mt-2 font-medium">Handcrafted Bracelets & Healing Stones</p>
@@ -112,142 +109,14 @@
                 </h2>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10" id="unified-product-grid">
-                
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Rose Quartz" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Rose Quartz Bracelet</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 850.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Rose Quartz Bracelet')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Rose Quartz Bracelet', 850)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
+            <!-- Products are injected here dynamically by JavaScript -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10" id="unified-product-grid"></div>
 
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Amethyst" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Amethyst Bracelet</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 900.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Amethyst Bracelet')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Amethyst Bracelet', 900)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Black Obsidian" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Black Obsidian</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 790.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Black Obsidian')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Black Obsidian', 790)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Raw Ruby" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Raw Ruby Crystal</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 1,100.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Raw Ruby Crystal')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Raw Ruby Crystal', 1100)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                 <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Ocean Jasper" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Ocean Jasper Druzy</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 950.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Ocean Jasper Druzy')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Ocean Jasper Druzy', 950)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Shungite" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Shungite 7 Chakra</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 880.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Shungite 7 Chakra')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Shungite 7 Chakra', 880)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Fluorite" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Fluorite Bracelet</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 750.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Fluorite Bracelet')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Fluorite Bracelet', 750)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400" alt="Golden Rutile" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Golden Rutile</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ 1,200.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Golden Rutile')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Golden Rutile', 1200)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <!-- Hidden 12 Products injected by JS -->
-                <script>
-                    const extraStones = [
-                        {name: "Colorful Moonstone", price: 850}, {name: "Xiuyu Jade", price: 850}, 
-                        {name: "Kambaba Jasper", price: 850}, {name: "Que Sera Stone", price: 850}, 
-                        {name: "Leklai Protection", price: 850}, {name: "Pyrite Raw", price: 850}, 
-                        {name: "Lapis Lazuli", price: 850}, {name: "Turquoise", price: 850}, 
-                        {name: "Coral Jade", price: 850}, {name: "Nanhong Agate", price: 850}, 
-                        {name: "Citrine Wealth", price: 1200}, {name: "Special Curation", price: 1500}
-                    ];
-                    
-                    const gridContainer = document.getElementById('unified-product-grid');
-                    
-                    extraStones.forEach(stone => {
-                        const card = `
-                        <div class="product-card extra-product hidden group flex flex-col relative text-center">
-                            <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                                <img src="https://via.placeholder.com/400" alt="${stone.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                            </a>
-                            <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">${stone.name}</h3>
-                            <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ ${stone.price}.00</p>
-                            <div class="mt-auto flex flex-col space-y-2">
-                                <button onclick="inquireItem('${stone.name}')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                                <button onclick="addToCart('${stone.name}', ${stone.price})" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                            </div>
-                        </div>`;
-                        gridContainer.innerHTML += card;
-                    });
-                </script>
-            </div>
-
-            <!-- TOGGLE SHOW MORE -->
             <div class="text-center mt-12" id="toggle-container">
                 <button id="toggle-btn" class="border border-ocean text-ocean hover:bg-sand px-8 py-3 text-sm font-semibold uppercase tracking-wider transition-colors rounded-sm shadow-sm">
                     Show More Products
                 </button>
             </div>
-            
         </section>
 
         <!-- ========================================== -->
@@ -263,61 +132,14 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400?text=Custom+Base+1" alt="Custom Base Bracelet 1" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Custom Base Style 1</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">Base: ₱ 500.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Custom Base Style 1')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Custom Base Style 1', 500)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400?text=Custom+Base+2" alt="Custom Base Bracelet 2" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Custom Base Style 2</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">Base: ₱ 500.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Custom Base Style 2')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Custom Base Style 2', 500)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400?text=Custom+Base+3" alt="Custom Base Bracelet 3" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Custom Base Style 3</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">Base: ₱ 500.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Custom Base Style 3')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Custom Base Style 3', 500)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-
-                <div class="product-card group flex flex-col relative text-center">
-                    <a href="#" class="relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="https://via.placeholder.com/400?text=Custom+Base+4" alt="Custom Base Bracelet 4" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
-                    </a>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">Custom Base Style 4</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">Base: ₱ 500.00</p>
-                    <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('Custom Base Style 4')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('Custom Base Style 4', 500)" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
+            <!-- Custom bases injected here dynamically by JavaScript -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10" id="custom-bases-grid"></div>
         </section>
         
         <!-- ========================================== -->
         <!-- SECTION 2: YOUTUBE SHORTS GALLERY          -->
         <!-- ========================================== -->
-        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-t border-stone/30">
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30">
              <div class="text-center mb-10">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
                     See Them In Action
@@ -380,27 +202,9 @@
                 <p class="text-sm text-ocean mt-4 uppercase tracking-wide">Proof of Transactions & Happy Clients</p>
             </div>
             
-            <!-- Infinite Auto-Scrolling Carousel -->
             <div class="relative w-full flex overflow-hidden">
-                <div class="flex animate-marquee space-x-4 w-max hover:animation-play-state-paused">
-                    
-                    <!-- Batch 1 of Images (Replace srcs with your proofs) -->
-                    <img src="https://via.placeholder.com/300x500?text=Proof+1" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+2" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+3" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+4" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+5" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+6" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-
-                    <!-- Batch 2 (Identical Duplicate to create the seamless infinite loop) -->
-                    <img src="https://via.placeholder.com/300x500?text=Proof+1" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+2" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+3" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+4" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+5" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    <img src="https://via.placeholder.com/300x500?text=Proof+6" onclick="openImageModal(this.src)" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">
-                    
-                </div>
+                <!-- Injected dynamically by JavaScript -->
+                <div class="flex animate-marquee space-x-4 w-max hover:animation-play-state-paused" id="marquee-track"></div>
             </div>
         </section>
     </main>
@@ -411,13 +215,43 @@
         <span class="font-semibold uppercase tracking-wider text-sm">View Cart (<span id="cart-count">0</span>)</span>
     </button>
 
-    <!-- ENLARGED IMAGE MODAL (For Proof of Transactions) -->
+    <!-- PRODUCT VIEW MODAL (WITH IMAGE SLIDER) -->
+    <div id="product-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('product-modal')">
+        <button onclick="closeModal('product-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-50">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="bg-white rounded-sm shadow-2xl overflow-hidden max-w-md w-full cursor-default border border-stone/20 p-1" onclick="event.stopPropagation()">
+            <div class="relative group">
+                <img id="product-modal-image" src="" class="w-full h-auto max-h-[50vh] object-cover">
+                <!-- Slider Arrows -->
+                <button id="modal-prev-btn" onclick="prevImage(event)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hidden hover:bg-white text-charcoal shadow-md">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="modal-next-btn" onclick="nextImage(event)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hidden hover:bg-white text-charcoal shadow-md">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 bg-sand text-center relative">
+                <div id="modal-image-counter" class="text-[10px] text-ocean/80 font-bold uppercase tracking-widest mb-2 hidden"></div>
+                <h3 id="product-modal-title" class="text-2xl font-serif font-semibold text-charcoal mb-3"></h3>
+                <p id="product-modal-desc" class="text-sm text-ocean leading-relaxed font-medium"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENLARGED IMAGE MODAL (Transaction Proofs) -->
     <div id="image-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('image-modal')">
         <button onclick="closeModal('image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-50">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <!-- The clicked image will load here -->
-        <img id="enlarged-image" src="" class="max-h-[85vh] max-w-full rounded-sm shadow-2xl p-2 bg-white" onclick="event.stopPropagation()">
+        <div class="flex flex-col items-center max-w-full">
+            <img id="enlarged-image" src="" class="max-h-[75vh] max-w-full rounded-sm shadow-2xl p-1 bg-white mb-6" onclick="event.stopPropagation()">
+            <!-- Dynamic Facebook Link Button -->
+            <a id="proof-fb-link" href="#" target="_blank" onclick="event.stopPropagation()" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center space-x-3">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
+                <span>View Proof in FB</span>
+            </a>
+        </div>
     </div>
 
     <!-- INQUIRE HANDOFF MODAL -->
@@ -457,7 +291,6 @@
                     <span>Total:</span>
                     <span class="text-ocean">₱ <span id="cart-total">0</span></span>
                 </div>
-                <!-- This now calls the updated logic to show HTML handoff instead of window.alert -->
                 <button id="checkout-btn" onclick="prepareCheckout()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg cursor-pointer">
                     Checkout Now
                 </button>
@@ -520,23 +353,156 @@
     <!-- FOOTER WITH NEW LINKS -->
     <footer class="bg-charcoal text-sand pt-16 pb-8 border-t-4 border-clay">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            
             <div class="flex justify-center space-x-8 mb-8">
                 <button onclick="openModal('about-modal')" class="text-stone hover:text-sand transition-colors uppercase tracking-widest text-xs font-semibold">About Us</button>
                 <button onclick="openModal('contact-modal')" class="text-stone hover:text-sand transition-colors uppercase tracking-widest text-xs font-semibold">Contact</button>
             </div>
-            
             <p class="text-stone text-[10px] tracking-widest uppercase">&copy; 2019 TARA'S COLLECTION. ALL RIGHTS RESERVED.</p>
         </div>
     </footer>
 
     <!-- CORE JAVASCRIPT LOGIC -->
     <script>
+        const websiteURL = "https://orstsm.github.io/taras-collection/";
+
+        /* ==============================================================
+           1. MASTER DATA ARRAYS
+           ============================================================== */
+        const products = [
+            { name: "Coral Jade", price: 850, images: ["assets/products/coral-jade.jpg"], desc: "A fossilized gemstone that brings a soothing and grounded energy. It promotes courage and helps overcome fear." },
+            { name: "Turquoise", price: 850, images: ["assets/products/turquoise.jpg"], desc: "A purification stone that dispels negative energy. It balances and aligns all the chakras, stabilizing mood swings." },
+            { name: "Lapis Lazuli", price: 850, images: ["assets/products/lapis-lazuli.jpg", "assets/products/lapis-lazuli1.jpg", "assets/products/lapis-lazuli2.jpg"], desc: "A stone of protection that may be worn to guard against psychic attacks. It quickly releases stress, bringing deep peace." },
+            { name: "Citrine Wealth", price: 1200, images: ["assets/products/citrine.jpg", "assets/products/citrine1.jpg", "assets/products/citrine2.jpg"], desc: "A joyful stone with bright energy that lights up many aspects of lives. It is associated with wealth, prosperity, and success." },
+            { name: "Black Tourmaline", price: 850, images: ["assets/products/black-tourmaline.jpg"], desc: "A powerful grounding stone that acts as a protective shield against negative energy and electromagnetic smog." },
+            { name: "Green Phantom", price: 850, images: ["assets/products/green-phantom.jpg"], desc: "An excellent stone for personal growth and breaking through past traumas, accelerating healing and regeneration." },
+            { name: "Labradorite", price: 850, images: ["assets/products/labradorite.jpg", "assets/products/labradorite1.jpg"], desc: "A stone of transformation and magic. It clears, balances, and protects the aura." },
+            { name: "Libyan Desert Glass", price: 850, images: ["assets/products/libyan-desert-glass.jpg"], desc: "A highly energetic tektite that enhances willpower, creativity, and spiritual awakening." },
+            { name: "Rose Quartz Bracelet", price: 850, images: ["assets/products/rose-quartz.jpg"], desc: "Known as the stone of universal love. It restores trust and harmony in relationships, encouraging unconditional love." },
+            { name: "Amethyst Bracelet", price: 900, images: ["assets/products/amethyst.jpg"], desc: "A powerful and protective stone with a high spiritual vibration. It relieves stress, soothes irritability, and balances mood swings." },
+            { name: "Black Obsidian", price: 790, images: ["assets/products/black-obsidian.jpg"], desc: "A strongly protective stone that forms a shield against negativity. It draws out mental stress and tension." },
+            { name: "Raw Ruby Crystal", price: 1100, images: ["assets/products/raw-ruby.jpg"], desc: "A vibrant stone that encourages passion and a zest for life. It improves motivation and aids in setting realistic goals." },
+            { name: "Ocean Jasper Druzy", price: 950, images: ["assets/products/ocean-jasper.jpg"], desc: "An excellent healing stone that encourages a feeling of joy and elevated spirits. It helps release negative feelings." },
+            { name: "Shungite 7 Chakra", price: 880, images: ["assets/products/shungite.jpg", "assets/products/shungite1.jpg"], desc: "A rare black stone known for its incredible grounding and purification properties. It perfectly aligns and clears all seven chakras." },
+            { name: "Fluorite Bracelet", price: 750, images: ["assets/products/fluorite.jpg"], desc: "A highly protective and stabilizing stone, useful for grounding and harmonizing spiritual energy." },
+            { name: "Golden Rutile", price: 1200, images: ["assets/products/golden-rutile.jpg"], desc: "An illuminating stone infused with golden strands of energy. It clears energy blockages and stimulates spiritual creativity." },
+            { name: "Colorful Moonstone", price: 850, images: ["assets/products/colorful-moonstone.jpg"], desc: "A stone for new beginnings that promotes inner growth and strength. It soothes emotional instability and stress." },
+            { name: "Xiuyu Jade", price: 850, images: ["assets/products/xiuyu-jade.jpg"], desc: "A traditional symbol of serenity and purity. It signifies wisdom gathered in tranquil peace, increasing love and nurturing." },
+            { name: "Kambaba Jasper", price: 850, images: ["assets/products/kambaba-jasper.jpg"], desc: "A stone of peace and tranquility, imbued with the nourishing green energy of nature. It comforts and protects." },
+            { name: "Que Sera Stone", price: 850, images: ["assets/products/que-sera.jpg"], desc: "A deeply grounding stone that helps to soothe, calm, and bring peace. It balances the mind and soul." },
+            { name: "Leklai Protection", price: 850, images: ["assets/products/leklai.jpg"], desc: "A mysterious and sacred amulet known for its supreme protective energies. It creates a powerful barrier against negative forces." },
+            { name: "Pyrite Raw", price: 850, images: ["assets/products/pyrite-raw.jpg"], desc: "Often called Fool's Gold, this stone is a powerful protection amulet. It shields against all forms of negative vibrations." },
+            { name: "Lapis Lazuli", price: 850, images: ["assets/products/lapis-lazuli.jpg", "assets/products/lapis-lazuli1.jpg", "assets/products/lapis-lazuli2.jpg"], desc: "A stone of protection that may be worn to guard against psychic attacks. It quickly releases stress, bringing deep peace." },
+            { name: "Nanhong Agate", price: 850, images: ["assets/products/nanhong-agate.jpg"], desc: "A rare and highly prized red agate that boosts vitality and stamina. It encourages a sense of security and self-confidence." },
+            { name: "Lavender Moon Quartz", price: 850, images: ["assets/products/lavender-moon-quartz.jpg"], desc: "A rare, soothing stone that promotes deep emotional healing and brings a sense of joy and self-worth." },
+            { name: "Lavender Amethyst", price: 850, images: ["assets/products/lavender-amethyst.jpg"], desc: "A gentle vibration stone that instills peace, calms the mind, and encourages restful sleep." },
+            { name: "Alashan Agate", price: 850, images: ["assets/products/alashan.jpg"], desc: "Known as the stone of inner stability, it balances yin and yang while providing strength and courage." },
+            { name: "Tigers Eye", price: 850, images: ["assets/products/tigers-eye.jpg"], desc: "A stone of protection that brings good luck. It focuses the mind, promoting mental clarity and aiding to resolve problems objectively." },
+            { name: "Flower Amber", price: 850, images: ["assets/products/flower-amber.jpg", "assets/products/flower-amber1.jpg"], desc: "A warm, healing resin filled with ancient life energy. It draws disease from the body and revitalizes tissues." },
+            { name: "Lucky Turn Amber", price: 850, images: ["assets/products/lucky-turn-amber.jpg", "assets/products/lucky-turn-amber1.jpg"], desc: "Known to attract good luck and prosperity. It carries a sunny, uplifting energy that clears the mind." },
+            { name: "Sea Mica", price: 850, images: ["assets/products/sea-mica.jpg", "assets/products/sea-mica1.jpg"], desc: "A calming stone that mimics the gentle waves of the ocean, bringing emotional balance and reducing stress." },
+            { name: "African Turquoise", price: 850, images: ["assets/products/african-turquoise.jpg", "assets/products/african-turquoise1.jpg"], desc: "Not a true turquoise, but a type of jasper that encourages growth, development, and positive change." },
+            { name: "Kunzite", price: 850, images: ["assets/products/kunzite.jpg"], desc: "A beautiful stone of emotion that opens the heart to unconditional love and produces loving thoughts." },
+            { name: "Special Curation", price: 1500, images: ["assets/products/special-curation.jpg"], desc: "A carefully selected blend of powerful healing stones. Hand-picked to provide comprehensive energetic balance and harmony." }
+        ];
+
+        const customBases = [
+            { name: "Custom Base Style 1", price: 500, img: "assets/products/custom-base-1.jpg" },
+            { name: "Custom Base Style 2", price: 500, img: "assets/products/custom-base-2.jpg" },
+            { name: "Custom Base Style 3", price: 500, img: "assets/products/custom-base-3.jpg" },
+            { name: "Custom Base Style 4", price: 500, img: "assets/products/custom-base-4.jpg" }
+        ];
+
+        const proofs = [
+            { src: 'assets/proofs/proof-1.jpg', link: 'https://www.facebook.com/photo?fbid=1496846199120652&set=pb.100063858590900.-2207520000' },
+            { src: 'assets/proofs/proof-2.jpg', link: 'https://www.facebook.com/photo.php?fbid=1463990942406178&set=pb.100063858590900.-2207520000&type=3' },
+            { src: 'assets/proofs/proof-3.jpg', link: 'https://www.facebook.com/photo?fbid=1434517582020181&set=pb.100063858590900.-2207520000' },
+            { src: 'assets/proofs/proof-4.jpg', link: 'https://www.facebook.com/photo?fbid=1406069524864987&set=pb.100063858590900.-2207520000' },
+            { src: 'assets/proofs/proof-5.jpg', link: 'https://www.facebook.com/photo?fbid=1405798064892133&set=pb.100063858590900.-2207520000' },
+            { src: 'assets/proofs/proof-6.jpg', link: 'https://www.facebook.com/photo?fbid=1405797881558818&set=pb.100063858590900.-2207520000' }
+        ];
+
+        /* ==============================================================
+           2. DYNAMIC RENDERING (Injects HTML into the page automatically)
+           ============================================================== */
+        function renderAllContent() {
+            // Render Products
+            const productGrid = document.getElementById('unified-product-grid');
+            let productHTML = '';
+            products.forEach((p, index) => {
+                const isHidden = index >= 8 ? 'extra-product hidden' : '';
+                // Check if it has multiple images so we can show a visual indicator on the card
+                const multiIndicator = p.images.length > 1 
+                    ? `<div class="absolute top-2 right-2 bg-charcoal/70 text-sand text-[10px] px-2 py-1 rounded-full shadow-sm font-semibold tracking-widest backdrop-blur-sm z-10">${p.images.length} Photos</div>` 
+                    : '';
+                
+                productHTML += `
+                <div class="product-card ${isHidden} group flex flex-col relative text-center">
+                    <div onclick="openProductModal(${index})" class="cursor-pointer relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
+                        <img src="${p.images[0]}" alt="${p.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                        ${multiIndicator}
+                    </div>
+                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">${p.name}</h3>
+                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ ${p.price}.00</p>
+                    <div class="mt-auto flex flex-col space-y-2">
+                        <button onclick="inquireItem('${p.name}')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
+                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
+                    </div>
+                </div>`;
+            });
+            productGrid.innerHTML = productHTML;
+
+            // Render Custom Bases
+            const customGrid = document.getElementById('custom-bases-grid');
+            let customHTML = '';
+            customBases.forEach((c) => {
+                customHTML += `
+                <div class="product-card group flex flex-col relative text-center">
+                    <div onclick="openSingleImageModal('${c.img}', '${c.name}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.')" class="cursor-pointer relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
+                        <img src="${c.img}" alt="${c.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">${c.name}</h3>
+                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">Base: ₱ ${c.price}.00</p>
+                    <div class="mt-auto flex flex-col space-y-2">
+                        <button onclick="inquireItem('${c.name}')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
+                        <button onclick="addToCart('${c.name}', ${c.price})" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
+                    </div>
+                </div>`;
+            });
+            customGrid.innerHTML = customHTML;
+
+            // Render Proofs Marquee (Double up for infinite scrolling)
+            const marqueeContainer = document.getElementById('marquee-track');
+            let proofHTML = '';
+            proofs.forEach(proof => {
+                proofHTML += `<img src="${proof.src}" onclick="openImageModal('${proof.src}', '${proof.link}')" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">`;
+            });
+            marqueeContainer.innerHTML = proofHTML + proofHTML;
+        }
+
+        // --- RUN RENDER AND HANDLE UNIQUE URL SEARCH ON LOAD ---
+        window.onload = function() {
+            renderAllContent(); // Build the site dynamically
+            
+            // Check for direct product links from Messenger
+            const urlParams = new URLSearchParams(window.location.search);
+            const productParam = urlParams.get('product');
+            if (productParam) {
+                const query = productParam.replace(/-/g, ' ').toLowerCase();
+                const searchInput = document.getElementById('search-input');
+                searchInput.value = query;
+                searchInput.dispatchEvent(new Event('input'));
+                setTimeout(() => {
+                    document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+                }, 300);
+            }
+        };
+
+        /* ==============================================================
+           3. SEARCH & TOGGLE LOGIC
+           ============================================================== */
         const searchInput = document.getElementById('search-input');
         const clearSearchBtn = document.getElementById('clear-search');
-        const websiteURL = "https://orstsm.github.io/taras-collection/"; // For deep linking in messages
         
-        // --- SEARCH LOGIC ---
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
             const allCards = document.querySelectorAll('.product-card');
@@ -582,6 +548,7 @@
             });
             
             document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
 
         const tglBtn = document.getElementById('toggle-btn');
@@ -601,7 +568,9 @@
             });
         }
 
-        // --- GENERAL MODAL LOGIC ---
+        /* ==============================================================
+           4. MODAL LOGIC (General, Image Slider, Proofs)
+           ============================================================== */
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('hidden');
@@ -614,16 +583,83 @@
             modal.classList.remove('flex');
         }
 
-        // --- IMAGE MODAL LOGIC FOR TRANSACTION PROOFS ---
-        function openImageModal(src) {
+        // --- PRODUCT SLIDER LOGIC ---
+        let currentModalImages = [];
+        let currentModalIndex = 0;
+
+        function openProductModal(index) {
+            const p = products[index];
+            currentModalImages = p.images;
+            currentModalIndex = 0;
+            
+            document.getElementById('product-modal-title').innerText = p.name;
+            document.getElementById('product-modal-desc').innerText = p.desc;
+            
+            updateModalImageDisplay();
+            openModal('product-modal');
+        }
+
+        function openSingleImageModal(src, title, desc) {
+            currentModalImages = [src];
+            currentModalIndex = 0;
+            document.getElementById('product-modal-title').innerText = title;
+            document.getElementById('product-modal-desc').innerText = desc;
+            updateModalImageDisplay();
+            openModal('product-modal');
+        }
+
+        function updateModalImageDisplay() {
+            document.getElementById('product-modal-image').src = currentModalImages[currentModalIndex];
+            
+            const prevBtn = document.getElementById('modal-prev-btn');
+            const nextBtn = document.getElementById('modal-next-btn');
+            const counter = document.getElementById('modal-image-counter');
+            
+            if (currentModalImages.length > 1) {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                counter.classList.remove('hidden');
+                counter.innerText = `Image ${currentModalIndex + 1} of ${currentModalImages.length}`;
+            } else {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                counter.classList.add('hidden');
+            }
+        }
+
+        function prevImage(e) {
+            e.stopPropagation();
+            if (currentModalIndex > 0) {
+                currentModalIndex--;
+            } else {
+                currentModalIndex = currentModalImages.length - 1; // loop back
+            }
+            updateModalImageDisplay();
+        }
+
+        function nextImage(e) {
+            e.stopPropagation();
+            if (currentModalIndex < currentModalImages.length - 1) {
+                currentModalIndex++;
+            } else {
+                currentModalIndex = 0; // loop back
+            }
+            updateModalImageDisplay();
+        }
+
+        // --- TRANSACTION PROOFS LOGIC ---
+        function openImageModal(src, fbLink) {
             document.getElementById('enlarged-image').src = src;
+            document.getElementById('proof-fb-link').href = fbLink;
             openModal('image-modal');
         }
 
         // --- INQUIRY BUTTON LOGIC ---
         function inquireItem(itemName) {
-            // Appends the store link to the inquiry so you know exactly where they came from
-            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}. Can you provide more details?\n\nLink: ${websiteURL}`;
+            const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
+            const uniqueLink = `${websiteURL}?product=${productSlug}`;
+            
+            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}. Can you provide more details?\n\nLink: ${uniqueLink}`;
             
             navigator.clipboard.writeText(message).then(() => {
                 openModal('inquire-modal');
@@ -633,7 +669,9 @@
             });
         }
 
-        // --- CART LOGIC ---
+        /* ==============================================================
+           5. CART LOGIC
+           ============================================================== */
         let cart = [];
 
         function addToCart(name, price) {
@@ -711,24 +749,24 @@
             let message = "Hi Tara's Collection! I would like to order the following items:\n\n";
             let total = 0;
             
-            // Loop through the cart and append the website link to the order list
             cart.forEach(item => {
+                const productSlug = encodeURIComponent(item.name.replace(/\s+/g, '-').toLowerCase());
+                const uniqueLink = `${websiteURL}?product=${productSlug}`;
+                
                 message += `- ${item.name} (₱${item.price})\n`;
-                message += `  Link: ${websiteURL}\n`;
+                message += `  Link: ${uniqueLink}\n`;
                 total += item.price;
             });
             
             message += `\nEstimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
             
             navigator.clipboard.writeText(message).then(() => {
-                // FIXED: Replace ugly alert with the beautiful HTML modal transition
                 document.getElementById('cart-standard-view').classList.add('hidden');
                 document.getElementById('cart-standard-view').classList.remove('flex');
                 
                 document.getElementById('cart-handoff-view').classList.remove('hidden');
                 document.getElementById('cart-handoff-view').classList.add('flex');
             }).catch(err => {
-                // Fallback for browsers that block clipboard API
                 document.getElementById('cart-standard-view').classList.add('hidden');
                 document.getElementById('cart-standard-view').classList.remove('flex');
                 
