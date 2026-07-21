@@ -35,7 +35,6 @@
     </script>
     <style>
         .product-card:hover .overlay-btn { opacity: 1; }
-        /* Include the new modals in the transition list */
         #cart-modal, #about-modal, #contact-modal, #shipping-modal, #image-modal, #product-modal, #proof-modal, #gallery-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
@@ -51,7 +50,6 @@
             animation-play-state: paused;
         }
 
-        /* Smooth header transition classes */
         #main-header { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         #main-logo, #main-title, #main-subtitle { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
@@ -61,10 +59,9 @@
     <!-- FIXED & SHRINKING HEADER -->
     <header id="main-header" class="fixed top-0 w-full pt-16 pb-8 text-center bg-sand flex flex-col items-center shadow-md border-b border-stone/30 z-50">
         
-        <!-- Top Right Nav & Icons -->
         <div class="absolute top-4 right-4 md:right-8 flex space-x-4 md:space-x-6 items-center z-30">
             
-            <!-- NEW: Inquire Dropdown -->
+            <!-- Inquire Dropdown -->
             <div class="relative group hidden sm:block">
                 <button class="flex items-center space-x-1 text-sm font-semibold uppercase tracking-wider text-ocean hover:text-rust transition-colors py-2">
                     <span>Inquire</span>
@@ -78,7 +75,7 @@
                 </div>
             </div>
 
-            <!-- NEW: Explore Dropdown -->
+            <!-- Explore Dropdown -->
             <div class="relative group hidden sm:block">
                 <button class="flex items-center space-x-1 text-sm font-semibold uppercase tracking-wider text-ocean hover:text-rust transition-colors py-2">
                     <span>Explore</span>
@@ -94,17 +91,14 @@
                 </div>
             </div>
 
-            <!-- Divider line -->
             <div class="h-6 w-px bg-stone/50 hidden sm:block"></div>
 
-            <!-- Messenger Icon -->
             <a href="https://m.me/109568137198741" target="_blank" class="text-ocean hover:text-rust transition-transform hover:scale-110" title="Message Us on FB">
                 <svg class="w-6 h-6 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 512 512">
                     <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
                 </svg>
             </a>
             
-            <!-- Cart Icon -->
             <button onclick="toggleCart()" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative" title="View Cart">
                 <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                 <span id="top-cart-count" class="absolute -top-2 -right-2 bg-rust text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
@@ -118,7 +112,6 @@
         <p id="main-subtitle" class="text-[10px] md:text-sm tracking-wide text-ocean uppercase mt-2 font-medium">Handcrafted Bracelets & Healing Stones</p>
     </header>
 
-    <!-- Main Content Wrapper: Added pt-48 to push content below the fixed header -->
     <main class="pt-56 md:pt-64">
         
         <!-- MODERN SEARCH BAR -->
@@ -251,31 +244,31 @@
         <span class="font-semibold uppercase tracking-wider text-sm">View Cart (<span id="cart-count">0</span>)</span>
     </button>
 
-    <!-- PRODUCT VIEW MODAL (WITH IMAGE SLIDER) -->
+    <!-- PRODUCT VIEW MODAL (WITH HIGH CONTRAST IMAGE SLIDER) -->
     <div id="product-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('product-modal')">
         <button onclick="closeModal('product-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-50">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <div class="bg-white rounded-sm shadow-2xl overflow-hidden max-w-md w-full cursor-default border border-stone/20 p-1" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-md shadow-2xl overflow-hidden max-w-md w-full cursor-default" onclick="event.stopPropagation()">
             <div class="relative group">
                 <img id="product-modal-image" src="" class="w-full h-auto max-h-[50vh] object-cover">
-                <!-- Slider Arrows -->
-                <button id="modal-prev-btn" onclick="prevImage(event)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hidden hover:bg-white text-charcoal shadow-md">
+                <!-- High Contrast Slider Arrows -->
+                <button id="modal-prev-btn" onclick="prevImage(event)" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal text-white p-3 rounded-full hidden shadow-xl backdrop-blur-md border border-white/20 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                <button id="modal-next-btn" onclick="nextImage(event)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hidden hover:bg-white text-charcoal shadow-md">
+                <button id="modal-next-btn" onclick="nextImage(event)" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal text-white p-3 rounded-full hidden shadow-xl backdrop-blur-md border border-white/20 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
-            <div class="p-6 bg-sand text-center relative">
+            <div class="p-6 bg-sand text-left relative border-t border-stone/20">
                 <div id="modal-image-counter" class="text-[10px] text-ocean/80 font-bold uppercase tracking-widest mb-2 hidden"></div>
-                <h3 id="product-modal-title" class="text-2xl font-serif font-semibold text-charcoal mb-3"></h3>
+                <h3 id="product-modal-title" class="text-2xl font-serif font-semibold text-charcoal mb-2"></h3>
                 <p id="product-modal-desc" class="text-sm text-ocean leading-relaxed font-medium"></p>
             </div>
         </div>
     </div>
 
-    <!-- NEW: PROOF OF TRANSACTIONS SLIDER MODAL -->
+    <!-- PROOF OF TRANSACTIONS SLIDER MODAL -->
     <div id="proof-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('proof-modal')">
         <button onclick="closeModal('proof-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-50">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -301,7 +294,7 @@
         </div>
     </div>
 
-    <!-- NEW: DYNAMIC GALLERY MODAL (For Header Dropdowns) -->
+    <!-- HEADER DROPDOWN GALLERY MODAL -->
     <div id="gallery-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden flex-col items-center justify-center px-4 backdrop-blur-sm transition-opacity" onclick="closeModal('gallery-modal')">
         <button onclick="closeModal('gallery-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-50">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -319,7 +312,7 @@
 
     <!-- INQUIRE HANDOFF MODAL -->
     <div id="inquire-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-md w-full rounded-sm text-center shadow-2xl relative border border-clay/30">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <div class="bg-white text-ocean rounded-full p-4 mb-4 mx-auto w-16 h-16 flex items-center justify-center shadow-inner">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
@@ -330,7 +323,7 @@
             <button onclick="closeModal('inquire-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('inquire-modal')" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-2 cursor-pointer mb-4">
+            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('inquire-modal')" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-2 cursor-pointer mb-4">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>Open Messenger & Paste</span>
             </a>
@@ -354,7 +347,7 @@
                     <span>Total:</span>
                     <span class="text-ocean">₱ <span id="cart-total">0</span></span>
                 </div>
-                <button id="checkout-btn" onclick="prepareCheckout()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg cursor-pointer">
+                <button id="checkout-btn" onclick="prepareCheckout()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg cursor-pointer">
                     Checkout Now
                 </button>
             </div>
@@ -368,7 +361,7 @@
             <p class="text-ocean mb-8 text-sm leading-relaxed">
                 We have copied your cart details to your clipboard. Simply click the button below and hit <strong>"Paste"</strong> in the chat to send us your order!
             </p>
-            <a href="https://m.me/109568137198741" target="_blank" onclick="resetCartAfterHandoff()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-2 cursor-pointer mb-4">
+            <a href="https://m.me/109568137198741" target="_blank" onclick="resetCartAfterHandoff()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-2 cursor-pointer mb-4">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>Open Messenger & Paste</span>
             </a>
@@ -380,7 +373,7 @@
 
     <!-- ABOUT US MODAL -->
     <div id="about-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-lg w-full rounded-sm text-center shadow-2xl relative border border-clay/30">
+        <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -395,7 +388,7 @@
 
     <!-- CONTACT MODAL -->
     <div id="contact-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-md w-full rounded-sm text-center shadow-2xl relative border border-clay/30">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -406,16 +399,16 @@
             <p class="text-4xl font-serif text-charcoal mb-8 tracking-wide">0915 457 1859</p>
             
             <p class="text-ocean text-sm uppercase tracking-widest mb-4">Or reach us instantly on</p>
-            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('contact-modal')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-3 cursor-pointer">
+            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('contact-modal')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-3 cursor-pointer">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>Message on Facebook</span>
             </a>
         </div>
     </div>
 
-    <!-- NEW: SHIPPING MODAL -->
+    <!-- SHIPPING MODAL -->
     <div id="shipping-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-md w-full rounded-sm text-center shadow-2xl relative border border-clay/30">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('shipping-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -448,7 +441,7 @@
            1. MASTER DATA ARRAYS (Update these to add new content!)
            ============================================================== */
         const products = [
-            { name: "Rose Quartz Bracelet", price: 850, images: ["assets/products/rose-quartz.jpg"], desc: "Known as the stone of universal love. It restores trust and harmony in relationships, encouraging unconditional love." },
+            { name: "Rose Quartz Bracelet", price: 850, images: ["assets/products/rose-quartz.jpg", "assets/products/rose-quartz1.jpg", "assets/products/rose-quartz2.jpg"], desc: "Known as the stone of universal love. It restores trust and harmony in relationships, encouraging unconditional love." },
             { name: "Special Curation", price: 1500, images: ["assets/products/special-curation.jpg"], desc: "A carefully selected blend of powerful healing stones. Hand-picked to provide comprehensive energetic balance and harmony." },
             { name: "Turquoise", price: 850, images: ["assets/products/turquoise.jpg"], desc: "A purification stone that dispels negative energy. It balances and aligns all the chakras, stabilizing mood swings." },
             { name: "Black Tourmaline", price: 850, images: ["assets/products/black-tourmaline.jpg"], desc: "A powerful grounding stone that acts as a protective shield against negative energy and electromagnetic smog." },
@@ -500,17 +493,10 @@
             { src: 'assets/proofs/proof-6.jpg', link: 'https://www.facebook.com/photo?fbid=1405797881558818&set=pb.100063858590900.-2207520000' }
         ];
 
-        // NEW: Data for Header Dropdown Galleries. Add your images here!
         const galleryData = {
-            "sizes": [
-                // Example: { img: "assets/products/size-chart.jpg", title: "Bracelet Sizing Guide" }
-            ],
-            "availability": [
-                 // Example: { img: "assets/products/stock.jpg", title: "Current Stock" }
-            ],
-            "bracelets": [
-                 // Example: { img: "assets/products/rose-quartz.jpg", title: "Rose Quartz" }
-            ],
+            "sizes": [],
+            "availability": [],
+            "bracelets": [],
             "charms": [],
             "personalized": [],
             "gemstones": []
@@ -526,7 +512,6 @@
             const subtitle = document.getElementById('main-subtitle');
             
             if (window.scrollY > 30) {
-                // Shrink State
                 header.classList.replace('pt-16', 'pt-4');
                 header.classList.replace('pb-8', 'pb-4');
                 
@@ -541,7 +526,6 @@
                 
                 subtitle.classList.add('hidden');
             } else {
-                // Expanded State
                 header.classList.replace('pt-4', 'pt-16');
                 header.classList.replace('pb-4', 'pb-8');
                 
@@ -559,63 +543,61 @@
         });
 
         /* ==============================================================
-           3. DYNAMIC RENDERING (Injects HTML into the page automatically)
+           3. DYNAMIC RENDERING (MODERNIZED UI)
            ============================================================== */
         function renderAllContent() {
-            // Render Products
+            // Render Products with Editorial Layout
             const productGrid = document.getElementById('unified-product-grid');
             let productHTML = '';
             products.forEach((p, index) => {
                 const isHidden = index >= 8 ? 'extra-product hidden' : '';
                 const multiIndicator = p.images.length > 1 
-                    ? `<div class="absolute top-2 right-2 bg-charcoal/70 text-sand text-[10px] px-2 py-1 rounded-full shadow-sm font-semibold tracking-widest backdrop-blur-sm z-10">${p.images.length} Photos</div>` 
+                    ? `<div class="absolute top-3 right-3 bg-white/90 text-charcoal text-[9px] px-3 py-1 rounded-full shadow-sm font-bold uppercase tracking-widest backdrop-blur-md z-10">${p.images.length} PHOTOS</div>` 
                     : '';
                 
                 productHTML += `
-                <div class="product-card ${isHidden} group flex flex-col relative text-center">
-                    <div onclick="openProductModal(${index})" class="cursor-pointer relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="${p.images[0]}" alt="${p.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                <div class="product-card ${isHidden} group flex flex-col relative text-left">
+                    <div onclick="openProductModal(${index})" class="cursor-pointer relative overflow-hidden mb-4 rounded-md shadow-sm bg-stone/10 aspect-square block">
+                        <img src="${p.images[0]}" alt="${p.name}" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105">
                         ${multiIndicator}
                     </div>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">${p.name}</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">₱ ${p.price}.00</p>
+                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${p.name}</h3>
+                    <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">₱ ${p.price}.00</p>
                     <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('${p.name}')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
+                        <button onclick="inquireItem('${p.name}')" class="border border-ocean text-ocean hover:bg-ocean hover:text-white px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm">Inquire</button>
+                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Add to Cart</button>
                     </div>
                 </div>`;
             });
             productGrid.innerHTML = productHTML;
 
-            // Render Custom Bases
+            // Render Custom Bases (No Add to Cart Button)
             const customGrid = document.getElementById('custom-bases-grid');
             let customHTML = '';
             customBases.forEach((c) => {
                 customHTML += `
-                <div class="product-card group flex flex-col relative text-center">
-                    <div onclick="openSingleImageModal('${c.img}', '${c.name}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.')" class="cursor-pointer relative overflow-hidden mb-4 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
-                        <img src="${c.img}" alt="${c.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                <div class="product-card group flex flex-col relative text-left">
+                    <div onclick="openSingleImageModal('${c.img}', '${c.name}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.')" class="cursor-pointer relative overflow-hidden mb-4 rounded-md shadow-sm bg-stone/10 aspect-square block">
+                        <img src="${c.img}" alt="${c.name}" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105">
                     </div>
-                    <h3 class="text-sm font-medium uppercase tracking-wide text-charcoal product-title">${c.name}</h3>
-                    <p class="text-sm text-ocean mt-2 mb-4 font-semibold">Base: ₱ ${c.price}.00</p>
+                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${c.name}</h3>
+                    <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">Base: ₱ ${c.price}.00</p>
                     <div class="mt-auto flex flex-col space-y-2">
-                        <button onclick="inquireItem('${c.name}')" class="border border-ocean text-ocean hover:bg-sand px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Inquire</button>
-                        <button onclick="addToCart('${c.name}', ${c.price})" class="bg-ocean text-white hover:bg-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer">Add to Cart</button>
+                        <button onclick="inquireItem('${c.name}')" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Inquire for Customization</button>
                     </div>
                 </div>`;
             });
             customGrid.innerHTML = customHTML;
 
-            // Render Proofs Marquee (Pass index instead of URL for slider)
+            // Render Proofs Marquee
             const marqueeContainer = document.getElementById('marquee-track');
             let proofHTML = '';
             proofs.forEach((proof, index) => {
-                proofHTML += `<img src="${proof.src}" onclick="openProofModal(${index})" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-sm shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 border border-stone/20 p-1 bg-white">`;
+                proofHTML += `<img src="${proof.src}" onclick="openProofModal(${index})" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-md shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 bg-stone/10">`;
             });
             marqueeContainer.innerHTML = proofHTML + proofHTML;
         }
 
-        // --- RUN RENDER AND HANDLE UNIQUE URL SEARCH ON LOAD ---
         window.onload = function() {
             renderAllContent(); 
             
@@ -704,7 +686,7 @@
         }
 
         /* ==============================================================
-           5. MODAL LOGIC (General, Sliders, Galleries)
+           5. MODAL LOGIC 
            ============================================================== */
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -818,7 +800,7 @@
                 data.forEach(item => {
                     gridHTML += `
                     <div class="flex flex-col relative text-center group">
-                        <div class="relative overflow-hidden mb-2 bg-white aspect-square block rounded-sm shadow-sm border border-stone/20 p-1">
+                        <div class="relative overflow-hidden mb-2 rounded-md shadow-sm bg-stone/10 aspect-square block">
                             <img src="${item.img}" alt="${item.title}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                         </div>
                         <h4 class="text-xs font-semibold uppercase tracking-wide text-charcoal">${item.title}</h4>
@@ -857,9 +839,11 @@
             const originalText = btn.innerText;
             btn.innerText = "Added ✓";
             btn.classList.replace("bg-ocean", "bg-clay");
+            btn.classList.replace("border-ocean", "border-clay");
             setTimeout(() => {
                 btn.innerText = originalText;
                 btn.classList.replace("bg-clay", "bg-ocean");
+                btn.classList.replace("border-clay", "border-ocean");
             }, 1000);
         }
 
