@@ -51,55 +51,61 @@
         }
 
         #main-header { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        #main-logo, #main-title, #main-subtitle { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #brand-container { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        #main-logo, #main-title { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
     </style>
 </head>
 <body class="bg-alabaster text-charcoal font-sans antialiased relative selection:bg-clay selection:text-white">
 
-    <!-- FIXED & SHRINKING HEADER -->
-    <!-- Increased top padding on mobile (pt-20) to prevent top-right icons from overlapping the centered logo -->
-    <header id="main-header" class="fixed top-0 w-full pt-20 md:pt-16 pb-6 md:pb-8 text-center bg-sand flex flex-col items-center shadow-md border-b border-stone/30 z-50">
+    <!-- FIXED & ANIMATED HEADER -->
+    <header id="main-header" class="fixed top-0 w-full bg-sand shadow-md border-b border-stone/30 z-50 py-4 md:py-6">
         
-        <div class="absolute top-4 right-4 md:right-8 flex space-x-3 md:space-x-6 items-center z-30">
+        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 relative flex items-center justify-between">
             
-            <!-- Explore Dropdown (Now visible on mobile) -->
-            <div class="relative group">
-                <button class="flex items-center space-x-1 text-xs md:text-sm font-semibold uppercase tracking-wider text-ocean hover:text-rust transition-colors py-2">
-                    <span>Explore</span>
-                    <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div class="absolute right-0 mt-0 w-48 bg-white border border-stone/20 rounded-sm shadow-xl hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity z-50 text-left">
-                    <div class="py-2">
-                        <button onclick="openGalleryModal('bracelets', 'Bracelets')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Bracelets</button>
-                        <button onclick="openGalleryModal('charms', 'Charms')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Charms</button>
-                        <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Personalized Items</button>
-                        <button onclick="openGalleryModal('gemstones', 'Gemstones')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Gemstones</button>
-                    </div>
-                </div>
+            <!-- BRAND CONTAINER: Starts centered, slides left on scroll -->
+            <div id="brand-container" class="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:static md:left-auto flex items-center space-x-2 md:space-x-3 shrink-0">
+                <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-12 h-12 md:w-14 md:h-14 object-cover rounded-full border border-stone shadow-sm shrink-0">
+                <h1 id="main-title" class="text-xl sm:text-3xl md:text-4xl tracking-wide font-serif font-semibold text-charcoal leading-none whitespace-nowrap">Tara's Collection</h1>
             </div>
 
-            <div class="h-5 md:h-6 w-px bg-stone/50"></div>
+            <!-- Spacer for mobile layout balancing when centered -->
+            <div class="w-20 md:hidden"></div>
 
-            <a href="https://m.me/109568137198741" target="_blank" class="text-ocean hover:text-rust transition-transform hover:scale-110" title="Message Us on FB">
-                <svg class="w-5 h-5 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 512 512">
-                    <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
-                </svg>
-            </a>
-            
-            <button onclick="toggleCart()" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative" title="View Cart">
-                <svg class="w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                <span id="top-cart-count" class="absolute -top-2 -right-2 bg-rust text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
-            </button>
-        </div>
+            <!-- RIGHT SIDE: Nav & Icons -->
+            <div class="flex items-center space-x-3 md:space-x-6 shrink-0 ml-auto md:ml-0 z-10">
+                <!-- Explore Dropdown -->
+                <div class="relative group">
+                    <button class="flex items-center space-x-1 text-xs md:text-sm font-semibold uppercase tracking-wider text-ocean hover:text-rust transition-colors py-2">
+                        <span>Explore</span>
+                        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="absolute right-0 mt-0 w-48 bg-white border border-stone/20 rounded-sm shadow-xl hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity z-50 text-left">
+                        <div class="py-2">
+                            <button onclick="openGalleryModal('bracelets', 'Bracelets')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Bracelets</button>
+                            <button onclick="openGalleryModal('charms', 'Charms')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Charms</button>
+                            <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Personalized Items</button>
+                            <button onclick="openGalleryModal('gemstones', 'Gemstones')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Gemstones</button>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="flex items-center justify-center space-x-3 px-4">
-            <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-10 h-10 md:w-16 md:h-16 object-cover rounded-full border border-stone shadow-sm shrink-0">
-            <h1 id="main-title" class="text-xl sm:text-3xl md:text-5xl tracking-wide font-serif font-semibold text-charcoal leading-tight">Tara's Collection</h1>
+                <div class="h-4 md:h-6 w-px bg-stone/50"></div>
+
+                <a href="https://m.me/109568137198741" target="_blank" class="text-ocean hover:text-rust transition-transform hover:scale-110" title="Message Us on FB">
+                    <svg class="w-5 h-5 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 512 512">
+                        <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
+                    </svg>
+                </a>
+                
+                <button onclick="toggleCart()" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative" title="View Cart">
+                    <svg class="w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span id="top-cart-count" class="absolute -top-2 -right-2 bg-rust text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
         </div>
-        <p id="main-subtitle" class="text-[10px] md:text-sm tracking-wide text-ocean uppercase mt-2 font-medium">Handcrafted Bracelets & Healing Stones</p>
     </header>
 
-    <main class="pt-56 md:pt-64">
+    <main class="pt-28 md:pt-36">
         
         <!-- MODERN SEARCH BAR -->
         <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
@@ -122,13 +128,16 @@
                 <h2 onclick="resetSearch()" class="cursor-pointer hover:text-ocean transition-colors text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone" title="Click to reset view">
                     Featured Products
                 </h2>
+                <!-- Subtitle moved here right under FEATURED PRODUCTS -->
+                <p class="text-xs md:text-sm tracking-wide text-ocean uppercase mt-3 font-medium">Discover Handcrafted Bracelets & Healing Stones</p>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10" id="unified-product-grid"></div>
 
             <div class="text-center mt-12" id="toggle-container">
-                <button id="toggle-btn" class="border border-ocean text-ocean hover:bg-sand px-8 py-3 text-sm font-semibold uppercase tracking-wider transition-colors rounded-sm shadow-sm">
-                    Show More Products
+                <button id="toggle-btn" class="border border-rust bg-rust text-white hover:bg-sand hover:text-rust px-8 py-3 text-sm font-semibold uppercase tracking-wider transition-colors rounded-full shadow-md group inline-flex items-center justify-center space-x-2">
+                    <span>Discover More Styles</span>
+                    <svg class="w-4 h-4 transition-transform group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </button>
             </div>
         </section>
@@ -222,13 +231,13 @@
         </section>
     </main>
 
-    <!-- NEW: HOW TO ORDER FLOATING BUTTON (Positioned bottom right) -->
+    <!-- HOW TO ORDER FLOATING BUTTON -->
     <button onclick="openModal('howto-modal')" class="fixed bottom-6 right-6 bg-rust text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">How to Order</span>
     </button>
 
-    <!-- FLOATING CART BUTTON (Positioned higher so it doesn't overlap) -->
+    <!-- FLOATING CART BUTTON -->
     <button id="floating-cart-btn" onclick="toggleCart()" class="hidden fixed bottom-20 right-6 bg-ocean text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">Cart (<span id="cart-count">0</span>)</span>
@@ -244,7 +253,7 @@
             <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
             <div class="text-ocean text-sm md:text-base leading-relaxed text-left space-y-4">
                 <p>Ordering from Tara's Collection is easy! Because our pieces are custom and handcrafted, all orders are finalized directly through our Facebook Page.</p>
-                <p><strong>1.</strong> Click <strong>Inquire</strong> or <strong>Checkout Now</strong> on any item. We will automatically copy the item details to your clipboard.</p>
+                <p><strong>1.</strong> Click <strong>Inquire</strong> or <strong>Add to Cart</strong> on any item. We will automatically copy the item details to your clipboard.</p>
                 <p><strong>2.</strong> Click the <strong>Open Messenger & Paste</strong> button on the next screen.</p>
                 <p><strong>3.</strong> Once Messenger opens, simply press and hold the text box, tap <strong>Paste</strong>, and send us the message!</p>
             </div>
@@ -281,13 +290,13 @@
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="flex flex-col items-center max-w-full relative" onclick="event.stopPropagation()">
-            <button onclick="prevProof(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white p-3 rounded-full text-white hover:text-charcoal transition-colors z-[70] shadow-md">
+            <button onclick="prevProof(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
             
             <img id="proof-enlarged-image" src="" class="max-h-[75vh] max-w-full rounded-sm shadow-2xl p-1 bg-white mb-6">
             
-            <button onclick="nextProof(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white p-3 rounded-full text-white hover:text-charcoal transition-colors z-[70] shadow-md">
+            <button onclick="nextProof(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
 
@@ -314,20 +323,20 @@
         </div>
     </div>
 
-    <!-- NEW: SPECIFIC GALLERY IMAGE VIEW MODAL (WITH SLIDER ARROWS) -->
+    <!-- SPECIFIC GALLERY IMAGE VIEW MODAL (WITH SLIDER NAV) -->
     <div id="gallery-image-modal" class="fixed inset-0 bg-charcoal/90 z-[60] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('gallery-image-modal')">
         <button onclick="closeModal('gallery-image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[70]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="flex flex-col items-center max-w-full relative" onclick="event.stopPropagation()">
             
-            <button id="gallery-prev-btn" onclick="prevGalleryImage(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white p-3 rounded-full text-white hover:text-charcoal transition-colors z-[70] shadow-md hidden">
+            <button id="gallery-prev-btn" onclick="prevGalleryImage(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20 hidden">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
 
             <img id="gallery-enlarged-image" src="" class="max-h-[75vh] max-w-full rounded-sm shadow-2xl p-1 bg-white mb-6">
             
-            <button id="gallery-next-btn" onclick="nextGalleryImage(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white p-3 rounded-full text-white hover:text-charcoal transition-colors z-[70] shadow-md hidden">
+            <button id="gallery-next-btn" onclick="nextGalleryImage(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20 hidden">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
 
@@ -345,7 +354,7 @@
             </div>
             <h3 class="text-2xl font-serif font-semibold text-charcoal mb-2">Inquiry Copied!</h3>
             <p class="text-ocean mb-8 text-sm leading-relaxed">
-                We have copied your inquiry to your clipboard. Simply click the button below and hit <strong>"Paste"</strong> in the chat to send it to us!
+                We have copied your inquiry to your clipboard. Simply click the button below and hit <strong>"Paste"</strong> in the chat to send us your order!
             </p>
             <button onclick="closeModal('inquire-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -395,6 +404,56 @@
             <button onclick="cancelHandoff()" class="text-sm font-medium text-ocean/70 hover:text-charcoal underline">
                 Go back to cart
             </button>
+        </div>
+    </div>
+
+    <!-- ABOUT US MODAL -->
+    <div id="about-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
+            <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">About Us</h3>
+            <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
+            <p class="text-ocean text-sm md:text-base leading-relaxed">
+                <strong>TARA'S COLLECTION</strong> is a PH local provider of Handcrafted Bracelets & Healing Stones by Leslie.<br><br>
+                We believe in the power of natural earth elements to heal, protect, and elevate your daily energy. Every piece is carefully sourced, cleansed, and strung with love to bring you not just beautiful accessories, but meaningful companions for your spiritual journey.
+            </p>
+        </div>
+    </div>
+
+    <!-- CONTACT MODAL -->
+    <div id="contact-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
+            <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">Get in Touch</h3>
+            <div class="w-16 h-1 bg-clay mx-auto mb-8"></div>
+            
+            <p class="text-ocean text-sm uppercase tracking-widest mb-1">Text or Call</p>
+            <p class="text-4xl font-serif text-charcoal mb-8 tracking-wide">0915 457 1859</p>
+            
+            <p class="text-ocean text-sm uppercase tracking-widest mb-4">Or reach us instantly on</p>
+            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('contact-modal')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-3 cursor-pointer">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
+                <span>Message on Facebook</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SHIPPING MODAL -->
+    <div id="shipping-modal" class="fixed inset-0 bg-charcoal/80 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
+            <button onclick="closeModal('shipping-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">Shipping Info</h3>
+            <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
+            <p class="text-ocean text-sm md:text-base leading-relaxed">
+                We use <strong>J&T Express</strong> as our trusted shipping provider.<br><br>
+                Items usually ship within a couple of hours for all in-stock inventory. Final shipping costs and delivery timeframes depend on J&T Express and your location.
+            </p>
         </div>
     </div>
 
@@ -507,46 +566,46 @@
         };
 
         /* ==============================================================
-           2. HEADER SCROLL SHRINK LOGIC
+           2. HEADER SCROLL ANIMATION (Center to Left Slide & Shrink)
            ============================================================== */
         window.addEventListener('scroll', () => {
             const header = document.getElementById('main-header');
+            const brandContainer = document.getElementById('brand-container');
             const logo = document.getElementById('main-logo');
             const title = document.getElementById('main-title');
-            const subtitle = document.getElementById('main-subtitle');
             
             if (window.scrollY > 30) {
-                header.classList.replace('pt-20', 'pt-4');
-                header.classList.replace('md:pt-16', 'md:pt-4');
-                header.classList.replace('pb-6', 'pb-4');
-                header.classList.replace('md:pb-8', 'md:pb-4');
+                // Scrolled State: Compact header, brand shifts to left on mobile
+                header.classList.add('py-2');
+                header.classList.remove('py-4', 'md:py-6');
+                
+                brandContainer.classList.remove('left-1/2', '-translate-x-1/2');
+                brandContainer.classList.add('left-4');
                 
                 logo.classList.replace('w-12', 'w-8');
                 logo.classList.replace('h-12', 'h-8');
-                logo.classList.replace('md:w-16', 'md:w-10');
-                logo.classList.replace('md:h-16', 'md:h-10');
+                logo.classList.replace('md:w-14', 'md:w-10');
+                logo.classList.replace('md:h-14', 'md:h-10');
                 
-                title.classList.replace('text-xl', 'text-lg');
-                title.classList.replace('sm:text-3xl', 'sm:text-xl');
-                title.classList.replace('md:text-5xl', 'md:text-3xl');
-                
-                subtitle.classList.add('hidden');
+                title.classList.replace('text-xl', 'text-base');
+                title.classList.replace('sm:text-3xl', 'sm:text-lg');
+                title.classList.replace('md:text-4xl', 'md:text-2xl');
             } else {
-                header.classList.replace('pt-4', 'pt-20');
-                header.classList.replace('md:pt-4', 'md:pt-16');
-                header.classList.replace('pb-4', 'pb-6');
-                header.classList.replace('md:pb-4', 'md:pb-8');
+                // Top State: Expanded header, brand centered on mobile
+                header.classList.remove('py-2');
+                header.classList.add('py-4', 'md:py-6');
+                
+                brandContainer.classList.remove('left-4');
+                brandContainer.classList.add('left-1/2', '-translate-x-1/2');
                 
                 logo.classList.replace('w-8', 'w-12');
                 logo.classList.replace('h-8', 'h-12');
-                logo.classList.replace('md:w-10', 'md:w-16');
-                logo.classList.replace('md:h-10', 'md:h-16');
+                logo.classList.replace('md:w-10', 'md:w-14');
+                logo.classList.replace('md:h-10', 'md:h-14');
                 
-                title.classList.replace('text-lg', 'text-xl');
-                title.classList.replace('sm:text-xl', 'sm:text-3xl');
-                title.classList.replace('md:text-3xl', 'md:text-5xl');
-                
-                subtitle.classList.remove('hidden');
+                title.classList.replace('text-base', 'text-xl');
+                title.classList.replace('sm:text-lg', 'sm:text-3xl');
+                title.classList.replace('md:text-2xl', 'md:text-4xl');
             }
         });
 
@@ -658,7 +717,15 @@
             const toggleBtn = document.getElementById('toggle-btn');
             
             if(toggleContainer) toggleContainer.classList.remove('hidden');
-            if(toggleBtn) toggleBtn.innerText = "Show More Products";
+            if(toggleBtn) {
+                const spanText = toggleBtn.querySelector('span');
+                const svgIcon = toggleBtn.querySelector('svg');
+                if (spanText) spanText.innerText = "Discover More Styles";
+                if (svgIcon) {
+                    svgIcon.classList.replace('group-hover:-translate-y-1', 'group-hover:translate-y-1');
+                    svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>`;
+                }
+            }
             
             document.querySelectorAll('.product-card').forEach(card => {
                 if (card.classList.contains('extra-product')) {
@@ -678,20 +745,26 @@
             tglBtn.addEventListener('click', function() {
                 const extraCards = document.querySelectorAll('.extra-product');
                 const isHidden = extraCards[0].classList.contains('hidden');
+                const spanText = this.querySelector('span');
+                const svgIcon = this.querySelector('svg');
                 
                 if (isHidden) {
                     extraCards.forEach(c => c.classList.remove('hidden'));
-                    this.innerText = "Show Less Products";
+                    spanText.innerText = "Show Less Styles";
+                    svgIcon.classList.replace('group-hover:translate-y-1', 'group-hover:-translate-y-1');
+                    svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>`;
                 } else {
                     extraCards.forEach(c => c.classList.add('hidden'));
-                    this.innerText = "Show More Products";
+                    spanText.innerText = "Discover More Styles";
+                    svgIcon.classList.replace('group-hover:-translate-y-1', 'group-hover:translate-y-1');
+                    svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>`;
                     document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
                 }
             });
         }
 
         /* ==============================================================
-           5. MODAL LOGIC (General, Sliders, Galleries)
+           5. MODAL LOGIC 
            ============================================================== */
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -808,7 +881,7 @@
                         <div class="relative overflow-hidden mb-2 rounded-md shadow-sm bg-stone/10 aspect-square block cursor-pointer" onclick="openGalleryImageModal('${categoryKey}', ${index})">
                             <img src="${item.img}" alt="${item.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                         </div>
-                        <h4 class="text-xs font-semibold uppercase tracking-wide text-charcoal">${item.name}</h4>
+                        <h4 class="text-[10px] md:text-xs font-semibold uppercase tracking-wide text-charcoal">${item.name}</h4>
                     </div>`;
                 });
                 gridContainer.innerHTML = gridHTML;
@@ -994,8 +1067,8 @@
                 document.getElementById('cart-standard-view').classList.add('hidden');
                 document.getElementById('cart-standard-view').classList.remove('flex');
                 
-                document.getElementById('cart-handoff-view').classList.remove('hidden');
-                document.getElementById('cart-handoff-view').classList.add('flex');
+                document.getElementById('cart-handoff-view').classList.add('hidden');
+                document.getElementById('cart-handoff-view').classList.remove('flex');
             });
         }
 
