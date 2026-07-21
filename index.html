@@ -57,22 +57,19 @@
 </head>
 <body class="bg-alabaster text-charcoal font-sans antialiased relative selection:bg-clay selection:text-white">
 
-    <!-- FIXED & ANIMATED HEADER -->
-    <header id="main-header" class="fixed top-0 w-full bg-sand shadow-md border-b border-stone/30 z-50 py-4 md:py-6">
+    <!-- FIXED & LOCKED HEADER -->
+    <header id="main-header" class="fixed top-0 w-full bg-sand shadow-md border-b border-stone/30 z-50 py-3 md:py-5">
         
-        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 relative flex items-center justify-between">
+        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
             
-            <!-- BRAND CONTAINER: Starts centered, slides left on scroll -->
-            <div id="brand-container" class="absolute left-1/2 -translate-x-1/2 md:translate-x-0 md:static md:left-auto flex items-center space-x-2 md:space-x-3 shrink-0">
-                <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-12 h-12 md:w-14 md:h-14 object-cover rounded-full border border-stone shadow-sm shrink-0">
-                <h1 id="main-title" class="text-xl sm:text-3xl md:text-4xl tracking-wide font-serif font-semibold text-charcoal leading-none whitespace-nowrap">Tara's Collection</h1>
+            <!-- BRAND CONTAINER: Safely locked to the left on all screens -->
+            <div id="brand-container" class="flex items-center space-x-2 md:space-x-3 shrink-0">
+                <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-9 h-9 md:w-14 md:h-14 object-cover rounded-full border border-stone shadow-sm shrink-0">
+                <h1 id="main-title" class="text-base sm:text-xl md:text-3xl tracking-wide font-serif font-semibold text-charcoal leading-tight whitespace-nowrap">Tara's Collection</h1>
             </div>
 
-            <!-- Spacer for mobile layout balancing when centered -->
-            <div class="w-20 md:hidden"></div>
-
             <!-- RIGHT SIDE: Nav & Icons -->
-            <div class="flex items-center space-x-3 md:space-x-6 shrink-0 ml-auto md:ml-0 z-10">
+            <div class="flex items-center space-x-3 md:space-x-6 shrink-0">
                 <!-- Explore Dropdown -->
                 <div class="relative group">
                     <button class="flex items-center space-x-1 text-xs md:text-sm font-semibold uppercase tracking-wider text-ocean hover:text-rust transition-colors py-2">
@@ -105,7 +102,7 @@
         </div>
     </header>
 
-    <main class="pt-28 md:pt-36">
+    <main class="pt-24 md:pt-28">
         
         <!-- MODERN SEARCH BAR -->
         <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
@@ -128,7 +125,7 @@
                 <h2 onclick="resetSearch()" class="cursor-pointer hover:text-ocean transition-colors text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone" title="Click to reset view">
                     Featured Products
                 </h2>
-                <!-- Subtitle moved here right under FEATURED PRODUCTS -->
+                <!-- Subtitle positioned right under FEATURED PRODUCTS -->
                 <p class="text-xs md:text-sm tracking-wide text-ocean uppercase mt-3 font-medium">Discover Handcrafted Bracelets & Healing Stones</p>
             </div>
             
@@ -261,7 +258,7 @@
         </div>
     </div>
 
-    <!-- PRODUCT VIEW MODAL (WITH HIGH CONTRAST IMAGE SLIDER) -->
+    <!-- PRODUCT VIEW MODAL -->
     <div id="product-modal" class="fixed inset-0 bg-charcoal/90 z-50 hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('product-modal')">
         <button onclick="closeModal('product-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[70]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -323,7 +320,7 @@
         </div>
     </div>
 
-    <!-- SPECIFIC GALLERY IMAGE VIEW MODAL (WITH SLIDER NAV) -->
+    <!-- SPECIFIC GALLERY IMAGE VIEW MODAL -->
     <div id="gallery-image-modal" class="fixed inset-0 bg-charcoal/90 z-[60] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('gallery-image-modal')">
         <button onclick="closeModal('gallery-image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[70]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -566,46 +563,37 @@
         };
 
         /* ==============================================================
-           2. HEADER SCROLL ANIMATION (Center to Left Slide & Shrink)
+           2. HEADER LOCKED LEFT & SHRINK LOGIC
            ============================================================== */
         window.addEventListener('scroll', () => {
             const header = document.getElementById('main-header');
-            const brandContainer = document.getElementById('brand-container');
             const logo = document.getElementById('main-logo');
             const title = document.getElementById('main-title');
             
             if (window.scrollY > 30) {
-                // Scrolled State: Compact header, brand shifts to left on mobile
                 header.classList.add('py-2');
-                header.classList.remove('py-4', 'md:py-6');
+                header.classList.remove('py-3', 'md:py-5');
                 
-                brandContainer.classList.remove('left-1/2', '-translate-x-1/2');
-                brandContainer.classList.add('left-4');
-                
-                logo.classList.replace('w-12', 'w-8');
-                logo.classList.replace('h-12', 'h-8');
+                logo.classList.replace('w-9', 'w-7');
+                logo.classList.replace('h-9', 'h-7');
                 logo.classList.replace('md:w-14', 'md:w-10');
                 logo.classList.replace('md:h-14', 'md:h-10');
                 
-                title.classList.replace('text-xl', 'text-base');
-                title.classList.replace('sm:text-3xl', 'sm:text-lg');
-                title.classList.replace('md:text-4xl', 'md:text-2xl');
+                title.classList.replace('text-base', 'text-xs');
+                title.classList.replace('sm:text-xl', 'sm:text-sm');
+                title.classList.replace('md:text-3xl', 'md:text-xl');
             } else {
-                // Top State: Expanded header, brand centered on mobile
                 header.classList.remove('py-2');
-                header.classList.add('py-4', 'md:py-6');
+                header.classList.add('py-3', 'md:py-5');
                 
-                brandContainer.classList.remove('left-4');
-                brandContainer.classList.add('left-1/2', '-translate-x-1/2');
-                
-                logo.classList.replace('w-8', 'w-12');
-                logo.classList.replace('h-8', 'h-12');
+                logo.classList.replace('w-7', 'w-9');
+                logo.classList.replace('h-7', 'h-9');
                 logo.classList.replace('md:w-10', 'md:w-14');
                 logo.classList.replace('md:h-10', 'md:h-14');
                 
-                title.classList.replace('text-base', 'text-xl');
-                title.classList.replace('sm:text-lg', 'sm:text-3xl');
-                title.classList.replace('md:text-2xl', 'md:text-4xl');
+                title.classList.replace('text-xs', 'text-base');
+                title.classList.replace('sm:text-sm', 'sm:text-xl');
+                title.classList.replace('md:text-xl', 'md:text-3xl');
             }
         });
 
