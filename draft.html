@@ -53,56 +53,103 @@
         #main-header { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         #brand-container { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         #main-logo, #main-title { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Smooth dropdown display helper */
+        .explore-menu-active {
+            display: block !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
     </style>
 </head>
 <body class="bg-alabaster text-charcoal font-sans antialiased relative selection:bg-clay selection:text-white">
 
     <!-- FIXED & LOCKED HEADER -->
-    <header id="main-header" class="fixed top-0 w-full bg-sand shadow-md border-b border-stone/30 z-50 py-3 md:py-5">
+    <header id="main-header" class="fixed top-0 w-full bg-sand shadow-md border-b border-stone/30 z-50 py-2.5 md:py-5">
         
-        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+        <div class="w-full max-w-7xl mx-auto px-2.5 sm:px-6 flex items-center justify-between">
             
             <!-- BRAND CONTAINER: Safely locked to the left on all screens -->
-            <div id="brand-container" class="flex items-center space-x-2 md:space-x-3 shrink-0">
-                <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-9 h-9 md:w-14 md:h-14 object-cover rounded-full border border-stone shadow-sm shrink-0">
-                <h1 id="main-title" class="text-base sm:text-xl md:text-3xl tracking-wide font-serif font-semibold text-charcoal leading-tight whitespace-nowrap">Tara's Collection</h1>
+            <div id="brand-container" class="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 shrink min-w-0">
+                <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-7 h-7 sm:w-9 sm:h-9 md:w-14 md:h-14 object-cover rounded-full border border-stone shadow-sm shrink-0">
+                <h1 id="main-title" class="text-xs sm:text-base md:text-3xl tracking-tight sm:tracking-wide font-serif font-semibold text-charcoal leading-tight whitespace-nowrap truncate">Tara's Collection</h1>
             </div>
 
             <!-- RIGHT SIDE: Nav & Icons -->
-            <div class="flex items-center space-x-3 md:space-x-6 shrink-0">
-                <!-- Explore Dropdown -->
-                <div class="relative group">
-                    <button class="flex items-center space-x-1 text-xs md:text-sm font-semibold uppercase tracking-wider text-ocean hover:text-rust transition-colors py-2">
-                        <span>Explore</span>
-                        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            <div class="flex items-center space-x-1.5 sm:space-x-3 md:space-x-6 shrink-0">
+                
+                <!-- ANIMATED & RELIABLE EXPLORE DROPDOWN -->
+                <div id="explore-dropdown-container" class="relative group">
+                    <button onclick="toggleExploreMenu(event)" class="flex items-center space-x-1 text-[10px] md:text-sm font-bold uppercase tracking-wider text-rust hover:text-ocean transition-all py-1 px-2.5 md:py-1.5 md:px-3 rounded-full bg-rust/10 hover:bg-rust/20 border border-rust/30 shadow-sm relative overflow-hidden cursor-pointer">
+                        <span class="animate-pulse text-[10px] md:text-sm">✨</span>
+                        <span class="font-bold tracking-wider">Explore</span>
+                        <svg id="explore-arrow" class="w-2.5 h-2.5 md:w-3.5 md:h-3.5 transform transition-transform duration-300 group-hover:rotate-180 text-rust" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
-                    <div class="absolute right-0 mt-0 w-48 bg-white border border-stone/20 rounded-sm shadow-xl hidden group-hover:block opacity-0 group-hover:opacity-100 transition-opacity z-50 text-left">
-                        <div class="py-2">
-                            <button onclick="openGalleryModal('bracelets', 'Bracelets')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Bracelets</button>
-                            <button onclick="openGalleryModal('charms', 'Charms')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Charms</button>
-                            <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Personalized Items</button>
-                            <button onclick="openGalleryModal('gemstones', 'Gemstones')" class="block w-full text-left px-4 py-2 text-sm text-charcoal hover:bg-sand hover:text-ocean transition-colors">Gemstones</button>
+                    
+                    <!-- Seamless Bridge Wrapper (No gap between button and options!) -->
+                    <div id="explore-dropdown-menu" class="absolute right-0 top-full pt-1.5 w-56 sm:w-64 hidden group-hover:block opacity-0 group-hover:opacity-100 transition-all duration-200 z-50 text-left pointer-events-none group-hover:pointer-events-auto">
+                        <div class="bg-white/95 backdrop-blur-md border border-stone/20 rounded-md shadow-2xl p-1.5 space-y-1 overflow-hidden">
+                            
+                            <!-- 1. Personalized Items (TOP PRIORITY) -->
+                            <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="flex items-center justify-between w-full px-3 py-2 rounded-md text-xs font-semibold text-charcoal hover:bg-sand/70 hover:text-rust transition-all group/item hover:translate-x-1 cursor-pointer">
+                                <div class="flex items-center space-x-3">
+                                    <img src="assets/gallery/personalize1.jpg" alt="Personalized" class="w-8 h-8 rounded-md object-cover border border-stone/30 shrink-0">
+                                    <div class="flex flex-col text-left">
+                                        <span class="font-bold tracking-wide">Personalized Items</span>
+                                        <span class="text-[9px] text-ocean/70 font-normal">Custom creations</span>
+                                    </div>
+                                </div>
+                                <span class="bg-rust text-white text-[8px] font-extrabold uppercase px-1.5 py-0.5 rounded-full tracking-wider shadow-sm shrink-0">MOST LOVED</span>
+                            </button>
+
+                            <!-- 2. Bracelets -->
+                            <button onclick="openGalleryModal('bracelets', 'Bracelets')" class="flex items-center space-x-3 w-full px-3 py-2 rounded-md text-xs font-semibold text-charcoal hover:bg-sand/70 hover:text-ocean transition-all group/item hover:translate-x-1 cursor-pointer">
+                                <img src="assets/gallery/bracelet1.jpg" alt="Bracelets" class="w-8 h-8 rounded-md object-cover border border-stone/30 shrink-0">
+                                <div class="flex flex-col text-left">
+                                    <span class="font-bold tracking-wide">Bracelets</span>
+                                    <span class="text-[9px] text-ocean/70 font-normal">Handcrafted pieces</span>
+                                </div>
+                            </button>
+
+                            <!-- 3. Charms -->
+                            <button onclick="openGalleryModal('charms', 'Charms')" class="flex items-center space-x-3 w-full px-3 py-2 rounded-md text-xs font-semibold text-charcoal hover:bg-sand/70 hover:text-ocean transition-all group/item hover:translate-x-1 cursor-pointer">
+                                <img src="assets/gallery/charms1.jpg" alt="Charms" class="w-8 h-8 rounded-md object-cover border border-stone/30 shrink-0">
+                                <div class="flex flex-col text-left">
+                                    <span class="font-bold tracking-wide">Charms</span>
+                                    <span class="text-[9px] text-ocean/70 font-normal">Accents & additions</span>
+                                </div>
+                            </button>
+
+                            <!-- 4. Gemstones -->
+                            <button onclick="openGalleryModal('gemstones', 'Gemstones')" class="flex items-center space-x-3 w-full px-3 py-2 rounded-md text-xs font-semibold text-charcoal hover:bg-sand/70 hover:text-ocean transition-all group/item hover:translate-x-1 cursor-pointer">
+                                <img src="assets/gallery/gemstone1.jpg" alt="Gemstones" class="w-8 h-8 rounded-md object-cover border border-stone/30 shrink-0">
+                                <div class="flex flex-col text-left">
+                                    <span class="font-bold tracking-wide">Gemstones</span>
+                                    <span class="text-[9px] text-ocean/70 font-normal">Natural healing stones</span>
+                                </div>
+                            </button>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="h-4 md:h-6 w-px bg-stone/50"></div>
+                <div class="h-3.5 md:h-6 w-px bg-stone/50"></div>
 
                 <a href="https://m.me/109568137198741" target="_blank" class="text-ocean hover:text-rust transition-transform hover:scale-110" title="Message Us on FB">
-                    <svg class="w-5 h-5 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 512 512">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7" fill="currentColor" viewBox="0 0 512 512">
                         <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
                     </svg>
                 </a>
                 
                 <button onclick="toggleCart()" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative" title="View Cart">
-                    <svg class="w-5 h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    <span id="top-cart-count" class="absolute -top-2 -right-2 bg-rust text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span id="top-cart-count" class="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2 bg-rust text-white text-[8px] md:text-[10px] font-bold px-1 py-0.2 md:px-1.5 md:py-0.5 rounded-full">0</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="pt-24 md:pt-28">
+    <main class="pt-20 md:pt-28">
         
         <!-- MODERN SEARCH BAR -->
         <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
@@ -472,6 +519,42 @@
         const googleSheetApiUrl = "https://script.google.com/macros/s/AKfycbxpRlm1z5pElKDvmpc7wqps5sjU35vTTGBTe9bU6THI16I__9mEOadwc3QZmPdvhOgf/exec";
 
         /* ==============================================================
+           0. EXPLORE DROPDOWN STATE LOGIC (Mobile Tap & Outside Click Fix)
+           ============================================================== */
+        let isExploreOpen = false;
+
+        function toggleExploreMenu(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('explore-dropdown-menu');
+            const arrow = document.getElementById('explore-arrow');
+            
+            isExploreOpen = !isExploreOpen;
+            
+            if (isExploreOpen) {
+                menu.classList.add('explore-menu-active');
+                if (arrow) arrow.classList.add('rotate-180');
+            } else {
+                closeExploreMenu();
+            }
+        }
+
+        function closeExploreMenu() {
+            const menu = document.getElementById('explore-dropdown-menu');
+            const arrow = document.getElementById('explore-arrow');
+            isExploreOpen = false;
+            if (menu) menu.classList.remove('explore-menu-active');
+            if (arrow) arrow.classList.remove('rotate-180');
+        }
+
+        // Close Explore dropdown whenever user taps anywhere outside it
+        document.addEventListener('click', function(event) {
+            const container = document.getElementById('explore-dropdown-container');
+            if (container && !container.contains(event.target)) {
+                closeExploreMenu();
+            }
+        });
+
+        /* ==============================================================
            1. MASTER DATA ARRAYS (Update these to add new content!)
            ============================================================== */
         let products = [
@@ -510,11 +593,16 @@
             { name: "Amethyst Bracelet", price: 900, images: ["assets/products/amethyst.jpg"], desc: "A powerful and protective stone with a high spiritual vibration. It relieves stress, soothes irritability, and balances mood swings." }
         ];
 
+        // RESTORED ALL 8 CUSTOM BASE ITEMS
         const customBases = [
             { name: "Custom Base Style 1", price: 500, img: "assets/products/custom-base-1.jpg" },
             { name: "Custom Base Style 2", price: 500, img: "assets/products/custom-base-2.jpg" },
-            { name: "Custom Base Style 3", price: 500, img: "assets/products/custom-base-3.jpg" },
-            { name: "Custom Base Style 4", price: 500, img: "assets/products/custom-base-4.jpg" }
+            { name: "Custom Base Style 3", price: 500, img: "assets/products/custom-base-3.jpg" },            
+            { name: "Custom Base Style 4", price: 500, img: "assets/products/custom-base-4.jpeg" },
+            { name: "Custom Base Style 5", price: 500, img: "assets/products/custom-base-5.jpeg" },
+            { name: "Custom Base Style 6", price: 500, img: "assets/products/custom-base-6.jpeg" },
+            { name: "Custom Base Style 7", price: 500, img: "assets/products/custom-base-7.jpg" },
+            { name: "Custom Base Style 8", price: 500, img: "assets/products/custom-base-8.jpeg" }
         ];
 
         const proofs = [
@@ -526,6 +614,7 @@
             { src: 'assets/proofs/proof-6.jpg', link: 'https://www.facebook.com/photo?fbid=1405797881558818&set=pb.100063858590900.-2207520000' }
         ];
 
+        // RESTORED ALL 20 PERSONALIZED GALLERY ITEMS
         const galleryData = {
             "bracelets": [
                 { img: "assets/gallery/bracelet1.jpg", name: "Bracelet Style 1" },
@@ -555,7 +644,15 @@
                 { img: "assets/gallery/personalize9.jpg", name: "Personalized Style 9" },
                 { img: "assets/gallery/personalize10.jpg", name: "Personalized Style 10" },
                 { img: "assets/gallery/personalize11.jpg", name: "Personalized Style 11" },
-                { img: "assets/gallery/personalize12.jpg", name: "Personalized Style 12" }
+                { img: "assets/gallery/personalize12.jpg", name: "Personalized Style 12" },
+                { img: "assets/gallery/personalize13.jpg", name: "Personalized Style 13" },
+                { img: "assets/gallery/personalize14.jpg", name: "Personalized Style 14" },
+                { img: "assets/gallery/personalize15.jpg", name: "Personalized Style 15" },
+                { img: "assets/gallery/personalize16.jpeg", name: "Personalized Style 16" },
+                { img: "assets/gallery/personalize17.jpeg", name: "Personalized Style 17" },
+                { img: "assets/gallery/personalize18.jpeg", name: "Personalized Style 18" },
+                { img: "assets/gallery/personalize19.jpg", name: "Personalized Style 19" },
+                { img: "assets/gallery/personalize20.jpeg", name: "Personalized Style 20" }
             ],
             "gemstones": [
                 { img: "assets/gallery/gemstone1.jpg", name: "Gemstone Style 1" }
@@ -571,28 +668,28 @@
             const title = document.getElementById('main-title');
             
             if (window.scrollY > 30) {
-                header.classList.add('py-2');
-                header.classList.remove('py-3', 'md:py-5');
+                header.classList.add('py-1.5');
+                header.classList.remove('py-2.5', 'md:py-5');
                 
-                logo.classList.replace('w-9', 'w-7');
-                logo.classList.replace('h-9', 'h-7');
+                logo.classList.replace('w-7', 'w-6');
+                logo.classList.replace('h-7', 'h-6');
                 logo.classList.replace('md:w-14', 'md:w-10');
                 logo.classList.replace('md:h-14', 'md:h-10');
                 
-                title.classList.replace('text-base', 'text-xs');
-                title.classList.replace('sm:text-xl', 'sm:text-sm');
+                title.classList.replace('text-xs', 'text-[11px]');
+                title.classList.replace('sm:text-base', 'sm:text-sm');
                 title.classList.replace('md:text-3xl', 'md:text-xl');
             } else {
-                header.classList.remove('py-2');
-                header.classList.add('py-3', 'md:py-5');
+                header.classList.remove('py-1.5');
+                header.classList.add('py-2.5', 'md:py-5');
                 
-                logo.classList.replace('w-7', 'w-9');
-                logo.classList.replace('h-7', 'h-9');
+                logo.classList.replace('w-6', 'w-7');
+                logo.classList.replace('h-6', 'h-7');
                 logo.classList.replace('md:w-10', 'md:w-14');
                 logo.classList.replace('md:h-10', 'md:h-14');
                 
-                title.classList.replace('text-xs', 'text-base');
-                title.classList.replace('sm:text-sm', 'sm:text-xl');
+                title.classList.replace('text-[11px]', 'text-xs');
+                title.classList.replace('sm:text-sm', 'sm:text-base');
                 title.classList.replace('md:text-xl', 'md:text-3xl');
             }
         });
@@ -901,6 +998,7 @@
 
         // --- HEADER DROPDOWN GALLERY LOGIC ---
         function openGalleryModal(categoryKey, title) {
+            closeExploreMenu(); // Auto-collapse the Explore dropdown when a gallery opens
             const data = galleryData[categoryKey];
             document.getElementById('gallery-modal-title').innerText = title;
             

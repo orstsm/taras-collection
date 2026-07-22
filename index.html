@@ -361,7 +361,8 @@
             <div class="p-6 border-b border-stone/30 bg-white text-center flex-shrink-0">
                 <h3 id="gallery-modal-title" class="text-2xl font-serif font-semibold text-charcoal">Gallery</h3>
             </div>
-            <div id="gallery-modal-grid" class="p-6 overflow-y-auto grid grid-cols-2 md:grid-cols-4 gap-4 bg-alabaster flex-1">
+            <!-- OVERSCROLL FIX ADDED HERE -->
+            <div id="gallery-modal-grid" class="p-6 overflow-y-auto overscroll-contain grid grid-cols-2 md:grid-cols-4 gap-4 bg-alabaster flex-1">
                 <!-- Images injected here -->
             </div>
         </div>
@@ -420,7 +421,8 @@
         </div>
         
         <div id="cart-standard-view" class="flex-1 flex flex-col overflow-hidden">
-            <div id="cart-items" class="p-6 flex-1 overflow-y-auto space-y-4 bg-alabaster"></div>
+            <!-- OVERSCROLL FIX ADDED HERE -->
+            <div id="cart-items" class="p-6 flex-1 overflow-y-auto overscroll-contain space-y-4 bg-alabaster"></div>
             
             <div class="p-6 border-t border-sand bg-sand/50">
                 <div class="flex justify-between font-semibold text-lg text-charcoal mb-4">
@@ -519,7 +521,32 @@
         const googleSheetApiUrl = "https://script.google.com/macros/s/AKfycbxpRlm1z5pElKDvmpc7wqps5sjU35vTTGBTe9bU6THI16I__9mEOadwc3QZmPdvhOgf/exec";
 
         /* ==============================================================
-           0. EXPLORE DROPDOWN STATE LOGIC (Mobile Tap & Outside Click Fix)
+           0. BODY SCROLL LOCK SYSTEM (Fixes background scroll bug)
+           ============================================================== */
+        function updateBodyScroll() {
+            // Check if any modal is currently visible
+            const modals = document.querySelectorAll('.fixed.inset-0');
+            let isAnyModalOpen = false;
+            
+            modals.forEach(modal => {
+                if (!modal.classList.contains('hidden')) {
+                    isAnyModalOpen = true;
+                }
+            });
+
+            // Check if cart is currently open
+            const cartModal = document.getElementById('cart-modal');
+            const isCartOpen = cartModal && cartModal.classList.contains('cart-open');
+            
+            if (isAnyModalOpen || isCartOpen) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        /* ==============================================================
+           0. EXPLORE DROPDOWN STATE LOGIC
            ============================================================== */
         let isExploreOpen = false;
 
@@ -546,7 +573,6 @@
             if (arrow) arrow.classList.remove('rotate-180');
         }
 
-        // Close Explore dropdown whenever user taps anywhere outside it
         document.addEventListener('click', function(event) {
             const container = document.getElementById('explore-dropdown-container');
             if (container && !container.contains(event.target)) {
@@ -555,7 +581,7 @@
         });
 
         /* ==============================================================
-           1. MASTER DATA ARRAYS (Update these to add new content!)
+           1. MASTER DATA ARRAYS
            ============================================================== */
         let products = [
             { name: "Rose Quartz Bracelet", price: 850, images: ["assets/products/rose-quartz.jpg", "assets/products/rose-quartz1.jpg", "assets/products/rose-quartz2.jpg"], desc: "Known as the stone of universal love. It restores trust and harmony in relationships, encouraging unconditional love." },
@@ -593,7 +619,6 @@
             { name: "Amethyst Bracelet", price: 900, images: ["assets/products/amethyst.jpg"], desc: "A powerful and protective stone with a high spiritual vibration. It relieves stress, soothes irritability, and balances mood swings." }
         ];
 
-        // RESTORED ALL 8 CUSTOM BASE ITEMS
         const customBases = [
             { name: "Custom Base Style 1", price: 500, img: "assets/products/custom-base-1.jpg" },
             { name: "Custom Base Style 2", price: 500, img: "assets/products/custom-base-2.jpg" },
@@ -614,7 +639,6 @@
             { src: 'assets/proofs/proof-6.jpg', link: 'https://www.facebook.com/photo?fbid=1405797881558818&set=pb.100063858590900.-2207520000' }
         ];
 
-        // RESTORED ALL 20 PERSONALIZED GALLERY ITEMS
         const galleryData = {
             "bracelets": [
                 { img: "assets/gallery/bracelet1.jpg", name: "Bracelet Style 1" },
@@ -895,18 +919,20 @@
         }
 
         /* ==============================================================
-           5. MODAL LOGIC 
+           5. MODAL LOGIC (With newly integrated Body Scroll Lock!)
            ============================================================== */
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            updateBodyScroll(); // Locks body
         }
 
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+            updateBodyScroll(); // Unlocks body if no modals left
         }
 
         // --- PRODUCT SLIDER LOGIC ---
@@ -1170,6 +1196,7 @@
             } else {
                 modal.classList.replace('cart-closed', 'cart-open');
             }
+            updateBodyScroll(); // Locks body when cart opens, unlocks when closed
         }
 
         function prepareCheckout() {
