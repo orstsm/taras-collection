@@ -33,7 +33,6 @@
         }
     </script>
     <style>
-        .product-card:hover .overlay-btn { opacity: 1; }
         #cart-modal, #about-modal, #contact-modal, #shipping-modal, #howto-modal, #gallery-modal, #gallery-image-modal, #proof-modal, #inquire-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
@@ -56,12 +55,12 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* ORGANIC BLOB ANIMATION WITH STRICT CLIPPING MASK */
+        /* ORGANIC BLOB ANIMATION WITH STRICT UNIFORM SHAPE */
         .blob-frame {
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            transition: border-radius 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: border-radius 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s ease;
             overflow: hidden; 
-            -webkit-mask-image: -webkit-radial-gradient(white, black); /* Forces strict corner clipping in Safari/iOS */
+            -webkit-mask-image: -webkit-radial-gradient(white, black); 
             mask-image: radial-gradient(white, black);
             transform: translateZ(0); 
             background-color: #f4f0eb;
@@ -71,16 +70,16 @@
             background-color: #EFE6D6;
         }
         
-        /* Zoom image to strictly hide the straight white edges of photos */
+        /* Deep zoom hides corners inside the blob */
         .blob-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.18); 
+            transform: scale(1.20); 
             transition: transform 0.7s ease;
         }
         .group:hover .blob-image {
-            transform: scale(1.25); 
+            transform: scale(1.28); 
         }
     </style>
 </head>
@@ -89,13 +88,9 @@
     <!-- EDITORIAL 2-TIER HEADER -->
     <header id="main-header" class="fixed top-0 w-full bg-sand/95 backdrop-blur-md shadow-sm border-b border-stone/30 z-50 transition-all duration-300">
         
-        <!-- Top Tier: Brand (Center), Utilities (Right) -->
         <div class="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
-            
-            <!-- Left: Empty Spacer for Center Alignment -->
             <div class="flex-1"></div>
 
-            <!-- Center: Centered Logo & Brand -->
             <div class="flex flex-col items-center justify-center cursor-pointer" onclick="closeProductPage()">
                 <div class="flex items-center space-x-2 md:space-x-3">
                     <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-8 h-8 md:w-12 md:h-12 object-cover rounded-full border border-stone shadow-sm">
@@ -103,7 +98,6 @@
                 </div>
             </div>
 
-            <!-- Right: FB & Cart -->
             <div class="flex-1 flex items-center justify-end space-x-2 md:space-x-4">
                 <a href="https://m.me/109568137198741" target="_blank" class="text-charcoal hover:text-rust transition-transform hover:scale-110 p-2 hidden sm:block" title="Message Us on FB">
                     <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 512 512">
@@ -118,12 +112,12 @@
             </div>
         </div>
 
-        <!-- Bottom Tier: Horizontal Navigation -->
+        <!-- Bottom Tier: Horizontal Navigation (Fixed Inline 🔥 Icon) -->
         <div id="nav-tier" class="w-full border-t border-stone/20 bg-sand flex justify-center py-2 md:py-3 transition-all duration-300">
             <nav class="flex items-center space-x-8 md:space-x-12 overflow-x-auto px-4 scrollbar-hide text-[10px] md:text-xs uppercase tracking-widest font-bold text-charcoal/80">
                 <button onclick="closeProductPage()" class="hover:text-rust whitespace-nowrap transition-colors">Home</button>
-                <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="hover:text-rust whitespace-nowrap transition-colors relative flex items-center">
-                    Personalized <span class="inline-block ml-1 text-sm md:text-base animate-pulse" title="Hot Trend">🔥</span>
+                <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="hover:text-rust whitespace-nowrap transition-colors flex items-center">
+                    Personalized <span class="ml-1 text-sm animate-pulse">🔥</span>
                 </button>
                 <button onclick="openGalleryModal('bracelets', 'Bracelets')" class="hover:text-rust whitespace-nowrap transition-colors">Bracelets</button>
                 <button onclick="openGalleryModal('charms', 'Charms')" class="hover:text-rust whitespace-nowrap transition-colors">Charms</button>
@@ -155,7 +149,6 @@
             </div>
         </section>
 
-        <!-- SECTION 1.5: CUSTOMIZE ITEMS -->
         <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone/30">
             <div class="text-center mb-12 max-w-3xl mx-auto">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -169,7 +162,6 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12" id="custom-bases-grid"></div>
         </section>
         
-        <!-- SECTION 2: YOUTUBE SHORTS GALLERY -->
         <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30">
              <div class="text-center mb-10">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -222,7 +214,6 @@
             </div>
         </section>
 
-        <!-- SECTION 3: WE LOVE OUR CUSTOMERS (Marquee) -->
         <section class="py-16 w-full overflow-hidden bg-alabaster border-t border-stone/30">
             <div class="text-center mb-10 max-w-7xl mx-auto px-4">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -238,52 +229,42 @@
         </section>
     </div>
 
-
     <!-- ============================================================================== -->
     <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (Frystal Style)                            -->
     <!-- ============================================================================== -->
     <div id="product-view" class="hidden w-full pt-32 md:pt-40 pb-24 bg-alabaster min-h-screen relative z-10 transition-opacity duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Breadcrumb Navigation -->
             <div class="text-[10px] md:text-xs text-stone uppercase tracking-widest font-bold mb-6 md:mb-10 mt-2">
                 <button onclick="closeProductPage()" class="hover:text-rust transition-colors">Home</button> 
                 <span class="mx-2">/</span> 
                 <span id="pv-title-crumb" class="text-charcoal border-b border-charcoal pb-0.5">Product</span>
             </div>
 
-            <!-- THE 50/50 LAYOUT -->
             <div class="flex flex-col md:flex-row gap-10 md:gap-16 relative">
                 
-                <!-- LEFT COLUMN: Sticky Visuals -->
                 <div class="w-full md:w-1/2">
                     <div class="md:sticky md:top-40 flex flex-col gap-4">
-                        <!-- Clean Editorial Square Frame for Details View -->
-                        <div class="relative w-full aspect-square md:aspect-[4/5] overflow-hidden bg-white rounded-md shadow-sm border border-stone/20">
-                            <img id="pv-main-image" src="" class="w-full h-full object-cover">
+                        <!-- Strictly formatted Square container for Full Product image -->
+                        <div class="relative w-full pt-[100%] overflow-hidden bg-white rounded-md shadow-sm border border-stone/20">
+                            <img id="pv-main-image" src="" class="absolute inset-0 w-full h-full object-cover">
                             
-                            <!-- Slider Nav -->
-                            <button onclick="prevPvImage(event)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-3 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn">
+                            <button onclick="prevPvImage(event)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-3 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn z-10">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                             </button>
-                            <button onclick="nextPvImage(event)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-3 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn">
+                            <button onclick="nextPvImage(event)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-3 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn z-10">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </button>
                         </div>
                         
-                        <!-- Mini Thumbnails -->
                         <div id="pv-thumbnails" class="flex gap-3 overflow-x-auto scrollbar-hide py-2"></div>
                     </div>
                 </div>
 
-                <!-- RIGHT COLUMN: Purchasing Power -->
                 <div class="w-full md:w-1/2 flex flex-col justify-start md:pt-4">
-                    
                     <h1 id="pv-title" class="text-3xl md:text-5xl font-serif font-semibold text-charcoal mb-4 leading-tight tracking-wide"></h1>
-                    
                     <p id="pv-price" class="text-xl md:text-2xl text-ocean font-medium tracking-wide mb-6"></p>
                     
-                    <!-- Frystal-Style Trust Badge -->
                     <div class="text-[10px] md:text-xs uppercase tracking-widest text-charcoal/70 font-semibold mb-8 border-y border-stone/30 py-4 space-y-2">
                         <p class="flex items-center"><span class="mr-2 text-rust">✦</span> Handcrafted & Cleansed Elements</p>
                         <p class="flex items-center"><span class="mr-2 text-rust">✦</span> Fast Delivery via J&T Express</p>
@@ -291,7 +272,6 @@
 
                     <p id="pv-desc" class="text-sm md:text-base text-charcoal/80 leading-relaxed font-medium mb-12"></p>
 
-                    <!-- Massive Pill Buttons -->
                     <div id="pv-button-container" class="space-y-4 w-full mt-auto pb-10 border-b border-stone/20">
                         <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-4 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest transition-colors shadow-xl border border-charcoal">ADD TO CART</button>
                         <button id="pv-inquire-btn" class="w-full border-2 border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-3.5 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest transition-colors">INQUIRE VIA MESSENGER</button>
@@ -302,25 +282,20 @@
             <!-- BELOW FOLD: YOU MAY ALSO LIKE -->
             <div id="pv-related-section" class="w-full mt-16 pt-6">
                 <h3 class="text-2xl md:text-3xl font-serif font-semibold text-charcoal mb-10 text-center md:text-left">You may also like</h3>
-                
                 <div id="pv-related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 gap-y-12">
-                    <!-- Javascript will inject random related products here -->
+                    <!-- Dynamic related products -->
                 </div>
             </div>
 
         </div>
     </div>
 
-
     <!-- ============================================================================== -->
-    <!-- NEW DISTINCT OCEAN FOOTER BLOCK                                                -->
+    <!-- FOOTER BLOCK                                                                   -->
     <!-- ============================================================================== -->
     <footer class="bg-ocean text-sand pt-16 pb-32 border-t border-stone/30 relative z-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            
-            <!-- Top Section: Links & Contact -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-                <!-- Left: Quick Links -->
                 <div class="flex flex-col space-y-4 items-center md:items-start text-center md:text-left">
                     <button onclick="closeProductPage()" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80">Home</button>
                     <button onclick="openModal('about-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80">About Us</button>
@@ -328,17 +303,14 @@
                     <button onclick="openModal('howto-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80">How To Order</button>
                 </div>
 
-                <!-- Right: Contact Us -->
                 <div class="flex flex-col space-y-4 items-center md:items-end text-center md:text-right">
                     <h4 class="text-sm font-bold uppercase tracking-widest mb-2 border-b border-clay/30 pb-2 md:border-none md:pb-0 text-clay w-full md:w-auto">Contact Us</h4>
-                    <p class="text-sm font-medium text-sand/80">info: <span class="font-serif font-bold text-white tracking-wider">0915 457 1859</span></p>
-                    <p class="text-sm font-medium text-sand/80">Company: <span class="font-bold text-white">Tara's Collection</span></p>
-                    <p class="text-sm font-medium text-sand/80">Location: <span class="font-bold text-white">Philippines</span></p>
+                    <p <span class="font-serif font-bold text-white tracking-wider">0915 457 1859</span></p>
+                    <p <span class="font-bold text-white">Philippines</span></p>
                     <a href="https://m.me/109568137198741" target="_blank" class="text-[10px] uppercase tracking-widest border border-sand/50 px-5 py-2.5 rounded-sm hover:bg-white hover:text-ocean transition-colors mt-3 text-white shadow-sm font-bold">Message on Messenger</a>
                 </div>
             </div>
 
-            <!-- Middle Section: Socials -->
             <div class="flex justify-center space-x-6 mb-12">
                 <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
@@ -348,7 +320,6 @@
                 </a>
             </div>
 
-            <!-- Bottom Section: Centered & Safely Above Floating Buttons -->
             <div class="border-t border-sand/20 pt-8 flex flex-col items-center justify-center space-y-5 text-center">
                 <div class="flex items-center space-x-2 border border-clay px-4 py-2 rounded-full bg-charcoal/20 shadow-sm">
                     <span class="text-[10px] md:text-xs font-bold text-clay tracking-widest uppercase">₱ PHP | Philippines</span>
@@ -365,13 +336,11 @@
         </div>
     </footer>
 
-    <!-- HOW TO ORDER FLOATING BUTTON -->
+    <!-- FLOATING BUTTONS -->
     <button onclick="openModal('howto-modal')" class="fixed bottom-6 right-6 bg-rust text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">How to Order</span>
     </button>
-
-    <!-- FLOATING CART BUTTON -->
     <button id="floating-cart-btn" onclick="toggleCart()" class="hidden fixed bottom-20 right-6 bg-ocean text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">Cart (<span id="cart-count">0</span>)</span>
@@ -395,7 +364,7 @@
         </div>
     </div>
 
-    <!-- PROOF OF TRANSACTIONS SLIDER MODAL -->
+    <!-- PROOF OF TRANSACTIONS MODAL -->
     <div id="proof-modal" class="fixed inset-0 bg-charcoal/90 z-[70] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('proof-modal')">
         <button onclick="closeModal('proof-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[70]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -404,13 +373,10 @@
             <button onclick="prevProof(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
-            
             <img id="proof-enlarged-image" src="" class="max-h-[75vh] max-w-full rounded-sm shadow-2xl p-1 bg-white mb-6">
-            
             <button onclick="nextProof(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
-
             <a id="proof-fb-link" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center space-x-3 relative z-[70]">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>View Proof in FB</span>
@@ -419,7 +385,7 @@
         </div>
     </div>
 
-    <!-- HEADER DROPDOWN GALLERY MODAL -->
+    <!-- GALLERY MODAL -->
     <div id="gallery-modal" class="fixed inset-0 bg-charcoal/90 z-[70] hidden flex-col items-center justify-center px-4 backdrop-blur-sm transition-opacity" onclick="closeModal('gallery-modal')">
         <button onclick="closeModal('gallery-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[80]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -434,23 +400,19 @@
         </div>
     </div>
 
-    <!-- SPECIFIC GALLERY IMAGE VIEW MODAL -->
+    <!-- GALLERY IMAGE VIEW MODAL -->
     <div id="gallery-image-modal" class="fixed inset-0 bg-charcoal/90 z-[90] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('gallery-image-modal')">
         <button onclick="closeModal('gallery-image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[100]">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="flex flex-col items-center max-w-full relative" onclick="event.stopPropagation()">
-            
             <button id="gallery-prev-btn" onclick="prevGalleryImage(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[100] shadow-md border border-white/20 hidden">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
-
             <img id="gallery-enlarged-image" src="" class="max-h-[75vh] max-w-full rounded-sm shadow-2xl p-1 bg-white mb-6">
-            
             <button id="gallery-next-btn" onclick="nextGalleryImage(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[100] shadow-md border border-white/20 hidden">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
-
             <button id="gallery-inquire-btn" onclick="" class="bg-ocean hover:bg-charcoal text-white py-3 px-8 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg border border-ocean hover:border-white/20 z-[100] relative">
                 Inquire about this style
             </button>
@@ -515,6 +477,54 @@
             <button onclick="cancelHandoff()" class="text-sm font-medium text-ocean/70 hover:text-charcoal underline">
                 Go back to cart
             </button>
+        </div>
+    </div>
+
+    <!-- ABOUT US MODAL -->
+    <div id="about-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
+            <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">About Us</h3>
+            <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
+            <p class="text-ocean text-sm md:text-base leading-relaxed">
+                <strong>TARA'S COLLECTION</strong> is a PH local provider of Handcrafted Bracelets & Healing Stones by Leslie.<br><br>
+                We believe in the power of natural earth elements to heal, protect, and elevate your daily energy. Every piece is carefully sourced, cleansed, and strung with love to bring you not just beautiful accessories, but meaningful companions for your spiritual journey.
+            </p>
+        </div>
+    </div>
+
+    <!-- CONTACT MODAL -->
+    <div id="contact-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
+            <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">Get in Touch</h3>
+            <div class="w-16 h-1 bg-clay mx-auto mb-8"></div>
+            <p class="text-ocean text-sm uppercase tracking-widest mb-1">Text or Call</p>
+            <p class="text-4xl font-serif text-charcoal mb-8 tracking-wide">0915 457 1859</p>
+            <p class="text-ocean text-sm uppercase tracking-widest mb-4">Or reach us instantly on</p>
+            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('contact-modal')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-3 cursor-pointer">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
+                <span>Message on Facebook</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SHIPPING MODAL -->
+    <div id="shipping-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
+            <button onclick="closeModal('shipping-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">Shipping Info</h3>
+            <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
+            <p class="text-ocean text-sm md:text-base leading-relaxed">
+                We use <strong>J&T Express</strong> as our trusted shipping provider.<br><br>
+                Items usually ship within a couple of hours for all in-stock inventory. Final shipping costs and delivery timeframes depend on J&T Express and your location.
+            </p>
         </div>
     </div>
 
@@ -713,26 +723,27 @@
             products.forEach((p, index) => {
                 const isHidden = index >= 8 ? 'extra-product hidden' : '';
                 
-                // FLOATING BADGE (Safely placed outside the clipping mask)
+                const safeName = p.name.replace(/'/g, "\\'");
+                
+                // FIXED FLOATING BADGE (Outside the blob clip entirely)
                 const multiIndicator = p.images.length > 1 
-                    ? `<div class="absolute top-2 right-2 md:top-3 md:right-3 bg-white/95 text-charcoal text-[9px] px-3 py-1 rounded-full shadow-md font-extrabold uppercase tracking-widest z-10 border border-stone/20 whitespace-nowrap">${p.images.length} PHOTOS</div>` 
+                    ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white/95 text-charcoal text-[9px] px-3 py-1 rounded-full shadow-md font-extrabold uppercase tracking-widest z-10 border border-stone/20 whitespace-nowrap">${p.images.length} PHOTOS</div>` 
                     : '';
                 
-                // Click is on the wrapper, so CSS masks don't block the click event
+                // FIXED STRUCTURAL CLICK BOX (pt-[100%] absolute wrapper guarantees uniform shape and clickability)
                 productHTML += `
                 <div class="product-card ${isHidden} group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full mb-4 aspect-square block">
-                        <!-- THE ORGANIC BLOB FRAME -->
-                        <div class="w-full h-full blob-frame shadow-sm pointer-events-none">
+                    ${multiIndicator}
+                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm">
                             <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
                         </div>
-                        ${multiIndicator}
                     </div>
                     <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${p.name}</h3>
                     <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">₱ ${p.price}.00</p>
                     <div class="mt-auto flex flex-col space-y-2 w-full">
-                        <button onclick="inquireItem('${p.name}')" class="border border-ocean text-ocean hover:bg-ocean hover:text-white px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm">Inquire</button>
-                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Add to Cart</button>
+                        <button onclick="inquireItem('${safeName}')" class="border border-ocean text-ocean hover:bg-ocean hover:text-white px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm">Inquire</button>
+                        <button onclick="addToCart('${safeName}', ${p.price})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Add to Cart</button>
                     </div>
                 </div>`;
             });
@@ -741,17 +752,18 @@
             const customGrid = document.getElementById('custom-bases-grid');
             let customHTML = '';
             customBases.forEach((c, index) => {
+                const safeName = c.name.replace(/'/g, "\\'");
                 customHTML += `
                 <div class="product-card group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openBasePage('${c.img}', '${c.name}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full mb-4 aspect-square block">
-                        <div class="w-full h-full blob-frame shadow-sm pointer-events-none">
+                    <div onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm">
                             <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
                         </div>
                     </div>
                     <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${c.name}</h3>
                     <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">Base: ₱ ${c.price}.00</p>
                     <div class="mt-auto flex flex-col space-y-2 w-full">
-                        <button onclick="inquireItem('${c.name}')" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Inquire for Customization</button>
+                        <button onclick="inquireItem('${safeName}')" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Inquire for Customization</button>
                     </div>
                 </div>`;
             });
@@ -866,7 +878,10 @@
         });
 
         function openProductPage(index, fromPopState = false) {
+            if (!products[index]) return;
             const p = products[index];
+            const safeName = p.name.replace(/'/g, "\\'");
+            
             currentModalImages = p.images;
             currentModalIndex = 0;
             
@@ -878,8 +893,8 @@
             document.getElementById('pv-button-container').classList.remove('hidden');
             document.getElementById('pv-related-section').classList.remove('hidden');
             
-            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(p.name, p.price); };
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(p.name); };
+            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price); };
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName); };
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE VIA MESSENGER";
 
             updatePvImageDisplay();
@@ -888,20 +903,20 @@
 
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'auto'});
+            window.scrollTo({top: 0, behavior: 'instant'});
 
             if (!fromPopState) {
                 try {
                     const newUrl = window.location.pathname + '?item=' + encodeURIComponent(p.name.replace(/\s+/g, '-').toLowerCase());
                     window.history.pushState({ view: 'product', index: index, isBase: false }, '', newUrl);
                 } catch (e) {
-                    // Try-catch prevents local file:/// execution from crashing the JS
                     console.log("Local file execution blocked history.pushState");
                 }
             }
         }
 
         function openBasePage(img, title, desc, price, fromPopState = false) {
+            const safeTitle = title.replace(/'/g, "\\'");
             currentModalImages = [img];
             currentModalIndex = 0;
             
@@ -913,14 +928,14 @@
             document.getElementById('pv-add-cart-btn').classList.add('hidden');
             document.getElementById('pv-related-section').classList.add('hidden');
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE FOR CUSTOMIZATION";
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(title); };
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeTitle); };
 
             updatePvImageDisplay();
             buildPvThumbnails(); 
             
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'auto'});
+            window.scrollTo({top: 0, behavior: 'instant'});
 
             if (!fromPopState) {
                 try {
@@ -935,12 +950,14 @@
         function closeProductPage(fromPopState = false) {
             document.getElementById('product-view').classList.add('hidden');
             document.getElementById('home-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'auto'});
+            window.scrollTo({top: 0, behavior: 'instant'});
             
             if (!fromPopState) {
                 try {
                     window.history.pushState({ view: 'home' }, '', window.location.pathname);
-                } catch (e) {}
+                } catch (e) {
+                    console.log("Local file execution blocked history.pushState");
+                }
             }
         }
 
@@ -959,9 +976,9 @@
                 const origIndex = products.findIndex(orig => orig.name === rel.name);
                 
                 relatedHTML += `
-                <div class="group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openProductPage(${origIndex})" class="cursor-pointer relative w-full mb-4 aspect-square block">
-                        <div class="w-full h-full blob-frame shadow-sm pointer-events-none">
+                <div class="group flex flex-col relative text-center items-center cursor-pointer mt-3" onclick="openProductPage(${origIndex})">
+                    <div class="relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
                             <img src="${rel.images[0]}" class="blob-image mix-blend-multiply">
                         </div>
                     </div>
@@ -1082,8 +1099,8 @@
                 data.forEach((item, index) => {
                     gridHTML += `
                     <div class="flex flex-col relative text-center group">
-                        <div class="relative overflow-hidden mb-2 rounded-md shadow-sm bg-stone/10 aspect-square block cursor-pointer" onclick="openGalleryImageModal('${categoryKey}', ${index})">
-                            <img src="${item.img}" alt="${item.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                        <div class="relative w-full pt-[100%] mb-2 rounded-md shadow-sm bg-stone/10 cursor-pointer overflow-hidden block" onclick="openGalleryImageModal('${categoryKey}', ${index})">
+                            <img src="${item.img}" alt="${item.name}" class="absolute inset-0 object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
                         </div>
                         <h4 class="text-[10px] md:text-xs font-semibold uppercase tracking-wide text-charcoal">${item.name}</h4>
                     </div>`;
@@ -1109,8 +1126,10 @@
             const item = data[currentGalleryIndex];
             
             document.getElementById('gallery-enlarged-image').src = item.img;
+            
+            const safeName = item.name.replace(/'/g, "\\'");
             document.getElementById('gallery-inquire-btn').onclick = function() {
-                inquireGalleryItem(item.name);
+                inquireGalleryItem(safeName);
             };
             
             const prevBtn = document.getElementById('gallery-prev-btn');
@@ -1226,6 +1245,9 @@
             } else {
                 cart.forEach((item, index) => {
                     total += item.price;
+                    
+                    const safeName = item.name.replace(/'/g, "\\'");
+                    
                     itemsContainer.innerHTML += `
                         <div class="flex justify-between items-center border-b border-stone/30 pb-2">
                             <div>
