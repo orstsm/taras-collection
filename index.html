@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+    <!-- SANDY SHORES + ALABASTER COLOR PALETTE -->
     <script>
         tailwind.config = {
             theme: {
@@ -101,6 +102,7 @@
         <div class="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
             <div class="flex-1"></div>
 
+            <!-- Center Logo -->
             <div class="flex flex-col items-center justify-center cursor-pointer" onclick="closeProductPage()">
                 <div class="flex items-center space-x-2 md:space-x-3">
                     <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-8 h-8 md:w-12 md:h-12 object-cover rounded-full border border-stone shadow-sm">
@@ -108,6 +110,7 @@
                 </div>
             </div>
 
+            <!-- Right Utilities -->
             <div class="flex-1 flex items-center justify-end space-x-2 md:space-x-4">
                 <a href="https://m.me/109568137198741" target="_blank" class="text-charcoal hover:text-rust transition-transform hover:scale-110 p-2 hidden sm:block" title="Message Us on FB">
                     <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 512 512">
@@ -122,6 +125,7 @@
             </div>
         </div>
 
+        <!-- Horizontal Nav Tier -->
         <div id="nav-tier" class="w-full border-t border-stone/20 bg-sand flex justify-center py-2 md:py-3 transition-all duration-300">
             <nav class="flex items-center space-x-8 md:space-x-12 overflow-x-auto px-4 scrollbar-hide text-[10px] md:text-xs uppercase tracking-widest font-bold text-charcoal/80">
                 <button onclick="closeProductPage()" class="hover:text-rust whitespace-nowrap transition-colors cursor-pointer">Home</button>
@@ -135,8 +139,12 @@
         </div>
     </header>
 
+    <!-- ============================================================================== -->
+    <!-- VIEW A: HOME PAGE                                                              -->
+    <!-- ============================================================================== -->
     <div id="home-view" class="block w-full pt-32 md:pt-40 transition-opacity duration-300">
         
+        <!-- SEARCH BAR -->
         <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -149,6 +157,7 @@
             </div>
         </section>
 
+        <!-- SECTION 1: FEATURED PRODUCTS -->
         <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="products-section">
             <div class="text-center mb-10">
                 <h2 onclick="resetSearch()" class="cursor-pointer hover:text-ocean transition-colors text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone" title="Click to reset view">
@@ -167,6 +176,7 @@
             </div>
         </section>
 
+        <!-- SECTION 1.5: CUSTOMIZE ITEMS -->
         <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone/30">
             <div class="text-center mb-10 max-w-3xl mx-auto">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -180,6 +190,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12" id="custom-bases-grid"></div>
         </section>
         
+        <!-- SECTION 2: YOUTUBE SHORTS GALLERY -->
         <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30">
              <div class="text-center mb-10">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -232,6 +243,7 @@
             </div>
         </section>
 
+        <!-- SECTION 3: WE LOVE OUR CUSTOMERS -->
         <section class="py-16 w-full overflow-hidden bg-alabaster border-t border-stone/30">
             <div class="text-center mb-10 max-w-7xl mx-auto px-4">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -247,20 +259,24 @@
         </section>
     </div>
 
+
     <!-- ============================================================================== -->
-    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE                                            -->
+    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP - COMPACT LAYOUT)      -->
     <!-- ============================================================================== -->
-    <div id="product-view" class="hidden w-full pt-32 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10">
+    <div id="product-view" class="hidden w-full pt-32 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10 transition-opacity duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             
+            <!-- Breadcrumbs -->
             <div class="text-[10px] md:text-xs text-stone uppercase tracking-widest font-bold mb-4 md:mb-6 mt-2">
                 <button onclick="closeProductPage()" class="hover:text-rust transition-colors cursor-pointer">Home</button> 
                 <span class="mx-2">/</span> 
                 <span id="pv-title-crumb" class="text-charcoal border-b border-charcoal pb-0.5">Product</span>
             </div>
 
+            <!-- 50/50 Desktop Split -->
             <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start relative">
                 
+                <!-- Left: Compact Visuals -->
                 <div class="w-full md:w-5/12 flex justify-center">
                     <div class="w-full max-w-sm md:max-w-md md:sticky md:top-36 flex flex-col gap-3">
                         <div class="relative w-full aspect-square overflow-hidden bg-white rounded-md shadow-sm border border-stone/20">
@@ -276,6 +292,7 @@
                     </div>
                 </div>
 
+                <!-- Right: Content & Purchasing Actions -->
                 <div class="w-full md:w-7/12 flex flex-col justify-start">
                     <h1 id="pv-title" class="text-2xl md:text-4xl font-serif font-semibold text-charcoal mb-2 leading-tight tracking-wide"></h1>
                     <p id="pv-price" class="text-lg md:text-xl text-ocean font-medium tracking-wide mb-4"></p>
@@ -287,14 +304,15 @@
 
                     <p id="pv-desc" class="text-xs md:text-sm text-charcoal/80 leading-relaxed font-medium mb-6"></p>
 
-                    <!-- REFINED SLEEKER BUTTONS -->
-                    <div id="pv-button-container" class="space-y-3 w-full pb-6 border-b border-stone/20">
-                        <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors shadow-md border border-charcoal cursor-pointer">ADD TO CART</button>
-                        <button id="pv-inquire-btn" class="w-full border border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-2.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
+                    <!-- REFINED SLEEKER BUTTONS (Shorter Padding & Max Width) -->
+                    <div id="pv-button-container" class="space-y-3 w-full md:w-3/4 mt-auto pb-6 border-b border-stone/20">
+                        <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors shadow-sm border border-charcoal cursor-pointer">ADD TO CART</button>
+                        <button id="pv-inquire-btn" class="w-full border border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
                     </div>
                 </div>
             </div>
 
+            <!-- Suggestion Engine -->
             <div id="pv-related-section" class="w-full mt-12 pt-6 border-t border-stone/20">
                 <h3 class="text-xl md:text-2xl font-serif font-semibold text-charcoal mb-8 text-center md:text-left">You may also like</h3>
                 <div id="pv-related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 gap-y-10"></div>
@@ -304,9 +322,11 @@
     </div>
 
 
+    <!-- OCEAN FOOTER BLOCK -->
     <footer class="bg-ocean text-sand pt-16 pb-32 border-t border-stone/30 relative z-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                <!-- Left: Quick Links -->
                 <div class="flex flex-col space-y-4 items-center md:items-start text-center md:text-left">
                     <button onclick="closeProductPage()" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">Home</button>
                     <button onclick="openModal('about-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">About Us</button>
@@ -314,14 +334,16 @@
                     <button onclick="openModal('howto-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">How To Order</button>
                 </div>
 
+                <!-- Right: Contact Us -->
                 <div class="flex flex-col space-y-4 items-center md:items-end text-center md:text-right">
                     <h4 class="text-sm font-bold uppercase tracking-widest mb-2 border-b border-clay/30 pb-2 md:border-none md:pb-0 text-clay w-full md:w-auto">Contact Us</h4>
-                    <p class="text-sm font-medium text-sand/80"><span class="font-serif font-bold text-white tracking-wider">0915 457 1859</span></p>
-                    <p class="text-sm font-medium text-sand/80"><span class="font-bold text-white">Central Luzon, Philippines</span></p>
-                    <a href="https://m.me/109568137198741" target="_blank" class="text-[10px] uppercase tracking-widest border border-sand/50 px-5 py-2.5 rounded-sm hover:bg-white hover:text-ocean transition-colors mt-3 text-white shadow-sm font-bold cursor-pointer">Message on Messenger</a>
+                    <p class="text-sm font-serif font-bold text-white tracking-wider">0915 457 1859</p>
+                    <p class="text-sm font-medium text-sand/80">Central Luzon, Philippines</p>
+                    <a href="https://m.me/109568137198741" target="_blank" class="text-[10px] uppercase tracking-widest border border-sand/50 px-5 py-2.5 rounded-sm hover:bg-white hover:text-ocean transition-colors mt-3 text-white shadow-sm font-bold">Message on Messenger</a>
                 </div>
             </div>
 
+            <!-- Social Icons (Added Instagram and TikTok) -->
             <div class="flex justify-center items-center space-x-6 mb-12">
                 <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Facebook">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
@@ -353,6 +375,7 @@
         </div>
     </footer>
 
+    <!-- FLOATING ACTION BUTTONS -->
     <button onclick="openModal('howto-modal')" class="fixed bottom-6 right-6 bg-rust text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">How to Order</span>
@@ -362,6 +385,7 @@
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">Cart (<span id="cart-count">0</span>)</span>
     </button>
 
+    <!-- SYSTEM MODALS -->
     <div id="howto-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('howto-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -431,6 +455,7 @@
         </div>
     </div>
 
+    <!-- INQUIRE HANDOFF MODAL -->
     <div id="inquire-modal" class="fixed inset-0 bg-charcoal/80 z-[100] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <div class="bg-white text-ocean rounded-full p-4 mb-4 mx-auto w-16 h-16 flex items-center justify-center shadow-inner">
@@ -447,12 +472,10 @@
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>Open Messenger & Paste</span>
             </a>
-            <button onclick="cancelHandoff()" class="text-sm font-medium text-ocean/70 hover:text-charcoal underline cursor-pointer">
-                Go back to cart
-            </button>
         </div>
     </div>
 
+    <!-- CART MODAL -->
     <div id="cart-modal" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl z-50 cart-closed flex flex-col border-l border-stone">
         <div class="p-6 border-b border-sand flex justify-between items-center bg-sand">
             <h2 class="text-xl font-serif font-semibold text-charcoal">Your Cart</h2>
@@ -493,6 +516,7 @@
         </div>
     </div>
 
+    <!-- ABOUT US MODAL -->
     <div id="about-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -507,6 +531,7 @@
         </div>
     </div>
 
+    <!-- CONTACT MODAL -->
     <div id="contact-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -524,6 +549,7 @@
         </div>
     </div>
 
+    <!-- SHIPPING MODAL -->
     <div id="shipping-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('shipping-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -538,6 +564,7 @@
         </div>
     </div>
 
+    <!-- CORE JAVASCRIPT LOGIC -->
     <script>
         const websiteURL = "https://tarascollection.store/";
         const googleSheetApiUrl = "https://script.google.com/macros/s/AKfycbxpRlm1z5pElKDvmpc7wqps5sjU35vTTGBTe9bU6THI16I__9mEOadwc3QZmPdvhOgf/exec";
@@ -729,9 +756,11 @@
                 
                 productHTML += `
                 <div class="product-card ${isHidden} group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full pt-[100%] mb-4 block">
-                        <div class="absolute inset-0 blob-frame shadow-sm">
-                            <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
+                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full mb-4 block">
+                        <div class="blob-wrapper">
+                            <div class="blob-frame shadow-sm">
+                                <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
+                            </div>
                         </div>
                         ${multiIndicator}
                     </div>
@@ -751,9 +780,11 @@
                 const safeName = c.name.replace(/'/g, "\\'");
                 customHTML += `
                 <div class="product-card group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full pt-[100%] mb-4 block">
-                        <div class="absolute inset-0 blob-frame shadow-sm">
-                            <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
+                    <div onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full mb-4 block">
+                        <div class="blob-wrapper">
+                            <div class="blob-frame shadow-sm">
+                                <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
+                            </div>
                         </div>
                     </div>
                     <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title cursor-pointer" onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})">${c.name}</h3>
@@ -967,12 +998,13 @@
             
             relatedProducts.forEach(rel => {
                 const origIndex = products.findIndex(orig => orig.name === rel.name);
-                
                 relatedHTML += `
-                <div class="group flex flex-col relative text-center items-center cursor-pointer mt-3" onclick="openProductPage(${origIndex})">
-                    <div class="relative w-full pt-[100%] mb-4 block">
-                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
-                            <img src="${rel.images[0]}" class="blob-image mix-blend-multiply">
+                <div class="group flex flex-col relative text-center items-center cursor-pointer" onclick="openProductPage(${origIndex})">
+                    <div class="relative w-full mb-3 block">
+                        <div class="blob-wrapper">
+                            <div class="blob-frame shadow-sm">
+                                <img src="${rel.images[0]}" class="blob-image mix-blend-multiply">
+                            </div>
                         </div>
                     </div>
                     <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
@@ -1149,7 +1181,9 @@
         }
 
         function inquireGalleryItem(itemName) {
-            const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}`;
+            const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
+            const uniqueLink = `${websiteURL}?gallery=${productSlug}`;
+            const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}\n\nLink: ${uniqueLink}`;
             
             navigator.clipboard.writeText(message).catch(() => {});
             closeModal('gallery-image-modal');

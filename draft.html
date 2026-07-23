@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- SANDY SHORES + ALABASTER COLOR PALETTE -->
     <script>
         tailwind.config = {
             theme: {
@@ -102,7 +101,6 @@
         <div class="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
             <div class="flex-1"></div>
 
-            <!-- Center Logo -->
             <div class="flex flex-col items-center justify-center cursor-pointer" onclick="closeProductPage()">
                 <div class="flex items-center space-x-2 md:space-x-3">
                     <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-8 h-8 md:w-12 md:h-12 object-cover rounded-full border border-stone shadow-sm">
@@ -110,7 +108,6 @@
                 </div>
             </div>
 
-            <!-- Right Utilities -->
             <div class="flex-1 flex items-center justify-end space-x-2 md:space-x-4">
                 <a href="https://m.me/109568137198741" target="_blank" class="text-charcoal hover:text-rust transition-transform hover:scale-110 p-2 hidden sm:block" title="Message Us on FB">
                     <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 512 512">
@@ -125,7 +122,6 @@
             </div>
         </div>
 
-        <!-- Horizontal Nav Tier -->
         <div id="nav-tier" class="w-full border-t border-stone/20 bg-sand flex justify-center py-2 md:py-3 transition-all duration-300">
             <nav class="flex items-center space-x-8 md:space-x-12 overflow-x-auto px-4 scrollbar-hide text-[10px] md:text-xs uppercase tracking-widest font-bold text-charcoal/80">
                 <button onclick="closeProductPage()" class="hover:text-rust whitespace-nowrap transition-colors cursor-pointer">Home</button>
@@ -139,12 +135,8 @@
         </div>
     </header>
 
-    <!-- ============================================================================== -->
-    <!-- VIEW A: HOME PAGE                                                              -->
-    <!-- ============================================================================== -->
     <div id="home-view" class="block w-full pt-32 md:pt-40 transition-opacity duration-300">
         
-        <!-- SEARCH BAR -->
         <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -157,7 +149,6 @@
             </div>
         </section>
 
-        <!-- SECTION 1: FEATURED PRODUCTS -->
         <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="products-section">
             <div class="text-center mb-10">
                 <h2 onclick="resetSearch()" class="cursor-pointer hover:text-ocean transition-colors text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone" title="Click to reset view">
@@ -176,7 +167,6 @@
             </div>
         </section>
 
-        <!-- SECTION 1.5: CUSTOMIZE ITEMS -->
         <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone/30">
             <div class="text-center mb-10 max-w-3xl mx-auto">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -190,7 +180,6 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12" id="custom-bases-grid"></div>
         </section>
         
-        <!-- SECTION 2: YOUTUBE SHORTS GALLERY -->
         <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30">
              <div class="text-center mb-10">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -201,7 +190,7 @@
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 <a href="https://www.youtube.com/shorts/21pHSgQB--Q" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/21pHSgQB--Q/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Ocean Jasper">
+                    <img src="https://i.ytimg.com/vi/21pHSgQB--Q/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Ocean Jasper">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -209,7 +198,7 @@
                     </div>
                 </a>
                 <a href="https://www.youtube.com/shorts/M2iDlJWNto4" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/M2iDlJWNto4/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Special Curation">
+                    <img src="https://i.ytimg.com/vi/M2iDlJWNto4/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Special Curation">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -217,7 +206,7 @@
                     </div>
                 </a>
                 <a href="https://www.youtube.com/shorts/gZLi0lawRj8" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/gZLi0lawRj8/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Obsidian">
+                    <img src="https://i.ytimg.com/vi/gZLi0lawRj8/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Obsidian">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -225,7 +214,7 @@
                     </div>
                 </a>
                 <a href="https://www.youtube.com/shorts/A4-7E6upmII" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/A4-7E6upmII/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" alt="Golden Rutile">
+                    <img src="https://i.ytimg.com/vi/A4-7E6upmII/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Golden Rutile">
                     <div class="absolute inset-0 flex items-center justify-center">
                         <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -243,7 +232,6 @@
             </div>
         </section>
 
-        <!-- SECTION 3: WE LOVE OUR CUSTOMERS -->
         <section class="py-16 w-full overflow-hidden bg-alabaster border-t border-stone/30">
             <div class="text-center mb-10 max-w-7xl mx-auto px-4">
                 <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
@@ -259,24 +247,20 @@
         </section>
     </div>
 
-
     <!-- ============================================================================== -->
-    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP - COMPACT LAYOUT)      -->
+    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE                                            -->
     <!-- ============================================================================== -->
     <div id="product-view" class="hidden w-full pt-32 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Breadcrumbs -->
             <div class="text-[10px] md:text-xs text-stone uppercase tracking-widest font-bold mb-4 md:mb-6 mt-2">
                 <button onclick="closeProductPage()" class="hover:text-rust transition-colors cursor-pointer">Home</button> 
                 <span class="mx-2">/</span> 
                 <span id="pv-title-crumb" class="text-charcoal border-b border-charcoal pb-0.5">Product</span>
             </div>
 
-            <!-- 50/50 Desktop Split -->
             <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start relative">
                 
-                <!-- Left: Compact Visuals -->
                 <div class="w-full md:w-5/12 flex justify-center">
                     <div class="w-full max-w-sm md:max-w-md md:sticky md:top-36 flex flex-col gap-3">
                         <div class="relative w-full aspect-square overflow-hidden bg-white rounded-md shadow-sm border border-stone/20">
@@ -292,7 +276,6 @@
                     </div>
                 </div>
 
-                <!-- Right: Content & Purchasing Actions -->
                 <div class="w-full md:w-7/12 flex flex-col justify-start">
                     <h1 id="pv-title" class="text-2xl md:text-4xl font-serif font-semibold text-charcoal mb-2 leading-tight tracking-wide"></h1>
                     <p id="pv-price" class="text-lg md:text-xl text-ocean font-medium tracking-wide mb-4"></p>
@@ -304,14 +287,14 @@
 
                     <p id="pv-desc" class="text-xs md:text-sm text-charcoal/80 leading-relaxed font-medium mb-6"></p>
 
+                    <!-- REFINED SLEEKER BUTTONS -->
                     <div id="pv-button-container" class="space-y-3 w-full pb-6 border-b border-stone/20">
-                        <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-3.5 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest transition-colors shadow-xl border border-charcoal cursor-pointer">ADD TO CART</button>
-                        <button id="pv-inquire-btn" class="w-full border-2 border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-3 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
+                        <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors shadow-md border border-charcoal cursor-pointer">ADD TO CART</button>
+                        <button id="pv-inquire-btn" class="w-full border border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-2.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Suggestion Engine -->
             <div id="pv-related-section" class="w-full mt-12 pt-6 border-t border-stone/20">
                 <h3 class="text-xl md:text-2xl font-serif font-semibold text-charcoal mb-8 text-center md:text-left">You may also like</h3>
                 <div id="pv-related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 gap-y-10"></div>
@@ -321,11 +304,9 @@
     </div>
 
 
-    <!-- OCEAN FOOTER BLOCK -->
     <footer class="bg-ocean text-sand pt-16 pb-32 border-t border-stone/30 relative z-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-                <!-- Left: Quick Links -->
                 <div class="flex flex-col space-y-4 items-center md:items-start text-center md:text-left">
                     <button onclick="closeProductPage()" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">Home</button>
                     <button onclick="openModal('about-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">About Us</button>
@@ -333,21 +314,25 @@
                     <button onclick="openModal('howto-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">How To Order</button>
                 </div>
 
-                <!-- Right: Contact Us -->
                 <div class="flex flex-col space-y-4 items-center md:items-end text-center md:text-right">
                     <h4 class="text-sm font-bold uppercase tracking-widest mb-2 border-b border-clay/30 pb-2 md:border-none md:pb-0 text-clay w-full md:w-auto">Contact Us</h4>
-                    <p class="text-sm font-medium text-sand/80">info: <span class="font-serif font-bold text-white tracking-wider">0915 457 1859</span></p>
-                    <p class="text-sm font-medium text-sand/80">Company: <span class="font-bold text-white">Tara's Collection</span></p>
-                    <p class="text-sm font-medium text-sand/80">Location: <span class="font-bold text-white">Philippines</span></p>
-                    <a href="https://m.me/109568137198741" target="_blank" class="text-[10px] uppercase tracking-widest border border-sand/50 px-5 py-2.5 rounded-sm hover:bg-white hover:text-ocean transition-colors mt-3 text-white shadow-sm font-bold">Message on Messenger</a>
+                    <p class="text-sm font-medium text-sand/80"><span class="font-serif font-bold text-white tracking-wider">0915 457 1859</span></p>
+                    <p class="text-sm font-medium text-sand/80"><span class="font-bold text-white">Central Luzon, Philippines</span></p>
+                    <a href="https://m.me/109568137198741" target="_blank" class="text-[10px] uppercase tracking-widest border border-sand/50 px-5 py-2.5 rounded-sm hover:bg-white hover:text-ocean transition-colors mt-3 text-white shadow-sm font-bold cursor-pointer">Message on Messenger</a>
                 </div>
             </div>
 
-            <div class="flex justify-center space-x-6 mb-12">
-                <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110">
+            <div class="flex justify-center items-center space-x-6 mb-12">
+                <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Facebook">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
                 </a>
-                <a href="https://www.youtube.com/@TARA-LNM" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110">
+                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="Instagram">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="TikTok">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525 0h3.08c.12 1.424.73 2.76 1.71 3.792 1.03 1.08 2.42 1.709 3.885 1.758v3.13c-1.92-.03-3.76-.752-5.18-2.028v8.618c0 3.73-3.03 6.76-6.76 6.76S2.5 19.01 2.5 15.28c0-3.73 3.03-6.76 6.76-6.76.43 0 .86.04 1.28.12v3.3a3.52 3.52 0 0 0-1.28-.24c-1.9 0-3.44 1.54-3.44 3.44s1.54 3.44 3.44 3.44 3.44-1.54 3.44-3.44V0z"/></svg>
+                </a>
+                <a href="https://www.youtube.com/@TARA-LNM" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="YouTube">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
             </div>
@@ -368,7 +353,6 @@
         </div>
     </footer>
 
-    <!-- FLOATING ACTION BUTTONS -->
     <button onclick="openModal('howto-modal')" class="fixed bottom-6 right-6 bg-rust text-white px-4 py-3 rounded-full shadow-2xl flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">How to Order</span>
@@ -378,7 +362,6 @@
         <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">Cart (<span id="cart-count">0</span>)</span>
     </button>
 
-    <!-- SYSTEM MODALS -->
     <div id="howto-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('howto-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -431,7 +414,7 @@
     </div>
 
     <div id="gallery-image-modal" class="fixed inset-0 bg-charcoal/90 z-[90] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('gallery-image-modal')">
-        <button onclick="closeModal('gallery-image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[100]">
+        <button onclick="closeModal('gallery-image-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[100] cursor-pointer">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="flex flex-col items-center max-w-full relative" onclick="event.stopPropagation()">
@@ -464,10 +447,12 @@
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>Open Messenger & Paste</span>
             </a>
+            <button onclick="cancelHandoff()" class="text-sm font-medium text-ocean/70 hover:text-charcoal underline cursor-pointer">
+                Go back to cart
+            </button>
         </div>
     </div>
 
-    <!-- CART MODAL -->
     <div id="cart-modal" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl z-50 cart-closed flex flex-col border-l border-stone">
         <div class="p-6 border-b border-sand flex justify-between items-center bg-sand">
             <h2 class="text-xl font-serif font-semibold text-charcoal">Your Cart</h2>
@@ -508,7 +493,6 @@
         </div>
     </div>
 
-    <!-- ABOUT US MODAL -->
     <div id="about-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -523,7 +507,6 @@
         </div>
     </div>
 
-    <!-- CONTACT MODAL -->
     <div id="contact-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -541,7 +524,6 @@
         </div>
     </div>
 
-    <!-- SHIPPING MODAL -->
     <div id="shipping-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('shipping-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -556,196 +538,24 @@
         </div>
     </div>
 
-    <!-- CORE JAVASCRIPT LOGIC -->
     <script>
         const websiteURL = "https://tarascollection.store/";
         const googleSheetApiUrl = "https://script.google.com/macros/s/AKfycbxpRlm1z5pElKDvmpc7wqps5sjU35vTTGBTe9bU6THI16I__9mEOadwc3QZmPdvhOgf/exec";
 
-        /* ==============================================================
-           0. VIEW SWAP NAVIGATION STATE & BACK BUTTON SUPPORT
-           ============================================================== */
-        let currentModalImages = [];
-        let currentModalIndex = 0;
-
-        window.addEventListener('popstate', function(event) {
-            if (event.state && event.state.view === 'product') {
-                if (event.state.isBase) {
-                    openBasePage(event.state.img, event.state.title, event.state.desc, event.state.price, true);
-                } else {
-                    openProductPage(event.state.index, true);
-                }
-            } else {
-                closeProductPage(true);
-            }
-        });
-
-        function openProductPage(index, fromPopState = false) {
-            if (!products[index]) return;
-            const p = products[index];
-            const safeName = p.name.replace(/'/g, "\\'");
-            
-            currentModalImages = p.images;
-            currentModalIndex = 0;
-            
-            document.getElementById('pv-title-crumb').innerText = p.name;
-            document.getElementById('pv-title').innerText = p.name;
-            document.getElementById('pv-price').innerText = `₱ ${p.price}.00`;
-            document.getElementById('pv-desc').innerText = p.desc;
-            
-            document.getElementById('pv-button-container').classList.remove('hidden');
-            document.getElementById('pv-related-section').classList.remove('hidden');
-            
-            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price); };
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName); };
-            document.getElementById('pv-inquire-btn').innerText = "INQUIRE VIA MESSENGER";
-
-            updatePvImageDisplay();
-            buildPvThumbnails();
-            generateRelatedProducts(index);
-
-            // Execute Page View Swap (Hides Home, Reveals Product View)
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-
-            if (!fromPopState) {
-                try {
-                    const newUrl = window.location.pathname + '?item=' + encodeURIComponent(p.name.replace(/\s+/g, '-').toLowerCase());
-                    window.history.pushState({ view: 'product', index: index, isBase: false }, '', newUrl);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function openBasePage(img, title, desc, price, fromPopState = false) {
-            const safeTitle = title.replace(/'/g, "\\'");
-            currentModalImages = [img];
-            currentModalIndex = 0;
-            
-            document.getElementById('pv-title-crumb').innerText = title;
-            document.getElementById('pv-title').innerText = title;
-            document.getElementById('pv-price').innerText = `Base Price: ₱ ${price}.00`;
-            document.getElementById('pv-desc').innerText = desc;
-            
-            document.getElementById('pv-add-cart-btn').classList.add('hidden');
-            document.getElementById('pv-related-section').classList.add('hidden');
-            document.getElementById('pv-inquire-btn').innerText = "INQUIRE FOR CUSTOMIZATION";
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeTitle); };
-
-            updatePvImageDisplay();
-            buildPvThumbnails(); 
-
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-
-            if (!fromPopState) {
-                try {
-                    const newUrl = window.location.pathname + '?item=' + encodeURIComponent(title.replace(/\s+/g, '-').toLowerCase());
-                    window.history.pushState({ view: 'product', img: img, title: title, desc: desc, price: price, isBase: true }, '', newUrl);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function closeProductPage(fromPopState = false) {
-            document.getElementById('product-view').classList.add('hidden');
-            document.getElementById('home-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-            
-            if (!fromPopState) {
-                try {
-                    window.history.pushState({ view: 'home' }, '', window.location.pathname);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function generateRelatedProducts(currentIndex) {
-            let availableProducts = products.filter((_, i) => i !== currentIndex);
-            
-            for (let i = availableProducts.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [availableProducts[i], availableProducts[j]] = [availableProducts[j], availableProducts[i]];
-            }
-            
-            let relatedProducts = availableProducts.slice(0, 4);
-            let relatedHTML = '';
-            
-            relatedProducts.forEach(rel => {
-                const origIndex = products.findIndex(orig => orig.name === rel.name);
-                relatedHTML += `
-                <div class="group flex flex-col relative text-center items-center cursor-pointer" onclick="openProductPage(${origIndex})">
-                    <div class="relative w-full mb-3 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm">
-                                <img src="${rel.images[0]}" class="blob-image mix-blend-multiply">
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
-                    <p class="text-[10px] md:text-xs text-ocean mt-1">₱ ${rel.price}.00</p>
-                </div>
-                `;
+        function updateBodyScroll() {
+            const modals = document.querySelectorAll('.fixed.inset-0');
+            let isAnyModalOpen = false;
+            modals.forEach(modal => {
+                if (!modal.classList.contains('hidden')) { isAnyModalOpen = true; }
             });
-            document.getElementById('pv-related-grid').innerHTML = relatedHTML;
-        }
 
-        function buildPvThumbnails() {
-            const thumbContainer = document.getElementById('pv-thumbnails');
-            if (currentModalImages.length > 1) {
-                let thumbHTML = '';
-                currentModalImages.forEach((img, i) => {
-                    const borderClass = i === currentModalIndex ? 'border-charcoal opacity-100' : 'border-transparent hover:border-stone/50 opacity-60 hover:opacity-100';
-                    thumbHTML += `<img src="${img}" onclick="setPvImage(${i})" class="w-14 h-14 md:w-20 md:h-20 object-cover cursor-pointer rounded-sm border-2 transition-all ${borderClass}">`;
-                });
-                thumbContainer.innerHTML = thumbHTML;
-                thumbContainer.classList.remove('hidden');
-            } else {
-                thumbContainer.innerHTML = '';
-                thumbContainer.classList.add('hidden');
-            }
-        }
-
-        function setPvImage(i) {
-            currentModalIndex = i;
-            updatePvImageDisplay();
-            buildPvThumbnails();
-        }
-
-        function updatePvImageDisplay() {
-            document.getElementById('pv-main-image').src = currentModalImages[currentModalIndex];
-            const btns = document.querySelectorAll('.pv-nav-btn');
+            const cartModal = document.getElementById('cart-modal');
+            const isCartOpen = cartModal && cartModal.classList.contains('cart-open');
             
-            if (currentModalImages.length > 1) {
-                btns.forEach(btn => btn.classList.remove('hidden'));
-            } else {
-                btns.forEach(btn => btn.classList.add('hidden'));
-            }
+            if (isAnyModalOpen || isCartOpen) { document.body.style.overflow = 'hidden'; } 
+            else { document.body.style.overflow = ''; }
         }
 
-        function prevPvImage(e) {
-            e.stopPropagation();
-            if (currentModalIndex > 0) currentModalIndex--;
-            else currentModalIndex = currentModalImages.length - 1;
-            updatePvImageDisplay();
-            buildPvThumbnails();
-        }
-
-        function nextPvImage(e) {
-            e.stopPropagation();
-            if (currentModalIndex < currentModalImages.length - 1) currentModalIndex++;
-            else currentModalIndex = 0; 
-            updatePvImageDisplay();
-            buildPvThumbnails();
-        }
-
-        /* ==============================================================
-           1. MASTER DATA ARRAYS
-           ============================================================== */
         let products = [
             { name: "Rose Quartz Bracelet", price: 850, images: ["assets/products/rose-quartz.jpg", "assets/products/rose-quartz1.jpg", "assets/products/rose-quartz2.jpg"], desc: "Known as the stone of universal love. It restores trust and harmony in relationships, encouraging unconditional love." },
             { name: "Special Curation", price: 1500, images: ["assets/products/special-curation.jpg"], desc: "A carefully selected blend of powerful healing stones. Hand-picked to provide comprehensive energetic balance and harmony." },
@@ -846,9 +656,6 @@
             ]
         };
 
-        /* ==============================================================
-           3. DYNAMIC RENDERING & INITIALIZATION
-           ============================================================== */
         window.onload = function() {
             renderAllContent(); 
             fetchLiveProducts(); 
@@ -921,12 +728,10 @@
                     : '';
                 
                 productHTML += `
-                <div class="product-card ${isHidden} group flex flex-col relative text-center items-center">
-                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full mb-4 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm">
-                                <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
-                            </div>
+                <div class="product-card ${isHidden} group flex flex-col relative text-center items-center mt-3">
+                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm">
+                            <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
                         </div>
                         ${multiIndicator}
                     </div>
@@ -945,12 +750,10 @@
             customBases.forEach((c) => {
                 const safeName = c.name.replace(/'/g, "\\'");
                 customHTML += `
-                <div class="product-card group flex flex-col relative text-center items-center">
-                    <div onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full mb-4 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm">
-                                <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
-                            </div>
+                <div class="product-card group flex flex-col relative text-center items-center mt-3">
+                    <div onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm">
+                            <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
                         </div>
                     </div>
                     <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title cursor-pointer" onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})">${c.name}</h3>
@@ -972,9 +775,6 @@
             bindToggleButton();
         }
 
-        /* ==============================================================
-           4. SEARCH & TOGGLE LOGIC
-           ============================================================== */
         const searchInput = document.getElementById('search-input');
         const clearSearchBtn = document.getElementById('clear-search');
         
@@ -1056,6 +856,180 @@
                     document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
                 }
             };
+        }
+
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.view === 'product') {
+                if (event.state.isBase) {
+                    openBasePage(event.state.img, event.state.title, event.state.desc, event.state.price, true);
+                } else {
+                    openProductPage(event.state.index, true);
+                }
+            } else {
+                closeProductPage(true);
+            }
+        });
+
+        function openProductPage(index, fromPopState = false) {
+            if (!products[index]) return;
+            const p = products[index];
+            const safeName = p.name.replace(/'/g, "\\'");
+            
+            currentModalImages = p.images;
+            currentModalIndex = 0;
+            
+            document.getElementById('pv-title-crumb').innerText = p.name;
+            document.getElementById('pv-title').innerText = p.name;
+            document.getElementById('pv-price').innerText = `₱ ${p.price}.00`;
+            document.getElementById('pv-desc').innerText = p.desc;
+            
+            document.getElementById('pv-button-container').classList.remove('hidden');
+            document.getElementById('pv-related-section').classList.remove('hidden');
+            
+            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price); };
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName); };
+            document.getElementById('pv-inquire-btn').innerText = "INQUIRE VIA MESSENGER";
+
+            updatePvImageDisplay();
+            buildPvThumbnails();
+            generateRelatedProducts(index);
+
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('product-view').classList.remove('hidden');
+            window.scrollTo({top: 0, behavior: 'instant'});
+
+            if (!fromPopState) {
+                try {
+                    const newUrl = window.location.pathname + '?item=' + encodeURIComponent(p.name.replace(/\s+/g, '-').toLowerCase());
+                    window.history.pushState({ view: 'product', index: index, isBase: false }, '', newUrl);
+                } catch (e) {
+                    console.log("Local execution blocked history state.");
+                }
+            }
+        }
+
+        function openBasePage(img, title, desc, price, fromPopState = false) {
+            const safeTitle = title.replace(/'/g, "\\'");
+            currentModalImages = [img];
+            currentModalIndex = 0;
+            
+            document.getElementById('pv-title-crumb').innerText = title;
+            document.getElementById('pv-title').innerText = title;
+            document.getElementById('pv-price').innerText = `Base Price: ₱ ${price}.00`;
+            document.getElementById('pv-desc').innerText = desc;
+            
+            document.getElementById('pv-add-cart-btn').classList.add('hidden');
+            document.getElementById('pv-related-section').classList.add('hidden');
+            document.getElementById('pv-inquire-btn').innerText = "INQUIRE FOR CUSTOMIZATION";
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeTitle); };
+
+            updatePvImageDisplay();
+            buildPvThumbnails(); 
+
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('product-view').classList.remove('hidden');
+            window.scrollTo({top: 0, behavior: 'instant'});
+
+            if (!fromPopState) {
+                try {
+                    const newUrl = window.location.pathname + '?item=' + encodeURIComponent(title.replace(/\s+/g, '-').toLowerCase());
+                    window.history.pushState({ view: 'product', img: img, title: title, desc: desc, price: price, isBase: true }, '', newUrl);
+                } catch (e) {
+                    console.log("Local execution blocked history state.");
+                }
+            }
+        }
+
+        function closeProductPage(fromPopState = false) {
+            document.getElementById('product-view').classList.add('hidden');
+            document.getElementById('home-view').classList.remove('hidden');
+            window.scrollTo({top: 0, behavior: 'instant'});
+            
+            if (!fromPopState) {
+                try {
+                    window.history.pushState({ view: 'home' }, '', window.location.pathname);
+                } catch (e) {
+                    console.log("Local execution blocked history state.");
+                }
+            }
+        }
+
+        function generateRelatedProducts(currentIndex) {
+            let availableProducts = products.filter((_, i) => i !== currentIndex);
+            
+            for (let i = availableProducts.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [availableProducts[i], availableProducts[j]] = [availableProducts[j], availableProducts[i]];
+            }
+            
+            let relatedProducts = availableProducts.slice(0, 4);
+            let relatedHTML = '';
+            
+            relatedProducts.forEach(rel => {
+                const origIndex = products.findIndex(orig => orig.name === rel.name);
+                
+                relatedHTML += `
+                <div class="group flex flex-col relative text-center items-center cursor-pointer mt-3" onclick="openProductPage(${origIndex})">
+                    <div class="relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
+                            <img src="${rel.images[0]}" class="blob-image mix-blend-multiply">
+                        </div>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
+                    <p class="text-[10px] md:text-xs text-ocean mt-1">₱ ${rel.price}.00</p>
+                </div>
+                `;
+            });
+            document.getElementById('pv-related-grid').innerHTML = relatedHTML;
+        }
+
+        function buildPvThumbnails() {
+            const thumbContainer = document.getElementById('pv-thumbnails');
+            if (currentModalImages.length > 1) {
+                let thumbHTML = '';
+                currentModalImages.forEach((img, i) => {
+                    const borderClass = i === currentModalIndex ? 'border-charcoal opacity-100' : 'border-transparent hover:border-stone/50 opacity-60 hover:opacity-100';
+                    thumbHTML += `<img src="${img}" onclick="setPvImage(${i})" class="w-14 h-14 md:w-20 md:h-20 object-cover cursor-pointer rounded-sm border-2 transition-all ${borderClass}">`;
+                });
+                thumbContainer.innerHTML = thumbHTML;
+                thumbContainer.classList.remove('hidden');
+            } else {
+                thumbContainer.innerHTML = '';
+                thumbContainer.classList.add('hidden');
+            }
+        }
+
+        function setPvImage(i) {
+            currentModalIndex = i;
+            updatePvImageDisplay();
+            buildPvThumbnails();
+        }
+
+        function updatePvImageDisplay() {
+            document.getElementById('pv-main-image').src = currentModalImages[currentModalIndex];
+            const btns = document.querySelectorAll('.pv-nav-btn');
+            
+            if (currentModalImages.length > 1) {
+                btns.forEach(btn => btn.classList.remove('hidden'));
+            } else {
+                btns.forEach(btn => btn.classList.add('hidden'));
+            }
+        }
+
+        function prevPvImage(e) {
+            e.stopPropagation();
+            if (currentModalIndex > 0) currentModalIndex--;
+            else currentModalIndex = currentModalImages.length - 1;
+            updatePvImageDisplay();
+            buildPvThumbnails();
+        }
+
+        function nextPvImage(e) {
+            e.stopPropagation();
+            if (currentModalIndex < currentModalImages.length - 1) currentModalIndex++;
+            else currentModalIndex = 0; 
+            updatePvImageDisplay();
+            buildPvThumbnails();
         }
 
         /* SYSTEM MODALS */
@@ -1177,28 +1151,19 @@
         function inquireGalleryItem(itemName) {
             const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}`;
             
-            navigator.clipboard.writeText(message).then(() => {
-                closeModal('gallery-image-modal');
-                closeModal('gallery-modal');
-                openModal('inquire-modal');
-            }).catch(err => {
-                const encodedMessage = encodeURIComponent(message);
-                window.open(`https://m.me/109568137198741?text=${encodedMessage}`, '_blank');
-            });
+            navigator.clipboard.writeText(message).catch(() => {});
+            closeModal('gallery-image-modal');
+            closeModal('gallery-modal');
+            openModal('inquire-modal');
         }
 
         function inquireItem(itemName) {
             const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
             const uniqueLink = `${websiteURL}?item=${productSlug}`;
-            
             const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}. Can you provide more details?\n\nLink: ${uniqueLink}`;
             
-            navigator.clipboard.writeText(message).then(() => {
-                openModal('inquire-modal');
-            }).catch(err => {
-                const encodedMessage = encodeURIComponent(message);
-                window.open(`https://m.me/109568137198741?text=${encodedMessage}`, '_blank');
-            });
+            navigator.clipboard.writeText(message).catch(() => {});
+            openModal('inquire-modal');
         }
 
         /* CART LOGIC */
@@ -1305,19 +1270,12 @@
             
             message += `\nEstimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
             
-            navigator.clipboard.writeText(message).then(() => {
-                document.getElementById('cart-standard-view').classList.add('hidden');
-                document.getElementById('cart-standard-view').classList.remove('flex');
-                
-                document.getElementById('cart-handoff-view').classList.remove('hidden');
-                document.getElementById('cart-handoff-view').classList.add('flex');
-            }).catch(err => {
-                document.getElementById('cart-standard-view').classList.add('hidden');
-                document.getElementById('cart-standard-view').classList.remove('flex');
-                
-                document.getElementById('cart-handoff-view').classList.add('hidden');
-                document.getElementById('cart-handoff-view').classList.remove('flex');
-            });
+            navigator.clipboard.writeText(message).catch(() => {});
+            document.getElementById('cart-standard-view').classList.add('hidden');
+            document.getElementById('cart-standard-view').classList.remove('flex');
+            
+            document.getElementById('cart-handoff-view').classList.remove('hidden');
+            document.getElementById('cart-handoff-view').classList.add('flex');
         }
 
         function cancelHandoff() {
