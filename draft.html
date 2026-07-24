@@ -35,7 +35,7 @@
     </script>
     <style>
         .product-card:hover .overlay-btn { opacity: 1; }
-        #cart-modal, #about-modal, #contact-modal, #shipping-modal, #howto-modal, #gallery-modal, #proof-modal, #inquire-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        #cart-modal, #about-modal, #contact-modal, #shipping-modal, #howto-modal, #gallery-modal, #gallery-image-modal, #proof-modal, #inquire-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
         
@@ -345,25 +345,20 @@
 
             <!-- Social Icons (Added Instagram and TikTok Placeholders) -->
             <div class="flex justify-center items-center space-x-6 mb-12">
-                <!-- Facebook -->
                 <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Facebook">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
                 </a>
-                <!-- Instagram (Placeholder link: replace href="#" with your link) -->
-                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Instagram">
+                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="Instagram">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                 </a>
-                <!-- TikTok (Placeholder link: replace href="#" with your link) -->
-                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="TikTok">
+                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="TikTok">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525 0h3.08c.12 1.424.73 2.76 1.71 3.792 1.03 1.08 2.42 1.709 3.885 1.758v3.13c-1.92-.03-3.76-.752-5.18-2.028v8.618c0 3.73-3.03 6.76-6.76 6.76S2.5 19.01 2.5 15.28c0-3.73 3.03-6.76 6.76-6.76.43 0 .86.04 1.28.12v3.3a3.52 3.52 0 0 0-1.28-.24c-1.9 0-3.44 1.54-3.44 3.44s1.54 3.44 3.44 3.44 3.44-1.54 3.44-3.44V0z"/></svg>
                 </a>
-                <!-- YouTube -->
                 <a href="https://www.youtube.com/@TARA-LNM" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="YouTube">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
             </div>
 
-            <!-- Bottom Section -->
             <div class="border-t border-sand/20 pt-8 flex flex-col items-center justify-center space-y-5 text-center">
                 <div class="flex items-center space-x-2 border border-clay px-4 py-2 rounded-full bg-charcoal/20 shadow-sm">
                     <span class="text-[10px] md:text-xs font-bold text-clay tracking-widest uppercase">₱ PHP | Philippines</span>
@@ -372,8 +367,8 @@
                 <div class="flex flex-col md:flex-row justify-center items-center gap-3 text-[10px] md:text-xs uppercase tracking-widest text-sand/80 text-center">
                     <span class="text-sand font-bold">&copy; 2026 TARA'S COLLECTION.</span>
                     <div class="flex space-x-4">
-                        <button onclick="openModal('shipping-modal')" class="hover:text-clay transition-colors">Shipping Policy</button>
-                        <button onclick="openModal('contact-modal')" class="hover:text-clay transition-colors">Contact Information</button>
+                        <button onclick="openModal('shipping-modal')" class="hover:text-clay transition-colors cursor-pointer">Shipping Policy</button>
+                        <button onclick="openModal('contact-modal')" class="hover:text-clay transition-colors cursor-pointer">Contact Information</button>
                     </div>
                 </div>
             </div>
@@ -393,7 +388,7 @@
     <!-- SYSTEM MODALS -->
     <div id="howto-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
-            <button onclick="closeModal('howto-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+            <button onclick="closeModal('howto-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">How to Order & Inquire</h3>
@@ -404,7 +399,7 @@
                 <p><strong>2.</strong> Click the <strong>Open Messenger & Paste</strong> button on the next screen.</p>
                 <p><strong>3.</strong> Once Messenger opens, simply press and hold the text box, tap <strong>Paste</strong>, and send us the message!</p>
             </div>
-            <button onclick="closeModal('howto-modal')" class="mt-8 bg-charcoal hover:bg-ocean text-white py-3 px-8 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg w-full">Got it!</button>
+            <button onclick="closeModal('howto-modal')" class="mt-8 bg-charcoal hover:bg-ocean text-white py-3 px-8 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg w-full cursor-pointer">Got it!</button>
         </div>
     </div>
 
@@ -429,7 +424,7 @@
     </div>
 
     <div id="gallery-modal" class="fixed inset-0 bg-charcoal/90 z-[70] hidden flex-col items-center justify-center px-4 backdrop-blur-sm transition-opacity" onclick="closeModal('gallery-modal')">
-        <button onclick="closeModal('gallery-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[80]">
+        <button onclick="closeModal('gallery-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[80] cursor-pointer">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         <div class="bg-sand rounded-md shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col border border-stone/20 overflow-hidden" onclick="event.stopPropagation()">
@@ -452,13 +447,16 @@
             <p class="text-ocean mb-8 text-sm leading-relaxed">
                 We have copied your inquiry to your clipboard. Simply click the button below and hit <strong>"Paste"</strong> in the chat to send us your order!
             </p>
-            <button onclick="closeModal('inquire-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors">
+            <button onclick="closeModal('inquire-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('inquire-modal')" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-2 cursor-pointer mb-4">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
                 <span>Open Messenger & Paste</span>
             </a>
+            <button onclick="cancelHandoff()" class="text-sm font-medium text-ocean/70 hover:text-charcoal underline cursor-pointer">
+                Go back to cart
+            </button>
         </div>
     </div>
 
@@ -896,14 +894,23 @@
 
         /* PAGE VIEW HISTORY STATE */
         window.addEventListener('popstate', function(event) {
+            closeModal('gallery-modal');
+            closeModal('inquire-modal');
+            closeModal('cart-modal');
+            closeModal('proof-modal');
+
             if (event.state && event.state.view === 'product') {
                 if (event.state.isBase) {
                     openBasePage(event.state.img, event.state.title, event.state.desc, event.state.price, true);
                 } else {
                     openProductPage(event.state.index, true);
                 }
-            } else if (event.state && event.state.view === 'gallery') {
+            } else if (event.state && event.state.view === 'gallery_item') {
                 openGalleryProductPage(event.state.category, event.state.index, true);
+            } else if (event.state && event.state.view === 'gallery_menu') {
+                document.getElementById('product-view').classList.add('hidden');
+                document.getElementById('home-view').classList.remove('hidden');
+                openGalleryModal(event.state.category, event.state.title, true);
             } else {
                 closeProductPage(true);
             }
@@ -939,6 +946,7 @@
             buildPvThumbnails();
             generateRelatedProducts(index);
 
+            // Execute Page View Swap (Hides Home, Reveals Product View)
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('product-view').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'instant'});
@@ -1001,13 +1009,16 @@
             document.getElementById('pv-desc').innerText = `A beautiful piece from our ${categoryKey} collection. Contact us to design your own version.`; 
             
             document.getElementById('pv-add-cart-btn').classList.add('hidden');
-            document.getElementById('pv-related-section').classList.add('hidden');
+            
+            // Fix: Unhide related section for Gallery Items!
+            document.getElementById('pv-related-section').classList.remove('hidden');
             
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE ABOUT THIS STYLE";
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName); };
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName, categoryKey); };
 
             updatePvImageDisplay();
             buildPvThumbnails(); 
+            generateRelatedGalleryProducts(categoryKey, index);
 
             closeModal('gallery-modal');
 
@@ -1018,7 +1029,7 @@
             if (!fromPopState) {
                 try {
                     const newUrl = window.location.pathname + '?gallery=' + encodeURIComponent(item.name.replace(/\s+/g, '-').toLowerCase());
-                    window.history.pushState({ view: 'gallery', category: categoryKey, index: index }, '', newUrl);
+                    window.history.pushState({ view: 'gallery_item', category: categoryKey, index: index }, '', newUrl);
                 } catch (e) {
                     console.log("Local execution blocked history state.");
                 }
@@ -1063,6 +1074,35 @@
                     </div>
                     <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
                     <p class="text-[10px] md:text-xs text-ocean mt-1">₱ ${rel.price}.00</p>
+                </div>
+                `;
+            });
+            document.getElementById('pv-related-grid').innerHTML = relatedHTML;
+        }
+
+        function generateRelatedGalleryProducts(categoryKey, currentIndex) {
+            let availableProducts = galleryData[categoryKey].filter((_, i) => i !== currentIndex);
+            
+            for (let i = availableProducts.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [availableProducts[i], availableProducts[j]] = [availableProducts[j], availableProducts[i]];
+            }
+            
+            let relatedProducts = availableProducts.slice(0, 4);
+            let relatedHTML = '';
+            
+            relatedProducts.forEach(rel => {
+                const origIndex = galleryData[categoryKey].findIndex(orig => orig.name === rel.name);
+                relatedHTML += `
+                <div class="group flex flex-col relative text-center items-center cursor-pointer mt-3" onclick="openGalleryProductPage('${categoryKey}', ${origIndex})">
+                    <div class="relative w-full mb-3 block">
+                        <div class="blob-wrapper">
+                            <div class="blob-frame shadow-sm pointer-events-none">
+                                <img src="${rel.img}" class="blob-image mix-blend-multiply">
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
                 </div>
                 `;
             });
@@ -1162,8 +1202,8 @@
             updateProofDisplay();
         }
 
-        /* GALLERY GRID */
-        function openGalleryModal(categoryKey, title) {
+        /* GALLERY GRID MENU */
+        function openGalleryModal(categoryKey, title, fromPopState = false) {
             const data = galleryData[categoryKey];
             document.getElementById('gallery-modal-title').innerText = title;
             
@@ -1184,10 +1224,19 @@
                 gridContainer.innerHTML = gridHTML;
             }
             openModal('gallery-modal');
+
+            if (!fromPopState) {
+                try {
+                    const newUrl = window.location.pathname + '?category=' + categoryKey;
+                    window.history.pushState({ view: 'gallery_menu', category: categoryKey, title: title }, '', newUrl);
+                } catch (e) {
+                    console.log("Local execution blocked history state.");
+                }
+            }
         }
 
         /* INQUIRE ACTIONS */
-        function inquireGalleryItem(itemName) {
+        function inquireGalleryItem(itemName, categoryKey) {
             const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
             const uniqueLink = `${websiteURL}?gallery=${productSlug}`;
             const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}\n\nLink: ${uniqueLink}`;

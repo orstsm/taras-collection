@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- SANDY SHORES + ALABASTER COLOR PALETTE -->
     <script>
         tailwind.config = {
             theme: {
@@ -35,7 +34,7 @@
     </script>
     <style>
         .product-card:hover .overlay-btn { opacity: 1; }
-        #cart-modal, #about-modal, #contact-modal, #shipping-modal, #howto-modal, #gallery-modal, #gallery-image-modal, #proof-modal, #inquire-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        #cart-modal, #about-modal, #contact-modal, #shipping-modal, #howto-modal, #gallery-modal, #gallery-image-modal, #proof-modal, #inquire-modal, #image-zoom-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         .cart-open { transform: translateX(0); }
         .cart-closed { transform: translateX(100%); }
         
@@ -261,7 +260,7 @@
 
 
     <!-- ============================================================================== -->
-    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP - COMPACT LAYOUT)      -->
+    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP - COMPACT LAYOUT)       -->
     <!-- ============================================================================== -->
     <div id="product-view" class="hidden w-full pt-32 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10 transition-opacity duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -279,8 +278,15 @@
                 <!-- Left: Compact Visuals -->
                 <div class="w-full md:w-5/12 flex justify-center">
                     <div class="w-full max-w-sm md:max-w-md md:sticky md:top-36 flex flex-col gap-3">
-                        <div class="relative w-full aspect-square overflow-hidden bg-white rounded-md shadow-sm border border-stone/20">
-                            <img id="pv-main-image" src="" class="w-full h-full object-cover">
+                        <div class="relative w-full aspect-square overflow-hidden bg-white rounded-md shadow-sm border border-stone/20 group/zoom">
+                            <!-- Main Image is now clickable for Zoom -->
+                            <img id="pv-main-image" src="" class="w-full h-full object-cover cursor-zoom-in" onclick="openImageZoom()">
+                            
+                            <!-- Magnifying Glass Icon -->
+                            <button onclick="openImageZoom()" class="absolute top-3 right-3 bg-white/80 hover:bg-white text-charcoal p-2 rounded-full shadow-md backdrop-blur-md transition-all z-20 cursor-pointer opacity-0 group-hover/zoom:opacity-100 scale-95 group-hover/zoom:scale-100" title="Click to Enlarge">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                            </button>
+
                             <button onclick="prevPvImage(event)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-2.5 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn z-10 cursor-pointer">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                             </button>
@@ -304,7 +310,7 @@
 
                     <p id="pv-desc" class="text-xs md:text-sm text-charcoal/80 leading-relaxed font-medium mb-6"></p>
 
-                    <!-- REFINED SLEEKER BUTTONS (Shorter Padding & Max Width) -->
+                    <!-- REFINED SLEEKER BUTTONS -->
                     <div id="pv-button-container" class="space-y-3 w-full md:w-3/4 mt-auto pb-6 border-b border-stone/20">
                         <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors shadow-sm border border-charcoal cursor-pointer">ADD TO CART</button>
                         <button id="pv-inquire-btn" class="w-full border border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
@@ -334,7 +340,7 @@
                     <button onclick="openModal('howto-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">How To Order</button>
                 </div>
 
-                <!-- Right: Contact Us (LABELS REMOVED TO MATCH LEFT ALIGNMENT) -->
+                <!-- Right: Contact Us -->
                 <div class="flex flex-col space-y-4 items-center md:items-end text-center md:text-right">
                     <h4 class="text-sm font-bold uppercase tracking-widest mb-2 border-b border-clay/30 pb-2 md:border-none md:pb-0 text-clay w-full md:w-auto">Contact Us</h4>
                     <p class="text-sm font-serif font-bold text-white tracking-wider">0915 457 1859</p>
@@ -343,7 +349,7 @@
                 </div>
             </div>
 
-            <!-- Social Icons (Added Instagram and TikTok Placeholders) -->
+            <!-- Social Icons -->
             <div class="flex justify-center items-center space-x-6 mb-12">
                 <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Facebook">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
@@ -386,6 +392,23 @@
     </button>
 
     <!-- SYSTEM MODALS -->
+    
+    <!-- DEDICATED IMAGE ZOOM VIEWER -->
+    <div id="image-zoom-modal" class="fixed inset-0 bg-charcoal/95 z-[110] hidden items-center justify-center px-4 backdrop-blur-md transition-opacity cursor-pointer" onclick="closeModal('image-zoom-modal')">
+        <button onclick="closeModal('image-zoom-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[120]">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="flex flex-col items-center max-w-5xl w-full relative" onclick="event.stopPropagation()">
+            <button onclick="prevZoomImage(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-colors z-[120] shadow-md border border-white/20 pv-zoom-nav-btn hidden cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <img id="zoom-enlarged-image" src="" class="max-h-[85vh] max-w-full rounded-sm shadow-2xl p-1 bg-white cursor-default">
+            <button onclick="nextZoomImage(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-colors z-[120] shadow-md border border-white/20 pv-zoom-nav-btn hidden cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
+
     <div id="howto-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <button onclick="closeModal('howto-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
@@ -437,7 +460,6 @@
         </div>
     </div>
 
-    <!-- INQUIRE HANDOFF MODAL -->
     <div id="inquire-modal" class="fixed inset-0 bg-charcoal/80 z-[100] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
         <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
             <div class="bg-white text-ocean rounded-full p-4 mb-4 mx-auto w-16 h-16 flex items-center justify-center shadow-inner">
@@ -716,7 +738,6 @@
             }
         }
 
-        /* DUAL DEEP LINK RESOLUTION ENGINE (Handles ?item= and ?gallery=) */
         function checkDeepLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const itemParam = urlParams.get('item');
@@ -898,6 +919,7 @@
             closeModal('inquire-modal');
             closeModal('cart-modal');
             closeModal('proof-modal');
+            closeModal('image-zoom-modal');
 
             if (event.state && event.state.view === 'product') {
                 if (event.state.isBase) {
@@ -938,6 +960,9 @@
             document.getElementById('pv-button-container').classList.remove('hidden');
             document.getElementById('pv-related-section').classList.remove('hidden');
             
+            /* ADD TO CART BUG FIX: Ensure it is unhidden when moving from Gallery -> Home -> Product */
+            document.getElementById('pv-add-cart-btn').classList.remove('hidden');
+            
             document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price); };
             document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName); };
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE VIA MESSENGER";
@@ -946,7 +971,6 @@
             buildPvThumbnails();
             generateRelatedProducts(index);
 
-            // Execute Page View Swap (Hides Home, Reveals Product View)
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('product-view').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'instant'});
@@ -993,7 +1017,6 @@
             }
         }
 
-        /* NEW GALLERY FULL-PAGE VIEW SWAP */
         function openGalleryProductPage(categoryKey, index, fromPopState = false) {
             const data = galleryData[categoryKey];
             if (!data || !data[index]) return;
@@ -1009,8 +1032,6 @@
             document.getElementById('pv-desc').innerText = `A beautiful piece from our ${categoryKey} collection. Contact us to design your own version.`; 
             
             document.getElementById('pv-add-cart-btn').classList.add('hidden');
-            
-            // Fix: Unhide related section for Gallery Items!
             document.getElementById('pv-related-section').classList.remove('hidden');
             
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE ABOUT THIS STYLE";
@@ -1158,6 +1179,37 @@
             buildPvThumbnails();
         }
 
+        /* ==============================================================
+           5b. DEDICATED IMAGE ZOOM ENGINE
+           ============================================================== */
+        function openImageZoom() {
+            updateZoomImageDisplay();
+            openModal('image-zoom-modal');
+        }
+
+        function updateZoomImageDisplay() {
+            document.getElementById('zoom-enlarged-image').src = currentModalImages[currentModalIndex];
+            const btns = document.querySelectorAll('.pv-zoom-nav-btn');
+            
+            if (currentModalImages.length > 1) {
+                btns.forEach(btn => btn.classList.remove('hidden'));
+            } else {
+                btns.forEach(btn => btn.classList.add('hidden'));
+            }
+        }
+
+        function prevZoomImage(e) {
+            e.stopPropagation();
+            prevPvImage(e); 
+            updateZoomImageDisplay();
+        }
+
+        function nextZoomImage(e) {
+            e.stopPropagation();
+            nextPvImage(e); 
+            updateZoomImageDisplay();
+        }
+
         /* SYSTEM MODALS */
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -1202,7 +1254,7 @@
             updateProofDisplay();
         }
 
-        /* GALLERY GRID MENU */
+        /* GALLERY MENU */
         function openGalleryModal(categoryKey, title, fromPopState = false) {
             const data = galleryData[categoryKey];
             document.getElementById('gallery-modal-title').innerText = title;
