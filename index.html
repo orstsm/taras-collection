@@ -261,7 +261,7 @@
 
 
     <!-- ============================================================================== -->
-    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP - COMPACT LAYOUT)      -->
+    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP WITH SIZING)           -->
     <!-- ============================================================================== -->
     <div id="product-view" class="hidden w-full pt-32 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10 transition-opacity duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -280,10 +280,8 @@
                 <div class="w-full md:w-5/12 flex justify-center">
                     <div class="w-full max-w-sm md:max-w-md md:sticky md:top-36 flex flex-col gap-3">
                         <div class="relative w-full aspect-square overflow-hidden bg-white rounded-md shadow-sm border border-stone/20 group/zoom">
-                            <!-- Main Image is clickable for Zoom -->
                             <img id="pv-main-image" src="" class="w-full h-full object-cover cursor-zoom-in" onclick="openImageZoom()">
                             
-                            <!-- Floating Magnifying Glass Icon -->
                             <button onclick="openImageZoom()" class="absolute top-3 right-3 bg-white/80 hover:bg-white text-charcoal p-2 rounded-full shadow-md backdrop-blur-md transition-all z-20 cursor-pointer opacity-0 group-hover/zoom:opacity-100 scale-95 group-hover/zoom:scale-100" title="Click to Enlarge">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
                             </button>
@@ -311,7 +309,26 @@
 
                     <p id="pv-desc" class="text-xs md:text-sm text-charcoal/80 leading-relaxed font-medium mb-6"></p>
 
-                    <!-- REFINED SLEEKER BUTTONS -->
+                    <!-- DYNAMIC SIZE SELECTOR (Hidden conditionally for Charms/Gemstones) -->
+                    <div id="pv-size-selector" class="mb-6 w-full md:w-3/4">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] md:text-xs font-bold text-charcoal uppercase tracking-widest">Select Category</span>
+                        </div>
+                        <div class="flex space-x-3 mb-5">
+                            <button id="cat-adult" onclick="setCategory('Adult')" class="px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-charcoal text-white border-charcoal cursor-pointer">Adult</button>
+                            <button id="cat-kids" onclick="setCategory('Kids')" class="px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-transparent text-charcoal border-stone hover:border-charcoal cursor-pointer">Kids</button>
+                        </div>
+
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] md:text-xs font-bold text-charcoal uppercase tracking-widest">Wrist Size (cm)</span>
+                            <span id="selected-size-label" class="text-[10px] md:text-xs text-ocean font-bold tracking-wide">16 cm</span>
+                        </div>
+                        <div id="size-pills-container" class="flex flex-wrap gap-2">
+                            <!-- Javascript will inject sizes here -->
+                        </div>
+                    </div>
+
+                    <!-- BUTTONS -->
                     <div id="pv-button-container" class="space-y-3 w-full md:w-3/4 mt-auto pb-6 border-b border-stone/20">
                         <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors shadow-sm border border-charcoal cursor-pointer">ADD TO CART</button>
                         <button id="pv-inquire-btn" class="w-full border border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
@@ -350,7 +367,7 @@
                 </div>
             </div>
 
-            <!-- Social Icons (Added Instagram and TikTok Placeholders) -->
+            <!-- Social Icons -->
             <div class="flex justify-center items-center space-x-6 mb-12">
                 <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Facebook">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
@@ -398,7 +415,6 @@
     <div id="chat-modal" class="fixed inset-0 bg-transparent z-[100] hidden items-end justify-end p-4 md:p-6 transition-opacity" onclick="closeModal('chat-modal')">
         <div class="bg-white max-w-[360px] w-full rounded-2xl shadow-[0_5px_40px_rgba(0,0,0,0.16)] border border-stone/20 overflow-hidden flex flex-col transform transition-transform mb-16 md:mb-0" onclick="event.stopPropagation()">
             
-            <!-- Chat Header -->
             <div class="bg-white border-b border-stone/10 p-4 flex items-center justify-between z-10 shadow-sm">
                 <div class="flex items-center space-x-3">
                     <div class="relative">
@@ -415,7 +431,6 @@
                 </button>
             </div>
 
-            <!-- Chat Area -->
             <div class="bg-[#f0f2f5] p-4 flex flex-col space-y-4 h-[280px] overflow-y-auto">
                 <div class="text-center text-[10px] text-stone font-medium uppercase tracking-wider my-2">Chat with Tara's Collection</div>
                 <div class="flex items-end space-x-2">
@@ -426,7 +441,6 @@
                 </div>
             </div>
 
-            <!-- Input Area -->
             <div class="p-3 bg-white border-t border-stone/10">
                 <div class="flex items-end space-x-2 bg-white border border-stone/30 rounded-3xl p-1 relative shadow-sm">
                     <textarea id="chat-input" class="w-full bg-transparent border-none focus:ring-0 text-sm text-charcoal resize-none py-2.5 pl-4 pr-12 max-h-32 min-h-[44px] scrollbar-hide outline-none" placeholder="Send a message..." rows="1" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
@@ -684,6 +698,51 @@
         };
 
         /* ==============================================================
+           DYNAMIC SIZE ENGINE STATE
+           ============================================================== */
+        let currentCategory = 'Adult';
+        let currentSize = 16;
+        const sizeOptions = {
+            'Adult': [14, 15, 16, 17, 18, 19, 20],
+            'Kids': [10, 11, 12, 13, 14, 15]
+        };
+
+        function renderSizeSelector() {
+            const btnAdult = document.getElementById('cat-adult');
+            const btnKids = document.getElementById('cat-kids');
+
+            if (currentCategory === 'Adult') {
+                btnAdult.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-charcoal text-white border-charcoal cursor-pointer";
+                btnKids.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-transparent text-charcoal border-stone hover:border-charcoal cursor-pointer";
+            } else {
+                btnKids.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-charcoal text-white border-charcoal cursor-pointer";
+                btnAdult.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-transparent text-charcoal border-stone hover:border-charcoal cursor-pointer";
+            }
+
+            document.getElementById('selected-size-label').innerText = currentSize + ' cm';
+
+            const container = document.getElementById('size-pills-container');
+            let pillsHTML = '';
+            sizeOptions[currentCategory].forEach(sz => {
+                const isSelected = sz === currentSize;
+                const activeClass = isSelected ? 'bg-ocean text-white border-ocean' : 'bg-transparent text-charcoal border-stone hover:border-charcoal';
+                pillsHTML += `<button onclick="setSize(${sz})" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border rounded-full text-xs font-semibold transition-colors cursor-pointer ${activeClass}">${sz}</button>`;
+            });
+            container.innerHTML = pillsHTML;
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            currentSize = cat === 'Adult' ? 16 : 12;
+            renderSizeSelector();
+        }
+
+        function setSize(sz) {
+            currentSize = sz;
+            renderSizeSelector();
+        }
+
+        /* ==============================================================
            3. DYNAMIC RENDERING & INITIALIZATION
            ============================================================== */
         window.onload = function() {
@@ -734,7 +793,7 @@
             }
         }
 
-        /* DUAL DEEP LINK RESOLUTION ENGINE (Handles ?item= and ?gallery=) */
+        /* DUAL DEEP LINK RESOLUTION ENGINE */
         function checkDeepLink() {
             const urlParams = new URLSearchParams(window.location.search);
             const itemParam = urlParams.get('item');
@@ -769,7 +828,6 @@
             let productHTML = '';
             products.forEach((p, index) => {
                 const isHidden = index >= 8 ? 'extra-product hidden' : '';
-                const safeName = p.name.replace(/'/g, "\\'");
                 
                 const multiIndicator = p.images.length > 1 
                     ? `<div class="absolute top-2 right-2 bg-white/95 text-charcoal text-[9px] px-3 py-1 rounded-full shadow-md font-extrabold uppercase tracking-widest z-10 border border-stone/20 whitespace-nowrap pointer-events-none">${p.images.length} PHOTOS</div>` 
@@ -788,8 +846,8 @@
                     <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title cursor-pointer" onclick="openProductPage(${index})">${p.name}</h3>
                     <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">₱ ${p.price}.00</p>
                     <div class="mt-auto flex flex-col space-y-2 w-full">
-                        <button onclick="inquireItem('${safeName}')" class="border border-ocean text-ocean hover:bg-ocean hover:text-white px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm">Inquire</button>
-                        <button onclick="addToCart('${safeName}', ${p.price})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Add to Cart</button>
+                        <button onclick="openProductPage(${index})" class="border border-ocean text-ocean hover:bg-ocean hover:text-white px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm">View Details</button>
+                        <button onclick="openProductPage(${index})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Choose Size</button>
                     </div>
                 </div>`;
             });
@@ -811,7 +869,7 @@
                     <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title cursor-pointer" onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})">${c.name}</h3>
                     <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">Base: ₱ ${c.price}.00</p>
                     <div class="mt-auto flex flex-col space-y-2 w-full">
-                        <button onclick="inquireItem('${safeName}')" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Inquire for Customization</button>
+                        <button onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Choose Size & Customize</button>
                     </div>
                 </div>`;
             });
@@ -827,9 +885,6 @@
             bindToggleButton();
         }
 
-        /* ==============================================================
-           4. SEARCH & TOGGLE LOGIC
-           ============================================================== */
         const searchInput = document.getElementById('search-input');
         const clearSearchBtn = document.getElementById('clear-search');
         
@@ -913,9 +968,7 @@
             };
         }
 
-        /* ==============================================================
-           5. VIEW SWAP LOGIC (FRYSTAL FULL PAGE EXPERIENCE)
-           ============================================================== */
+        /* PAGE VIEW HISTORY STATE */
         window.addEventListener('popstate', function(event) {
             closeModal('gallery-modal');
             closeModal('chat-modal');
@@ -940,6 +993,9 @@
             }
         });
 
+        /* ==============================================================
+           5. FULL-PAGE VIEW SWAP LOGIC
+           ============================================================== */
         let currentModalImages = [];
         let currentModalIndex = 0;
 
@@ -959,17 +1015,21 @@
             document.getElementById('pv-button-container').classList.remove('hidden');
             document.getElementById('pv-related-section').classList.remove('hidden');
             
-            /* ADD TO CART BUG FIX */
+            // Re-show Add To Cart and Size Selector if hidden previously
             document.getElementById('pv-add-cart-btn').classList.remove('hidden');
+            document.getElementById('pv-size-selector').classList.remove('hidden');
             
-            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price); };
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName); };
+            setCategory('Adult');
+            
+            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price, currentCategory, currentSize); };
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName, currentCategory, currentSize); };
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE VIA MESSENGER";
 
             updatePvImageDisplay();
             buildPvThumbnails();
             generateRelatedProducts(index);
 
+            // Execute Page View Swap
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('product-view').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'instant'});
@@ -996,8 +1056,13 @@
             
             document.getElementById('pv-add-cart-btn').classList.add('hidden');
             document.getElementById('pv-related-section').classList.add('hidden');
+            
+            // Re-show Size Selector 
+            document.getElementById('pv-size-selector').classList.remove('hidden');
+            setCategory('Adult');
+
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE FOR CUSTOMIZATION";
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeTitle); };
+            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeTitle, currentCategory, currentSize); };
 
             updatePvImageDisplay();
             buildPvThumbnails(); 
@@ -1033,8 +1098,19 @@
             document.getElementById('pv-add-cart-btn').classList.add('hidden');
             document.getElementById('pv-related-section').classList.remove('hidden');
             
+            // HIDE SIZING FOR CHARMS & GEMSTONES
+            const hideSizing = (categoryKey === 'charms' || categoryKey === 'gemstones');
+            
+            if (hideSizing) {
+                document.getElementById('pv-size-selector').classList.add('hidden');
+                document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName, categoryKey, null, null); };
+            } else {
+                document.getElementById('pv-size-selector').classList.remove('hidden');
+                setCategory('Adult');
+                document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName, categoryKey, currentCategory, currentSize); };
+            }
+            
             document.getElementById('pv-inquire-btn').innerText = "INQUIRE ABOUT THIS STYLE";
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName, categoryKey); };
 
             updatePvImageDisplay();
             buildPvThumbnails(); 
@@ -1287,7 +1363,7 @@
         }
 
         /* ==============================================================
-           NATIVE CHAT HAND-OFF WIDGET (REPLACES OLD POPUP)
+           NATIVE CHAT HAND-OFF WIDGET
            ============================================================== */
         function openChatModal(initialMessage) {
             const chatInput = document.getElementById('chat-input');
@@ -1311,25 +1387,27 @@
             closeModal('chat-modal');
         }
 
-        function inquireGalleryItem(itemName, categoryKey) {
+        function inquireGalleryItem(itemName, categoryKey, category = null, size = null) {
             const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
             const uniqueLink = `${websiteURL}?gallery=${productSlug}`;
-            const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}\n\nLink: ${uniqueLink}`;
+            let sizeText = (category && size) ? `\nCategory: ${category} | Size: ${size} cm\n` : '\n';
+            const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}\n${sizeText}\nLink: ${uniqueLink}`;
             openChatModal(message);
         }
 
-        function inquireItem(itemName) {
+        function inquireItem(itemName, category = null, size = null) {
             const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
             const uniqueLink = `${websiteURL}?item=${productSlug}`;
-            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}. Can you provide more details?\n\nLink: ${uniqueLink}`;
+            let sizeText = (category && size) ? `\nCategory: ${category} | Size: ${size} cm\n` : '\n';
+            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}.\n${sizeText}\nCan you provide more details?\n\nLink: ${uniqueLink}`;
             openChatModal(message);
         }
 
         /* CART LOGIC */
         let cart = [];
 
-        function addToCart(name, price) {
-            cart.push({name, price});
+        function addToCart(name, price, category = null, size = null) {
+            cart.push({name, price, category, size});
             updateCartUI();
             
             const btn = event.target;
@@ -1381,10 +1459,12 @@
             } else {
                 cart.forEach((item, index) => {
                     total += item.price;
+                    let sizeLabel = (item.category && item.size) ? `<p class="text-[10px] text-stone uppercase tracking-wider mb-0.5">Size: ${item.category} (${item.size} cm)</p>` : '';
                     itemsContainer.innerHTML += `
                         <div class="flex justify-between items-center border-b border-stone/30 pb-2">
                             <div>
                                 <p class="text-sm font-medium uppercase text-charcoal">${item.name}</p>
+                                ${sizeLabel}
                                 <p class="text-xs text-ocean">₱ ${item.price}.00</p>
                             </div>
                             <button onclick="removeFromCart(${index})" class="text-rust hover:text-charcoal text-xs uppercase font-semibold transition-colors cursor-pointer">Remove</button>
@@ -1421,11 +1501,14 @@
                 const uniqueLink = `${websiteURL}?item=${productSlug}`;
                 
                 message += `- ${item.name} (₱${item.price})\n`;
-                message += `  Link: ${uniqueLink}\n`;
+                if (item.category && item.size) {
+                    message += `  Size: ${item.category} (${item.size} cm)\n`;
+                }
+                message += `  Link: ${uniqueLink}\n\n`;
                 total += item.price;
             });
             
-            message += `\nEstimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
+            message += `Estimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
             
             toggleCart(true);
             setTimeout(() => {
