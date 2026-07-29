@@ -378,7 +378,7 @@
                 <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="TikTok">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525 0h3.08c.12 1.424.73 2.76 1.71 3.792 1.03 1.08 2.42 1.709 3.885 1.758v3.13c-1.92-.03-3.76-.752-5.18-2.028v8.618c0 3.73-3.03 6.76-6.76 6.76S2.5 19.01 2.5 15.28c0-3.73 3.03-6.76 6.76-6.76.43 0 .86.04 1.28.12v3.3a3.52 3.52 0 0 0-1.28-.24c-1.9 0-3.44 1.54-3.44 3.44s1.54 3.44 3.44 3.44 3.44-1.54 3.44-3.44V0z"/></svg>
                 </a>
-                <a href="https://www.youtube.com/@TARA-LNM" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="YouTube">
+                <a href="url?id=8" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="YouTube">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
             </div>
@@ -835,21 +835,15 @@
                     : '';
                 
                 productHTML += `
-                <div class="product-card ${isHidden} group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openProductPage(${index})" class="cursor-pointer relative w-full mb-4 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm">
-                                <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
-                            </div>
+                <div class="product-card ${isHidden} group flex flex-col relative text-center items-center mt-3 cursor-pointer" onclick="openProductPage(${index})">
+                    <div class="relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
+                            <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
                         </div>
                         ${multiIndicator}
                     </div>
-                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title cursor-pointer" onclick="openProductPage(${index})">${p.name}</h3>
+                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${p.name}</h3>
                     <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">₱ ${p.price}.00</p>
-                    <div class="mt-auto flex flex-col space-y-2 w-full">
-                        <button onclick="openProductPage(${index})" class="border border-ocean text-ocean hover:bg-ocean hover:text-white px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm">View Details</button>
-                        <button onclick="openProductPage(${index})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Choose Size</button>
-                    </div>
                 </div>`;
             });
             productGrid.innerHTML = productHTML;
@@ -859,19 +853,14 @@
             customBases.forEach((c) => {
                 const safeName = c.name.replace(/'/g, "\\'");
                 customHTML += `
-                <div class="product-card group flex flex-col relative text-center items-center mt-3">
-                    <div onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="cursor-pointer relative w-full mb-4 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm">
-                                <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
-                            </div>
+                <div class="product-card group flex flex-col relative text-center items-center mt-3 cursor-pointer" onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})">
+                    <div class="relative w-full pt-[100%] mb-4 block">
+                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
+                            <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
                         </div>
                     </div>
-                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title cursor-pointer" onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})">${c.name}</h3>
+                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${c.name}</h3>
                     <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">Base: ₱ ${c.price}.00</p>
-                    <div class="mt-auto flex flex-col space-y-2 w-full">
-                        <button onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})" class="bg-ocean border border-ocean text-white hover:bg-charcoal hover:border-charcoal px-4 py-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-colors w-full cursor-pointer rounded-sm shadow-sm">Choose Size & Customize</button>
-                    </div>
                 </div>`;
             });
             customGrid.innerHTML = customHTML;
@@ -1342,9 +1331,9 @@
                 let gridHTML = '';
                 data.forEach((item, index) => {
                     gridHTML += `
-                    <div class="flex flex-col relative text-center group">
-                        <div class="relative w-full aspect-square mb-2 rounded-md shadow-sm bg-stone/10 cursor-pointer overflow-hidden block" onclick="openGalleryProductPage('${categoryKey}', ${index})">
-                            <img src="${item.img}" alt="${item.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110">
+                    <div class="flex flex-col relative text-center group cursor-pointer" onclick="openGalleryProductPage('${categoryKey}', ${index})">
+                        <div class="relative w-full aspect-square mb-2 rounded-md shadow-sm bg-stone/10 overflow-hidden block">
+                            <img src="${item.img}" alt="${item.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 pointer-events-none">
                         </div>
                         <h4 class="text-[10px] md:text-xs font-semibold uppercase tracking-wide text-charcoal">${item.name}</h4>
                     </div>`;
