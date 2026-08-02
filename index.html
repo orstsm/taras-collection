@@ -769,13 +769,17 @@
     </div>
 
     <div id="about-modal" onclick="window.TaraApp.closeModal('about-modal')" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-sand p-8 max-w-md w-full rounded-2xl text-center shadow-2xl border border-clay/30 relative" onclick="event.stopPropagation()">
+        <div class="bg-sand p-8 max-w-lg w-full rounded-2xl text-center shadow-2xl border border-clay/30 relative" onclick="event.stopPropagation()">
             <h3 class="text-2xl font-serif font-bold text-charcoal mb-3">About Tara's Collection</h3>
-            <div class="w-12 h-1 bg-clay mx-auto mb-4"></div>
-            <p class="text-xs md:text-sm text-ocean leading-relaxed font-medium">
-                <strong>TARA'S COLLECTION</strong> is a PH local provider of Handcrafted Bracelets & Healing Stones by Leslie.<br><br>
-                We believe in the power of natural earth elements to heal, protect, and elevate daily energy. Every piece is carefully sourced, cleansed, and strung with love.
-            </p>
+            <div class="w-12 h-1 bg-clay mx-auto mb-5"></div>
+            <div class="text-xs md:text-sm text-ocean leading-relaxed font-medium text-left space-y-3.5">
+                <p><strong>TARA'S COLLECTION</strong> is a local Philippine provider of handcrafted bracelets and healing stones by Leslie.</p>
+                <p>We believe in the beauty and energy of natural earth elements to bring positivity, protection, and balance into everyday life. Every piece is carefully selected, cleansed, and handcrafted with love and intention.</p>
+                <p>We are proudly home-based, with each piece personally handcrafted and carefully prepared from our home. While we don’t have a physical store at the moment, every order receives the same care, attention, and personal touch from creation to packaging.</p>
+            </div>
+            <div class="mt-7 text-center">
+                <button onclick="window.TaraApp.closeModal('about-modal')" class="px-7 py-2.5 bg-charcoal text-white rounded-full text-xs font-bold uppercase tracking-wider hover:bg-ocean transition-colors cursor-pointer shadow-md">Close</button>
+            </div>
         </div>
     </div>
 

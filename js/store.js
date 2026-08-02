@@ -224,6 +224,7 @@ class StoreManager {
       try {
         this.data = JSON.parse(localData);
         console.log("Loaded inventory from browser LocalStorage.");
+        this.sanitizeAndHealProductIds();
         this.notifyObservers();
         return this.data;
       } catch (err) {
@@ -236,6 +237,7 @@ class StoreManager {
       const response = await fetch("data/products.json");
       if (response.ok) {
         this.data = await response.json();
+        this.sanitizeAndHealProductIds();
         this.saveToStorage();
         console.log("Loaded inventory from data/products.json.");
         this.notifyObservers();
@@ -246,9 +248,48 @@ class StoreManager {
     }
 
     this.data = JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
+    this.sanitizeAndHealProductIds();
     this.saveToStorage();
     this.notifyObservers();
     return this.data;
+  }
+
+  /* --- LINK ID SANITATION & CLEAN SLUG GENERATION --- */
+  generateCleanId(name, existingIdToIgnore = null) {
+    const baseSlug = (name || "item").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "item";
+    const products = this.data?.products || [];
+    let candidate = baseSlug;
+    let counter = 2;
+    while (products.some(p => p.id === candidate && p.id !== existingIdToIgnore)) {
+      candidate = `${baseSlug}-${counter < 10 ? "0" + counter : counter}`;
+      counter++;
+    }
+    return candidate;
+  }
+
+  sanitizeAndHealProductIds() {
+    if (!this.data || !Array.isArray(this.data.products)) return;
+    let changed = false;
+    this.data.products.forEach(p => {
+      if (!p.name || !p.id) return;
+      const baseSlug = p.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      if (baseSlug && !p.id.startsWith(baseSlug)) {
+        const oldId = p.id;
+        const newId = this.generateCleanId(p.name, oldId);
+        p.id = newId;
+        changed = true;
+        if (this.cart && Array.isArray(this.cart)) {
+          this.cart.forEach(c => {
+            if (c.productId === oldId) c.productId = newId;
+          });
+        }
+        console.log(`✨ Self-healed product link ID from "${oldId}" to "${newId}" (${p.name})`);
+      }
+    });
+    if (changed) {
+      this.saveToStorage();
+      if (typeof this.saveCart === "function") this.saveCart();
+    }
   }
 
   saveToStorage() {

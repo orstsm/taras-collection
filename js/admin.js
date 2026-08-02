@@ -775,6 +775,22 @@ class AdminDashboard {
       if (this.editingProductId) {
         const existing = window.TaraStore.getProductById(this.editingProductId);
         if (existing) {
+          const expectedSlug = name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          if (expectedSlug && !existing.id.startsWith(expectedSlug)) {
+            const oldId = existing.id;
+            const newCleanId = window.TaraStore.generateCleanId ? window.TaraStore.generateCleanId(name, oldId) : (expectedSlug + "-" + Date.now().toString(36));
+            existing.id = newCleanId;
+            this.editingProductId = newCleanId;
+            if (window.TaraStore.cart && Array.isArray(window.TaraStore.cart)) {
+              window.TaraStore.cart.forEach(c => {
+                if (c.productId === oldId) c.productId = newCleanId;
+              });
+              if (typeof window.TaraStore.saveCart === "function") window.TaraStore.saveCart();
+            }
+            if (window.TaraApp && window.TaraApp.activeProductId === oldId) {
+              window.TaraApp.activeProductId = newCleanId;
+            }
+          }
           existing.name = name;
           existing.price = priceVal;
           existing.category = actualCategory;
@@ -790,7 +806,7 @@ class AdminDashboard {
           existing.stoneSizes = finalStones;
         }
       } else {
-        const newId = name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now();
+        const newId = window.TaraStore.generateCleanId ? window.TaraStore.generateCleanId(name) : (name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-" + Date.now().toString(36));
         const newProduct = {
           id: newId,
           name: name,
