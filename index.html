@@ -2,16 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tara's Collection | Custom Bracelets</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L85 35 L50 95 L15 35 Z' fill='%232C2927'/><path d='M50 5 L85 35 L50 45 Z' fill='%23CBA378'/><path d='M15 35 L50 5 L50 45 Z' fill='%23B8B8AC'/></svg>" type="image/svg+xml">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tara's Collection | Custom Bracelets & Healing Stones</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- SANDY SHORES + ALABASTER COLOR PALETTE -->
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -33,1503 +28,773 @@
             }
         }
     </script>
-    <style>
-        .product-card:hover .overlay-btn { opacity: 1; }
-        #cart-modal, #about-modal, #contact-modal, #shipping-modal, #howto-modal, #gallery-modal, #gallery-image-modal, #proof-modal, #image-zoom-modal, #chat-modal { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
-        .cart-open { transform: translateX(0); }
-        .cart-closed { transform: translateX(100%); }
-        
-        @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-            animation: marquee 25s linear infinite;
-        }
-        .animate-marquee:hover {
-            animation-play-state: paused;
-        }
 
-        #main-header { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        #main-logo, #main-title { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        #nav-tier { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* STRICT UNIFORM BLOB MASKING */
-        .blob-wrapper {
-            position: relative;
-            width: 100%;
-            padding-top: 100%; /* Forces 1:1 aspect ratio square container */
-        }
-        .blob-frame {
-            position: absolute;
-            inset: 0;
-            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-            transition: border-radius 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.6s ease;
-            overflow: hidden; 
-            -webkit-mask-image: -webkit-radial-gradient(white, black); 
-            mask-image: radial-gradient(white, black);
-            transform: translateZ(0); 
-            background-color: #f4f0eb;
-        }
-        .group:hover .blob-frame {
-            border-radius: 58% 42% 35% 65% / 55% 35% 65% 45%;
-            background-color: #EFE6D6;
-        }
-        
-        .blob-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: scale(1.35); 
-            transition: transform 0.7s ease;
-        }
-        .group:hover .blob-image {
-            transform: scale(1.42); 
-        }
-        
-        .mix-blend-multiply {
-            mix-blend-mode: multiply;
-        }
-    </style>
+    <!-- Google Fonts & Favicon -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L85 35 L50 95 L15 35 Z' fill='%232C2927'/><path d='M50 5 L85 35 L50 45 Z' fill='%23CBA378'/><path d='M15 35 L50 5 L50 45 Z' fill='%23B8B8AC'/></svg>" type="image/svg+xml">
+    
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="bg-alabaster text-charcoal font-sans antialiased relative selection:bg-clay selection:text-white overflow-x-hidden">
+<body class="bg-alabaster text-charcoal font-sans antialiased relative selection:bg-clay selection:text-white">
 
-    <!-- EDITORIAL 2-TIER HEADER -->
-    <header id="main-header" class="fixed top-0 w-full bg-sand/95 backdrop-blur-md shadow-sm border-b border-stone/30 z-50 transition-all duration-300">
+    <!-- TOP 2-TIER EDITORIAL HEADER -->
+    <header id="main-header" class="fixed top-0 w-full bg-sand/95 backdrop-blur-md shadow-sm border-b border-stone/30 z-50">
         <div class="w-full max-w-7xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between">
-            <div class="flex-1"></div>
+            
+            <!-- Left: Spacer for perfect centering on Desktop -->
+            <div class="flex-1 hidden md:block"></div>
 
-            <!-- Center Logo -->
-            <div class="flex flex-col items-center justify-center cursor-pointer" onclick="closeProductPage()">
+            <!-- Center Logo Brand -->
+            <div id="main-brand-trigger" onclick="window.TaraApp.selectTab('home')" class="flex flex-col items-center justify-center cursor-pointer flex-1 md:flex-initial">
                 <div class="flex items-center space-x-2 md:space-x-3">
-                    <img src="assets/brand/logo.jpg" alt="Tara's Collection Logo" id="main-logo" class="w-8 h-8 md:w-12 md:h-12 object-cover rounded-full border border-stone shadow-sm">
-                    <h1 id="main-title" class="text-lg md:text-3xl tracking-widest font-serif font-semibold text-charcoal uppercase leading-tight whitespace-nowrap">Tara's Collection</h1>
+                    <img src="assets/brand/logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1611591472159-259f7ce8f1df?q=80&w=200&auto=format&fit=crop'" alt="Tara's Collection Logo" class="w-8 h-8 md:w-11 md:h-11 object-cover rounded-full border border-stone shadow-sm">
+                    <div class="flex flex-col text-center md:text-left">
+                        <h1 class="text-base md:text-2xl tracking-widest font-serif font-bold text-charcoal uppercase leading-tight whitespace-nowrap">Tara's Collection</h1>
+                        <span class="text-[9px] md:text-[10px] tracking-wider text-ocean font-semibold uppercase">Handcrafted by Leslie</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Right Utilities -->
-            <div class="flex-1 flex items-center justify-end space-x-2 md:space-x-4">
-                <a href="https://m.me/109568137198741" target="_blank" class="text-charcoal hover:text-rust transition-transform hover:scale-110 p-2 hidden sm:block" title="Message Us on FB">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 512 512">
+            <!-- Right: Action Icons (Messenger + User Account + Cart) -->
+            <div class="flex-1 flex items-center justify-end space-x-3 md:space-x-5">
+                <a href="https://m.me/109568137198741" target="_blank" class="text-charcoal hover:text-rust transition-transform hover:scale-110 p-2 hidden sm:block" title="Message on FB Messenger">
+                    <svg class="w-6 h-6 text-[#0084ff]" fill="currentColor" viewBox="0 0 512 512">
                         <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
                     </svg>
                 </a>
+
+                <!-- Discrete User Profile / Account Icon (Secret Admin Door) -->
+                <button onclick="window.TaraApp.switchView('admin-view')" class="text-charcoal hover:text-rust transition-transform hover:scale-110 p-2 cursor-pointer" title="Sign In / My Account">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                </button>
                 
-                <button onclick="toggleCart()" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative p-2 cursor-pointer" title="View Cart">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    <span id="top-cart-count" class="absolute top-0 right-0 md:-right-1 bg-rust text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                <button onclick="window.TaraApp.toggleCartDrawer(true)" class="text-charcoal hover:text-rust transition-transform hover:scale-110 relative p-2 cursor-pointer" title="View Cart">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span class="cart-counter-badge hidden absolute top-0 right-0 md:-right-1 bg-rust text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-full shadow-sm">0</span>
                 </button>
             </div>
         </div>
 
-        <!-- Horizontal Nav Tier -->
-        <div id="nav-tier" class="w-full border-t border-stone/20 bg-sand flex justify-center py-2 md:py-3 transition-all duration-300">
-            <nav class="flex items-center space-x-8 md:space-x-12 overflow-x-auto px-4 scrollbar-hide text-[10px] md:text-xs uppercase tracking-widest font-bold text-charcoal/80">
-                <button onclick="closeProductPage()" class="hover:text-rust whitespace-nowrap transition-colors cursor-pointer">Home</button>
-                <button onclick="openGalleryModal('personalized', 'Personalized Items')" class="hover:text-rust whitespace-nowrap transition-colors flex items-center cursor-pointer">
+        <!-- Horizontal Nav Tier (Robust selectTab triggers) -->
+        <div id="nav-tier" class="w-full border-t border-stone/20 bg-sand flex justify-center py-2 md:py-2.5">
+            <nav class="flex items-center space-x-6 md:space-x-10 overflow-x-auto px-4 scrollbar-hide text-[11px] md:text-xs uppercase tracking-widest font-bold text-charcoal/90">
+                <button id="nav-tab-home" onclick="window.TaraApp.selectTab('home')" class="nav-tier-item hover:text-rust transition-colors cursor-pointer whitespace-nowrap text-rust font-extrabold border-b-2 border-rust pb-0.5">Home</button>
+                <button id="nav-tab-personalized" onclick="window.TaraApp.selectTab('personalized')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors flex items-center cursor-pointer pb-0.5 border-b-2 border-transparent">
                     Personalized <span class="ml-1 text-sm animate-pulse">🔥</span>
                 </button>
-                <button onclick="openGalleryModal('bracelets', 'Bracelets')" class="hover:text-rust whitespace-nowrap transition-colors cursor-pointer">Bracelets</button>
-                <button onclick="openGalleryModal('charms', 'Charms')" class="hover:text-rust whitespace-nowrap transition-colors cursor-pointer">Charms</button>
-                <button onclick="openGalleryModal('gemstones', 'Gemstones')" class="hover:text-rust whitespace-nowrap transition-colors cursor-pointer">Gemstones</button>
+                <button id="nav-tab-bracelets" onclick="window.TaraApp.selectTab('bracelets')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Bracelets</button>
+                <button id="nav-tab-gemstones" onclick="window.TaraApp.selectTab('gemstones')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Gemstones</button>
+                <button id="nav-tab-charms" onclick="window.TaraApp.selectTab('charms')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Charms</button>
             </nav>
         </div>
     </header>
 
     <!-- ============================================================================== -->
-    <!-- VIEW A: HOME PAGE                                                              -->
+    <!-- VIEW A: STOREFRONT HOME & CATALOG                                              -->
     <!-- ============================================================================== -->
-    <div id="home-view" class="block w-full pt-32 md:pt-40 transition-opacity duration-300">
+    <main id="home-view" class="block w-full pt-28 md:pt-36">
+
+        <!-- HERO BRAND STORY BANNER (Visible on Home Tab) -->
+        <section id="hero-banner-section" class="hero-gradient text-sand py-12 md:py-20 mb-8 border-b border-stone/40 relative">
+            <div class="hero-glow top-0 left-1/4"></div>
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+                <span class="inline-block px-4 py-1 rounded-full bg-clay/20 border border-clay/40 text-clay text-[10px] md:text-xs font-extrabold uppercase tracking-widest mb-4">
+                    ✨ 100% Authentic Natural Gemstones
+                </span>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold tracking-wide leading-tight text-white mb-4">
+                    Earth Elements & Tailored Energy
+                </h2>
+                <p class="text-sm md:text-base text-sand/90 font-medium leading-relaxed max-w-2xl mx-auto mb-8">
+                    Every bracelet is carefully sourced, cleansed with singing bowl vibrations, and handcrafted with love to bring you beautiful, high-frequency spiritual companions.
+                </p>
+                <div class="flex flex-wrap justify-center items-center gap-4">
+                    <button onclick="window.TaraApp.selectTab('bracelets')" class="px-8 py-3.5 bg-rust hover:bg-sand text-white hover:text-charcoal rounded-full font-bold uppercase text-xs md:text-sm tracking-widest shadow-lg transition-all transform active:scale-95 cursor-pointer">
+                        Explore All Bracelets
+                    </button>
+                    <button onclick="window.TaraApp.openChatWidget('normal')" class="px-8 py-3.5 bg-transparent border border-sand/60 hover:border-white text-white rounded-full font-bold uppercase text-xs md:text-sm tracking-widest transition-all cursor-pointer">
+                        Custom Order via Messenger
+                    </button>
+                </div>
+            </div>
+        </section>
         
         <!-- SEARCH BAR -->
-        <section class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
-            <div class="relative">
+        <section id="catalog-section" class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+            <div class="relative shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <svg class="w-5 h-5 text-stone" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <input type="text" id="search-input" class="w-full pl-11 pr-12 py-3 border border-stone/30 bg-white rounded-full focus:outline-none focus:border-ocean focus:ring-1 focus:ring-ocean text-sm transition-shadow shadow-sm text-charcoal placeholder-stone" placeholder="Search for Crystals, Bracelets, or Stones...">
-                <button id="clear-search" onclick="resetSearch()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-stone hover:text-rust hidden cursor-pointer">
+                <input type="text" id="search-input" class="w-full pl-11 pr-12 py-3.5 border border-stone/40 bg-white rounded-full focus:outline-none focus:border-ocean focus:ring-1 focus:ring-ocean text-sm transition-shadow text-charcoal placeholder-stone" placeholder="Search for Crystals, Bracelets, or Stones...">
+                <button id="clear-search" class="absolute inset-y-0 right-0 pr-4 flex items-center text-stone hover:text-rust hidden cursor-pointer">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
         </section>
 
-        <!-- SECTION 1: FEATURED PRODUCTS -->
-        <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="products-section">
-            <div class="text-center mb-10">
-                <h2 onclick="resetSearch()" class="cursor-pointer hover:text-ocean transition-colors text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone" title="Click to reset view">
-                    Featured Products
+        <!-- SECTION 1: PRIMARY CATALOG GRID (Featured on Home tab, Category items on other tabs) -->
+        <section class="py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 id="catalog-section-title" onclick="window.TaraApp.selectTab('home')" class="cursor-pointer hover:text-ocean transition-colors text-2xl md:text-3xl font-serif font-bold tracking-widest text-charcoal uppercase inline-block pb-2 border-b-2 border-clay" title="Click to reset to Home view">
+                    Featured Collection
                 </h2>
-                <p class="text-xs md:text-sm tracking-wide text-ocean uppercase mt-3 font-medium">Discover Handcrafted Bracelets & Healing Stones</p>
+                <p id="catalog-section-subtitle" class="text-xs md:text-sm tracking-wide text-ocean uppercase mt-2 font-semibold">Handcrafted Healing Stones & Tailored Bracelets</p>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12" id="unified-product-grid"></div>
-
-            <div class="text-center mt-12" id="toggle-container">
-                <button id="toggle-btn" class="border border-rust bg-rust text-white hover:bg-sand hover:text-rust px-8 py-3 text-sm font-semibold uppercase tracking-wider transition-colors rounded-full shadow-md group inline-flex items-center justify-center space-x-2 cursor-pointer">
-                    <span>Discover More Styles</span>
-                    <svg class="w-4 h-4 transition-transform group-hover:translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-            </div>
+            <div id="unified-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-10"></div>
         </section>
 
-        <!-- SECTION 1.5: CUSTOMIZE ITEMS -->
-        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone/30">
-            <div class="text-center mb-10 max-w-3xl mx-auto">
-                <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
-                    Customize Items
+        <!-- SECTION 1.5: CUSTOM BRACELETS (Only visible when on Home Tab or Personalized Tab) -->
+        <section id="custom-bracelets-section" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone/30 mt-12">
+            <div class="text-center mb-10 max-w-2xl mx-auto">
+                <span class="text-[10px] font-bold text-rust uppercase tracking-widest">Personalized Offerings</span>
+                <h2 class="text-2xl md:text-3xl font-serif font-bold tracking-widest text-charcoal uppercase pb-2 mt-1">
+                    Custom Bracelets
                 </h2>
-                <p class="text-ocean mt-6 text-sm leading-relaxed">
-                    If you need customized items, let me know what stones you want to add to these bases. Feel free to inquire, each additional stone costs from <strong>₱5.00 to ₱20.00</strong>.
+                <div class="w-12 h-1 bg-clay mx-auto my-3"></div>
+                <p class="text-ocean text-xs md:text-sm leading-relaxed font-medium">
+                    Looking for fully tailored energy arrays? Pick any of our custom bracelets below! You can specify exact charm elements or extra stones via Messenger. Each additional stone costs from <strong>₱5.00 to ₱20.00</strong>.
                 </p>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12" id="custom-bases-grid"></div>
+            <div id="custom-bases-grid" class="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-10"></div>
         </section>
         
         <!-- SECTION 2: YOUTUBE SHORTS GALLERY -->
-        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30">
+        <section id="youtube-section" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-sand border-y border-stone/30 mt-12">
              <div class="text-center mb-10">
-                <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
+                <h2 class="text-2xl font-serif font-bold tracking-widest text-charcoal uppercase inline-block pb-2">
                     See Them In Action
                 </h2>
-                <p class="text-sm text-ocean mt-4 uppercase tracking-wide">Featured YouTube Shorts</p>
+                <p class="text-xs md:text-sm text-ocean mt-2 uppercase tracking-widest font-semibold">Featured YouTube Shorts</p>
             </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                <a href="https://www.youtube.com/shorts/21pHSgQB--Q" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/21pHSgQB--Q/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Ocean Jasper">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://www.youtube.com/shorts/M2iDlJWNto4" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/M2iDlJWNto4/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Special Curation">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://www.youtube.com/shorts/gZLi0lawRj8" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/gZLi0lawRj8/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Obsidian">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                </a>
-                <a href="https://www.youtube.com/shorts/A4-7E6upmII" target="_blank" class="block aspect-[9/16] bg-stone/20 rounded-sm overflow-hidden shadow-md relative group cursor-pointer border border-stone/50">
-                    <img src="https://i.ytimg.com/vi/A4-7E6upmII/hqdefault.jpg" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity mix-blend-multiply" alt="Golden Rutile">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="bg-rust rounded-full p-4 shadow-lg group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8 text-white pl-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            
+            <div id="youtube-shorts-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"></div>
             <div class="text-center mt-12">
-                <p class="text-lg text-charcoal mb-4 font-serif italic">View more of this on my YouTube channel</p>
-                <a href="https://www.youtube.com/@TARA-LNM/shorts" target="_blank" class="inline-flex items-center space-x-2 border border-rust bg-rust text-white hover:bg-sand hover:text-rust px-6 py-2 text-sm font-semibold uppercase tracking-wider transition-colors rounded-full shadow-md">
+                <a href="https://www.youtube.com/@TARA-LNM/shorts" target="_blank" class="inline-flex items-center space-x-2.5 border border-rust bg-rust text-white hover:bg-white hover:text-rust px-7 py-3 text-xs font-bold uppercase tracking-widest transition-colors rounded-full shadow-md">
                     <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    <span>Visit Channel</span>
+                    <span>Watch Channel Shorts</span>
                 </a>
             </div>
         </section>
 
-        <!-- SECTION 3: WE LOVE OUR CUSTOMERS -->
-        <section class="py-16 w-full overflow-hidden bg-alabaster border-t border-stone/30">
+        <!-- SECTION 3: CUSTOMER PROOFS & HAPPY CLIENTS -->
+        <section id="proofs-section" class="py-16 w-full overflow-hidden bg-alabaster">
             <div class="text-center mb-10 max-w-7xl mx-auto px-4">
-                <h2 class="text-2xl font-light tracking-widest text-charcoal uppercase relative inline-block pb-2 border-b border-stone">
+                <h2 class="text-2xl font-serif font-bold tracking-widest text-charcoal uppercase inline-block pb-1">
                     We Love Our Customers
                 </h2>
-                <p class="text-sm text-ocean mt-4 uppercase tracking-wide">Proof of Transactions & Happy Clients</p>
-                <p class="text-xs text-stone mt-2 italic">Click to view gallery</p>
+                <p class="text-xs md:text-sm text-ocean mt-2 uppercase tracking-widest font-semibold">Proof of Transactions & Happy J&T Deliveries</p>
+                <p class="text-[11px] text-stone mt-1 italic">Click any image to inspect delivery details</p>
             </div>
             
-            <div class="relative w-full flex overflow-hidden">
-                <div class="flex animate-marquee space-x-4 w-max hover:animation-play-state-paused" id="marquee-track"></div>
+            <div class="relative w-full flex overflow-hidden py-2">
+                <div id="marquee-track" class="animate-marquee space-x-4"></div>
             </div>
         </section>
-    </div>
-
+    </main>
 
     <!-- ============================================================================== -->
-    <!-- VIEW B: DEDICATED FULL PRODUCT PAGE (FRYSTAL VIEW SWAP WITH SIZING)           -->
+    <!-- VIEW B: FULL PRODUCT DETAIL VIEW, WRIST SIZING & SUGGESTED ITEMS              -->
     <!-- ============================================================================== -->
-    <div id="product-view" class="hidden w-full pt-32 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10 transition-opacity duration-300">
+    <main id="product-view" class="hidden w-full pt-28 md:pt-36 pb-24 bg-alabaster min-h-screen relative z-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            <!-- Breadcrumbs -->
-            <div class="text-[10px] md:text-xs text-stone uppercase tracking-widest font-bold mb-4 md:mb-6 mt-2">
-                <button onclick="closeProductPage()" class="hover:text-rust transition-colors cursor-pointer">Home</button> 
+            <div class="text-[11px] md:text-xs text-stone uppercase tracking-widest font-bold mb-6 mt-2 flex items-center">
+                <button onclick="window.TaraApp.selectTab('home')" class="hover:text-rust transition-colors cursor-pointer">Home</button> 
                 <span class="mx-2">/</span> 
-                <span id="pv-title-crumb" class="text-charcoal border-b border-charcoal pb-0.5">Product</span>
+                <span id="pv-title-crumb" class="text-charcoal border-b border-charcoal pb-0.5">Product Detail</span>
             </div>
 
-            <!-- 50/50 Desktop Split -->
-            <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start relative">
-                
-                <!-- Left: Compact Visuals -->
-                <div class="w-full md:w-5/12 flex justify-center">
-                    <div class="w-full max-w-sm md:max-w-md md:sticky md:top-36 flex flex-col gap-3">
-                        <div class="relative w-full aspect-square overflow-hidden bg-white rounded-md shadow-sm border border-stone/20 group/zoom">
-                            <img id="pv-main-image" src="" class="w-full h-full object-cover cursor-zoom-in" onclick="openImageZoom()">
+            <div class="flex flex-col md:flex-row gap-8 md:gap-14 items-start relative">
+                <!-- Left: Visuals & Magnifier -->
+                <div class="w-full md:w-1/2 flex justify-center">
+                    <div class="w-full max-w-md flex flex-col gap-3">
+                        <div class="relative w-full aspect-square overflow-hidden bg-white rounded-2xl shadow-sm border border-stone/30 group/zoom">
+                            <img id="pv-main-image" src="" onclick="window.TaraApp.openImageZoom()" class="w-full h-full object-cover cursor-zoom-in">
                             
-                            <button onclick="openImageZoom()" class="absolute top-3 right-3 bg-white/80 hover:bg-white text-charcoal p-2 rounded-full shadow-md backdrop-blur-md transition-all z-20 cursor-pointer opacity-0 group-hover/zoom:opacity-100 scale-95 group-hover/zoom:scale-100" title="Click to Enlarge">
+                            <button onclick="window.TaraApp.openImageZoom()" class="absolute top-3 right-3 bg-white/85 hover:bg-white text-charcoal p-2.5 rounded-full shadow-md backdrop-blur-md transition-all z-20 cursor-pointer border border-stone/30 hover:scale-110" title="Click to Enlarge / Magnify">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
                             </button>
 
-                            <button onclick="prevPvImage(event)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-2.5 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn z-10 cursor-pointer">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            <button onclick="window.TaraApp.prevPvImage(event)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white text-charcoal p-2 rounded-full shadow-md backdrop-blur-md transition-all z-10 cursor-pointer border border-stone/30">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                             </button>
-                            <button onclick="nextPvImage(event)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-charcoal p-2.5 rounded-full shadow-lg backdrop-blur-md transition-all pv-nav-btn z-10 cursor-pointer">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <button onclick="window.TaraApp.nextPvImage(event)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white text-charcoal p-2 rounded-full shadow-md backdrop-blur-md transition-all z-10 cursor-pointer border border-stone/30">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </button>
                         </div>
-                        <div id="pv-thumbnails" class="flex gap-2.5 overflow-x-auto scrollbar-hide py-1"></div>
+                        <div id="pv-thumbnails" class="flex gap-3 overflow-x-auto scrollbar-hide py-1"></div>
                     </div>
                 </div>
 
-                <!-- Right: Content & Purchasing Actions -->
-                <div class="w-full md:w-7/12 flex flex-col justify-start">
-                    <h1 id="pv-title" class="text-2xl md:text-4xl font-serif font-semibold text-charcoal mb-2 leading-tight tracking-wide"></h1>
-                    <p id="pv-price" class="text-lg md:text-xl text-ocean font-medium tracking-wide mb-4"></p>
+                <!-- Right: Information & Action Buttons -->
+                <div class="w-full md:w-1/2 flex flex-col justify-start">
+                    <h1 id="pv-title" class="text-2xl md:text-4xl font-serif font-bold text-charcoal mb-2 leading-tight tracking-wide"></h1>
+                    <div class="flex items-baseline space-x-4 mb-5">
+                        <p id="pv-price" class="text-xl md:text-2xl text-ocean font-bold tracking-wide"></p>
+                        <span id="pv-sold-badge" class="hidden text-xs md:text-sm font-bold text-rust"></span>
+                    </div>
                     
-                    <div class="text-[10px] md:text-xs uppercase tracking-widest text-charcoal/70 font-semibold mb-6 border-y border-stone/30 py-3 space-y-1.5">
-                        <p class="flex items-center"><span class="mr-2 text-rust">✦</span> Handcrafted & Cleansed Elements</p>
-                        <p class="flex items-center"><span class="mr-2 text-rust">✦</span> Fast Delivery via J&T Express</p>
+                    <div class="text-[11px] md:text-xs uppercase tracking-widest text-charcoal/80 font-bold mb-6 border-y border-stone/30 py-3.5 space-y-2">
+                        <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Hand-strung & Cleansed with Singing Bowl</p>
+                        <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Fast Delivery Nationwide via J&T Express</p>
+                        <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Guaranteed Authentic Earth Gemstones</p>
                     </div>
 
-                    <p id="pv-desc" class="text-xs md:text-sm text-charcoal/80 leading-relaxed font-medium mb-6"></p>
+                    <p id="pv-desc" class="text-sm text-charcoal/90 leading-relaxed mb-8 font-normal"></p>
 
-                    <!-- DYNAMIC SIZE SELECTOR -->
-                    <div id="pv-size-selector" class="mb-6 w-full md:w-3/4">
+                    <div id="pv-size-selector" class="mb-8 w-full bg-sand/40 p-4 rounded-xl border border-stone/30">
                         <div class="flex justify-between items-center mb-3">
-                            <span class="text-[10px] md:text-xs font-bold text-charcoal uppercase tracking-widest">Select Category</span>
+                            <span class="text-xs font-bold text-charcoal uppercase tracking-widest">Select Wrist Size (cm)</span>
+                            <span id="selected-size-label" class="text-xs text-ocean font-extrabold tracking-wide bg-white px-2.5 py-1 rounded-md border border-stone/30">16cm</span>
                         </div>
-                        <div class="flex space-x-3 mb-5">
-                            <button id="cat-adult" onclick="setCategory('Adult')" class="px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-charcoal text-white border-charcoal cursor-pointer">Adult</button>
-                            <button id="cat-kids" onclick="setCategory('Kids')" class="px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-transparent text-charcoal border-stone hover:border-charcoal cursor-pointer">Kids</button>
-                        </div>
-
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="text-[10px] md:text-xs font-bold text-charcoal uppercase tracking-widest">Wrist Size (cm)</span>
-                            <span id="selected-size-label" class="text-[10px] md:text-xs text-ocean font-bold tracking-wide">16 cm</span>
-                        </div>
-                        <div id="size-pills-container" class="flex flex-wrap gap-2">
-                            <!-- Javascript will inject sizes here -->
-                        </div>
+                        <div id="size-pills-container" class="flex flex-wrap gap-2"></div>
                     </div>
 
-                    <!-- BUTTONS -->
-                    <div id="pv-button-container" class="space-y-3 w-full md:w-3/4 mt-auto pb-6 border-b border-stone/20">
-                        <button id="pv-add-cart-btn" class="w-full bg-charcoal text-white hover:bg-ocean py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors shadow-sm border border-charcoal cursor-pointer">ADD TO CART</button>
-                        <button id="pv-inquire-btn" class="w-full border border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-white py-2.5 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer">INQUIRE VIA MESSENGER</button>
-                    </div>
+                    <div id="pv-button-container" class="space-y-3 w-full pb-6 border-b border-stone/20"></div>
                 </div>
             </div>
 
-            <!-- Suggestion Engine -->
-            <div id="pv-related-section" class="w-full mt-12 pt-6 border-t border-stone/20">
-                <h3 class="text-xl md:text-2xl font-serif font-semibold text-charcoal mb-8 text-center md:text-left">You may also like</h3>
-                <div id="pv-related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6 gap-y-10"></div>
+            <!-- SAME-CATEGORY SUGGESTED ITEMS: "You may also like" -->
+            <div id="pv-related-section" class="w-full mt-16 pt-8 border-t border-stone/30">
+                <h3 id="related-section-title" class="text-2xl font-serif font-bold text-charcoal mb-8 text-center md:text-left uppercase tracking-wider">You May Also Like</h3>
+                <div id="pv-related-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 gap-y-10"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================================================== -->
+    <!-- VIEW C: DISCRETE ACCOUNT & SECRET ADMIN DASHBOARD                              -->
+    <!-- ============================================================================== -->
+    <main id="admin-view" class="hidden w-full pt-28 md:pt-36 pb-32 bg-alabaster min-h-screen">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- CUSTOMER SIGN-IN / REGISTER LOCK SCREEN -->
+            <div id="account-login-box" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg border border-stone/30 mt-8 text-center">
+                <div class="w-16 h-16 bg-sand rounded-full flex items-center justify-center mx-auto mb-4 border border-stone/40">
+                    <span class="text-3xl">👤</span>
+                </div>
+                <h3 class="font-serif font-bold text-xl text-charcoal mb-1">Sign In to Your Account</h3>
+                <p class="text-xs text-stone font-medium mb-6">Manage your orders & wishlist preferences</p>
+                
+                <div class="space-y-3 mb-4 text-left">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Email or Username</label>
+                        <input type="text" id="account-user-input" class="w-full px-4 py-3 text-sm border border-stone/40 rounded-xl focus:outline-none focus:border-ocean" placeholder="name@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Password</label>
+                        <input type="password" id="account-pw-input" class="w-full px-4 py-3 text-sm border border-stone/40 rounded-xl focus:outline-none focus:border-ocean" placeholder="••••••••">
+                    </div>
+                </div>
+                <p id="account-login-error" class="text-[11px] text-red-600 font-bold mb-3 hidden"></p>
+                
+                <button id="account-login-btn" class="w-full bg-charcoal hover:bg-ocean text-white font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-colors cursor-pointer shadow-md mb-4">
+                    Sign In
+                </button>
+
+                <div class="border-t border-stone/20 pt-4 text-xs text-stone">
+                    Don't have an account yet? 
+                    <button id="switch-to-register" class="text-rust font-bold hover:underline ml-1 uppercase">Create One</button>
+                </div>
             </div>
 
+            <!-- REGULAR CUSTOMER REGISTER BOX -->
+            <div id="account-register-box" class="hidden max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg border border-stone/30 mt-8 text-center">
+                <h3 class="font-serif font-bold text-xl text-charcoal mb-1">Create Customer Profile</h3>
+                <p class="text-xs text-stone font-medium mb-6">Stay updated with newly cleansed gemstone releases</p>
+                
+                <div class="space-y-3 mb-4 text-left">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Full Name</label>
+                        <input type="text" id="reg-name-input" class="w-full px-4 py-3 text-sm border border-stone/40 rounded-xl focus:outline-none focus:border-ocean" placeholder="Leslie Tara">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Email Address</label>
+                        <input type="email" id="reg-email-input" class="w-full px-4 py-3 text-sm border border-stone/40 rounded-xl focus:outline-none focus:border-ocean" placeholder="name@example.com">
+                    </div>
+                </div>
+                <p id="reg-error" class="text-[11px] text-red-600 font-bold mb-3 hidden"></p>
+                
+                <button id="account-register-btn" class="w-full bg-rust hover:bg-sand text-white hover:text-charcoal font-bold py-3.5 rounded-xl text-xs uppercase tracking-widest transition-all shadow-md mb-4">
+                    Complete Registration
+                </button>
+                <div class="border-t border-stone/20 pt-4 text-xs text-stone">
+                    Already registered? 
+                    <button id="switch-to-login" class="text-ocean font-bold hover:underline ml-1 uppercase">Sign In Here</button>
+                </div>
+            </div>
+
+            <!-- CUSTOMER LOGGED-IN PROFILE WORKSPACE -->
+            <div id="customer-workspace-box" class="hidden max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-lg border border-stone/30 mt-6 text-center">
+                <div class="w-20 h-20 bg-sand/80 rounded-full flex items-center justify-center mx-auto mb-4 border border-stone/40 text-3xl">✨</div>
+                <h3 class="font-serif font-bold text-2xl text-charcoal">Welcome, <span id="customer-profile-name">Client</span>!</h3>
+                <p class="text-xs text-ocean font-bold uppercase tracking-widest mt-1 mb-6">Member & Healing Stone Collector</p>
+                
+                <div class="bg-sand/30 p-5 rounded-xl text-left border border-stone/30 mb-6 space-y-2">
+                    <h4 class="font-bold text-xs text-charcoal uppercase tracking-wider">📦 Order Tracking & Inquiries</h4>
+                    <p class="text-xs text-stone leading-relaxed">
+                        To ensure personalized accuracy and custom sizing guarantees, all active orders, J&T tracking updates, and custom gem requests are handled directly by Leslie via Facebook Messenger Support.
+                    </p>
+                    <button onclick="window.TaraApp.openChatWidget('normal')" class="inline-block text-xs font-bold text-[#0084ff] hover:underline pt-1 cursor-pointer">💬 Open Live Messenger Support &rarr;</button>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button onclick="window.TaraApp.selectTab('home')" class="flex-1 bg-charcoal text-white hover:bg-ocean py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-sm">
+                        Explore Shop
+                    </button>
+                    <button class="account-logout-btn flex-1 bg-stone/20 text-charcoal hover:bg-stone/30 py-3 rounded-xl text-xs font-bold uppercase tracking-widest">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECRET STORE MANAGER WORKSPACE -->
+            <div id="admin-workspace-box" class="hidden">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-stone/30 pb-6 mb-8">
+                    <div>
+                        <span class="px-2.5 py-0.5 rounded-full bg-rust text-white text-[10px] font-extrabold uppercase tracking-wider">Store Owner Authenticated</span>
+                        <h2 class="text-2xl md:text-3xl font-serif font-bold text-charcoal mt-2">Store Manager Dashboard</h2>
+                        <p class="text-xs text-ocean font-semibold tracking-wide uppercase mt-1">✨ Changes automatically save on your phone even if you sign out!</p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <button id="admin-open-add-modal-btn" class="px-5 py-2.5 bg-rust hover:bg-sand text-white hover:text-charcoal rounded-xl text-xs font-bold uppercase tracking-widest shadow-md transition-colors cursor-pointer flex items-center gap-1.5 touch-min">
+                            <span>➕ Add New Product</span>
+                        </button>
+                        <button id="admin-export-github-btn" class="px-5 py-2.5 bg-ocean hover:bg-charcoal text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-md transition-colors cursor-pointer flex items-center gap-1.5 touch-min" title="Publish to Web!">
+                            <span>🚀 1-Tap Publish to Web</span>
+                        </button>
+                        <button class="account-logout-btn px-4 py-2.5 bg-stone/20 hover:bg-stone/40 text-charcoal rounded-xl text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer" title="Sign out without publishing">
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+
+                <!-- EXPLANATION BOX: PHONE vs LAPTOP SYNC -->
+                <div class="bg-clay/10 p-5 rounded-2xl border border-clay/30 mb-8">
+                    <h4 class="font-serif font-bold text-sm text-charcoal uppercase tracking-wide flex items-center gap-2 mb-2">
+                        <span>📱 Phone vs 💻 Laptop Sync Guide</span>
+                    </h4>
+                    <p class="text-xs text-charcoal/90 leading-relaxed font-medium mb-3">
+                        Because this website runs with <strong>$0 hosting fees</strong>, draft edits made on your phone stay saved inside your phone's browser memory until published. <strong>If your wife edits items on her phone, those draft changes won't automatically appear on your laptop unless she taps "🚀 1-Tap Publish to Web" on her phone first!</strong>
+                    </p>
+                    <div class="flex flex-wrap gap-2 text-xs font-bold">
+                        <span class="bg-white px-3 py-1.5 rounded-lg border border-stone/30">👉 Option 1: She taps "1-Tap Publish to Web" directly on her phone to update the whole world!</span>
+                        <button onclick="window.TaraAdmin.exportDraftJsonFile()" class="bg-charcoal text-white px-3 py-1.5 rounded-lg hover:bg-ocean transition-colors cursor-pointer">📥 Option 2: Download Draft Backup File (To transfer to laptop)</button>
+                        <label class="bg-rust text-white px-3 py-1.5 rounded-lg hover:bg-sand hover:text-charcoal transition-colors cursor-pointer">
+                            <span>📤 Import Draft File on Laptop</span>
+                            <input type="file" id="admin-import-json" accept=".json" class="hidden">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- STAT PILLS -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                        <span class="text-[10px] uppercase font-bold text-stone tracking-wider">Total Catalog</span>
+                        <p id="stat-total" class="text-2xl font-serif font-bold text-charcoal mt-1">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                        <span class="text-[10px] uppercase font-bold text-green-700 tracking-wider">🟢 Available</span>
+                        <p id="stat-available" class="text-2xl font-serif font-bold text-green-700 mt-1">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                        <span class="text-[10px] uppercase font-bold text-red-600 tracking-wider">🔴 Sold Out</span>
+                        <p id="stat-sold" class="text-2xl font-serif font-bold text-red-600 mt-1">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                        <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">👁️ Hidden</span>
+                        <p id="stat-hidden" class="text-2xl font-serif font-bold text-gray-600 mt-1">0</p>
+                    </div>
+                </div>
+
+                <div class="bg-sand/30 p-4 sm:p-6 rounded-2xl border border-stone/30">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                        <h3 class="font-serif font-bold text-lg text-charcoal">Manage Catalog Items</h3>
+                        <div class="relative flex-1 sm:max-w-xs">
+                            <input type="text" id="admin-search-catalog" placeholder="🔍 Search item name or category..." class="w-full px-3 py-2 pl-8 border border-stone/50 rounded-xl bg-white text-xs font-semibold focus:outline-none focus:border-ocean">
+                            <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-stone text-xs">🔍</span>
+                        </div>
+                    </div>
+                    <div id="admin-product-list" class="space-y-3"></div>
+                </div>
+
+                <!-- NEW: VERSATILE ZERO-CODE CUSTOMER PROOFS MANAGEMENT -->
+                <div class="bg-white p-4 sm:p-6 rounded-2xl border border-stone/30 mt-8 shadow-sm">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-stone/20 pb-4 mb-4">
+                        <div>
+                            <h3 class="font-serif font-bold text-lg text-charcoal flex items-center gap-2">
+                                <span>📜 Manage Proof of Transactions</span>
+                            </h3>
+                            <p class="text-xs text-stone font-medium mt-0.5">Upload verified customer photos from your phone and link directly to Facebook posts!</p>
+                        </div>
+                        <button onclick="window.TaraAdmin.toggleAddProofForm()" class="px-4 py-2 bg-[#1877F2] hover:bg-[#155DBD] text-white rounded-xl text-xs font-extrabold uppercase tracking-wider cursor-pointer shadow-md flex items-center gap-1.5 flex-shrink-0 touch-min">
+                            <span>➕ Add New Proof</span>
+                        </button>
+                    </div>
+
+                    <!-- ADD PROOF FORM (COLLAPSIBLE) -->
+                    <div id="admin-add-proof-form" class="hidden bg-sand/30 p-4 rounded-xl border border-stone/30 mb-6">
+                        <h4 class="text-xs font-bold uppercase text-charcoal mb-3">Upload New Transaction Proof</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-[11px] font-bold text-stone mb-1 uppercase">1. Choose Photo from Phone/Laptop</label>
+                                <input type="file" id="proof-file-upload" accept="image/*" class="text-xs text-charcoal w-full bg-white p-2 rounded-lg border border-stone/40">
+                                <p class="text-[10px] text-ocean mt-1 font-medium">Or paste image online link / filename below:</p>
+                                <input type="text" id="proof-img-url" placeholder="e.g. assets/proofs/proof-7.jpg" class="w-full text-xs p-2.5 rounded-lg border border-stone/40 mt-1">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-stone mb-1 uppercase">2. Facebook Post Verification Link</label>
+                                <input type="text" id="proof-fb-url" placeholder="https://www.facebook.com/photo?fbid=..." class="w-full text-xs p-2.5 rounded-lg border border-stone/40">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-stone mb-1 uppercase">3. Caption / Customer Note</label>
+                                <input type="text" id="proof-caption-input" placeholder="e.g. Delivered safely via J&T Express!" class="w-full text-xs p-2.5 rounded-lg border border-stone/40">
+                            </div>
+                            <div class="flex justify-end gap-2 pt-2">
+                                <button type="button" onclick="window.TaraAdmin.toggleAddProofForm()" class="px-4 py-2 bg-stone/20 text-charcoal font-bold text-xs rounded-lg uppercase cursor-pointer">Cancel</button>
+                                <button type="button" onclick="window.TaraAdmin.saveNewProof()" class="px-5 py-2 bg-green-700 hover:bg-green-800 text-white font-extrabold text-xs rounded-lg uppercase shadow-md cursor-pointer">Save & Publish Proof</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="admin-proofs-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================================================== -->
+    <!-- MOBILE FIXED BOTTOM NAVIGATION BAR (TOUCH OPTIMIZED)                            -->
+    <!-- ============================================================================== -->
+    <nav class="bottom-nav-bar">
+        <a href="#" id="mobile-nav-home" onclick="window.TaraApp.selectTab('home'); return false;" class="nav-item active">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <span>Home</span>
+        </a>
+        <a href="#catalog-section" id="mobile-nav-catalog" onclick="window.TaraApp.selectTab('bracelets'); return false;" class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            <span>Catalog</span>
+        </a>
+        <a href="#" onclick="window.TaraApp.toggleCartDrawer(true); return false;" class="nav-item relative">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <span>Cart</span>
+            <span class="cart-counter-badge hidden absolute top-1 right-5 bg-rust text-white text-[9px] font-bold px-1.5 py-0.2 rounded-full">0</span>
+        </a>
+        <a href="#" id="mobile-nav-account" onclick="window.TaraApp.switchView('admin-view'); return false;" class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <span>Account</span>
+        </a>
+    </nav>
+
+    <!-- ============================================================================== -->
+    <!-- FLOATING BOTTOM-RIGHT INTERACTIVE WIDGETS (CART ABOVE CHAT WITH US)             -->
+    <!-- ============================================================================== -->
+    <div class="fixed bottom-20 md:bottom-8 right-5 md:right-8 z-40 flex flex-col items-end gap-3 pointer-events-none">
+        <button id="floating-cart-btn" onclick="window.TaraApp.toggleCartDrawer(true)" class="hidden pointer-events-auto bg-[#2C2927] hover:bg-ocean text-white px-5 py-3 rounded-full shadow-2xl items-center space-x-2.5 transition-transform hover:scale-105 border border-white/20 cursor-pointer">
+            <svg class="w-5 h-5 text-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <span class="font-bold uppercase tracking-widest text-xs">Cart (<span id="cart-count">0</span>)</span>
+        </button>
+        <button id="floating-chat-btn" style="transition: all 0.3s ease;" class="pointer-events-auto bg-[#0084ff] hover:bg-[#0070D8] text-white px-6 py-3.5 rounded-full shadow-2xl flex items-center justify-center transition-transform hover:scale-105 border border-white/20 cursor-pointer overflow-hidden">
+            <svg class="w-5 h-5 fill-current flex-shrink-0" viewBox="0 0 512 512">
+                <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
+            </svg>
+            <span id="floating-chat-text" style="margin-left: 10px; max-width: 200px; transition: all 0.3s ease;" class="font-extrabold tracking-wide text-sm whitespace-nowrap overflow-hidden inline-block">CHAT WITH US</span>
+        </button>
+    </div>
+
+    <!-- ============================================================================== -->
+    <!-- INTERACTIVE FB MESSENGER CHAT WIDGET & BLUR OVERLAY (PICS 1, 2 & 4)            -->
+    <!-- ============================================================================== -->
+    <div id="chat-widget-overlay" onclick="window.TaraApp.closeChatWidget()" class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+    <div id="messenger-chat-widget" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[60] bg-white rounded-2xl shadow-2xl border border-stone/30 w-80 sm:w-96 overflow-hidden hidden flex flex-col transition-all max-h-[85vh]">
+        <div class="p-4 border-b border-stone/20 bg-white flex items-center justify-between shadow-sm">
+            <div class="flex items-center space-x-2.5">
+                <div class="relative">
+                    <img src="assets/brand/logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1611591472159-259f7ce8f1df?q=80&w=100&auto=format&fit=crop'" class="w-10 h-10 rounded-full border border-stone/40 object-cover">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white" title="Online"></span>
+                </div>
+                <div>
+                    <h4 class="font-sans font-bold text-sm text-charcoal">Tara's Collection</h4>
+                    <p class="text-[10px] text-stone font-medium">Typically replies Instantly</p>
+                </div>
+            </div>
+            <button id="close-chat-widget" class="text-stone hover:text-charcoal p-1.5 rounded-full cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="chat-widget-normal-view" class="p-4 flex-1 bg-alabaster flex flex-col justify-between overflow-y-auto min-h-[280px]">
+            <div class="space-y-4">
+                <p class="text-center text-[10px] uppercase font-extrabold text-stone tracking-wider py-1">Chat With Tara's Collection</p>
+                <div class="flex items-end space-x-2">
+                    <img src="assets/brand/logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1611591472159-259f7ce8f1df?q=80&w=100&auto=format&fit=crop'" class="w-6 h-6 rounded-full border border-stone/30 flex-shrink-0 mb-1">
+                    <div class="bg-white p-3.5 rounded-2xl rounded-bl-none shadow-sm border border-stone/20 text-xs text-charcoal leading-relaxed max-w-[80%] font-medium">
+                        Hi there! 👋 How can we help you today? Type your message below and click the blue arrow to chat with us on Messenger!
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 pt-2 border-t border-stone/20">
+                <div class="relative">
+                    <input type="text" id="normal-chat-input" class="w-full pl-4 pr-12 py-2.5 bg-white border border-stone/40 rounded-full text-xs focus:outline-none focus:border-[#0084ff] shadow-inner" placeholder="Send a message...">
+                    <button id="send-normal-chat-btn" class="absolute inset-y-0 right-1.5 my-auto text-[#0084ff] hover:text-[#005cbf] p-2 cursor-pointer transition-transform active:scale-95" title="Send to Messenger">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    </button>
+                </div>
+                <p class="text-center text-[9px] text-stone mt-2">Powered by Facebook Messenger</p>
+            </div>
+        </div>
+        <div id="chat-widget-order-view" class="p-4 flex-1 bg-alabaster hidden flex flex-col justify-between overflow-y-auto max-h-[70vh]">
+            <div class="space-y-4">
+                <p class="text-center text-[10px] uppercase font-extrabold text-stone tracking-wider py-1">Order Ready For Messenger</p>
+                <div class="flex items-end space-x-2">
+                    <img src="assets/brand/logo.jpg" onerror="this.src='https://images.unsplash.com/photo-1611591472159-259f7ce8f1df?q=80&w=100&auto=format&fit=crop'" class="w-6 h-6 rounded-full border border-stone/30 flex-shrink-0 mb-1">
+                    <div class="bg-white p-3 rounded-2xl rounded-bl-none shadow-sm border border-stone/20 text-xs text-charcoal leading-relaxed max-w-[80%] font-medium">
+                        Hi! 👋 Your order is ready. Just click the blue send arrow below to open Messenger and send it to us!
+                    </div>
+                </div>
+                <div class="mt-3 bg-white p-4 rounded-2xl border border-stone/30 shadow-sm text-xs text-charcoal font-mono leading-relaxed max-h-52 overflow-y-auto relative whitespace-pre-wrap" id="chat-order-preview-text"></div>
+            </div>
+            <div class="mt-4 pt-2 border-t border-stone/20 flex flex-col items-center">
+                <button onclick="window.TaraApp.sendOrderToMessenger()" class="w-full bg-[#0084ff] hover:bg-[#0070D8] text-white py-3 rounded-xl font-extrabold text-xs uppercase tracking-widest shadow-lg flex items-center justify-center space-x-2 transition-all active:scale-95 cursor-pointer">
+                    <span>Open Messenger & Send Order</span>
+                    <svg class="w-4 h-4 fill-current ml-1" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+                <p class="text-[9px] text-stone mt-2">Powered by Facebook Messenger</p>
+            </div>
         </div>
     </div>
 
+    <!-- FULL-SCREEN IMAGE ZOOM / MAGNIFIER MODAL -->
+    <div id="image-zoom-modal" class="fixed inset-0 bg-charcoal/95 z-[90] hidden items-center justify-center px-4 backdrop-blur-md transition-opacity cursor-pointer" onclick="window.TaraApp.closeModal('image-zoom-modal')">
+        <button onclick="window.TaraApp.closeModal('image-zoom-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[100]">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="flex flex-col items-center max-w-5xl w-full relative" onclick="event.stopPropagation()">
+            <button onclick="window.TaraApp.prevZoomImage(event)" class="absolute left-2 md:-left-12 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-3 rounded-full text-white transition-colors z-[100] shadow-md border border-white/30 cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <img id="zoom-enlarged-image" src="" class="max-h-[85vh] max-w-full rounded-lg shadow-2xl p-1 bg-white cursor-default">
+            <button onclick="window.TaraApp.nextZoomImage(event)" class="absolute right-2 md:-right-12 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-3 rounded-full text-white transition-colors z-[100] shadow-md border border-white/30 cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </div>
 
-    <!-- OCEAN FOOTER BLOCK -->
-    <footer class="bg-ocean text-sand pt-16 pb-32 border-t border-stone/30 relative z-10">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-                <!-- Left: Quick Links -->
-                <div class="flex flex-col space-y-4 items-center md:items-start text-center md:text-left">
-                    <button onclick="closeProductPage()" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">Home</button>
-                    <button onclick="openModal('about-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">About Us</button>
-                    <button onclick="openModal('shipping-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">Shipping & Return</button>
-                    <button onclick="openModal('howto-modal')" class="text-sm font-semibold uppercase tracking-widest hover:text-clay transition-colors text-sand/80 cursor-pointer">How To Order</button>
-                </div>
-
-                <!-- Right: Contact Us -->
-                <div class="flex flex-col space-y-4 items-center md:items-end text-center md:text-right">
-                    <h4 class="text-sm font-bold uppercase tracking-widest mb-2 border-b border-clay/30 pb-2 md:border-none md:pb-0 text-clay w-full md:w-auto">Contact Us</h4>
-                    <p class="text-sm font-serif font-bold text-white tracking-wider">0915 457 1859</p>
-                    <p class="text-sm font-medium text-sand/80">Central Luzon, Philippines</p>
-                    <a href="https://m.me/109568137198741" target="_blank" class="text-[10px] uppercase tracking-widest border border-sand/50 px-5 py-2.5 rounded-sm hover:bg-white hover:text-ocean transition-colors mt-3 text-white shadow-sm font-bold">Message on Messenger</a>
-                </div>
+    <!-- MODALS SYSTEM (CART DRAWER & OTHERS) -->
+    <div id="cart-overlay" onclick="window.TaraApp.toggleCartDrawer(false)" class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+    <div id="cart-modal" class="fixed inset-y-0 right-0 w-full sm:max-w-md bg-white shadow-2xl z-50 cart-closed flex flex-col border-l border-stone/30">
+        <div class="p-5 border-b border-sand flex justify-between items-center bg-sand/80">
+            <div class="flex items-center space-x-2">
+                <svg class="w-6 h-6 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <h2 class="text-xl font-serif font-bold text-charcoal">Your Cart</h2>
             </div>
-
-            <!-- Social Icons -->
-            <div class="flex justify-center items-center space-x-6 mb-12">
-                <a href="https://www.facebook.com/profile.php?id=100063858590900" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="Facebook">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/></svg>
-                </a>
-                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="Instagram">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <a href="#" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110 cursor-pointer" title="TikTok">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525 0h3.08c.12 1.424.73 2.76 1.71 3.792 1.03 1.08 2.42 1.709 3.885 1.758v3.13c-1.92-.03-3.76-.752-5.18-2.028v8.618c0 3.73-3.03 6.76-6.76 6.76S2.5 19.01 2.5 15.28c0-3.73 3.03-6.76 6.76-6.76.43 0 .86.04 1.28.12v3.3a3.52 3.52 0 0 0-1.28-.24c-1.9 0-3.44 1.54-3.44 3.44s1.54 3.44 3.44 3.44 3.44-1.54 3.44-3.44V0z"/></svg>
-                </a>
-                <a href="url?id=8" target="_blank" class="text-white hover:text-clay transition-transform hover:scale-110" title="YouTube">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                </a>
+            <button onclick="window.TaraApp.toggleCartDrawer(false)" class="text-stone hover:text-charcoal p-2 rounded-full transition-colors cursor-pointer">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="cart-items" class="p-5 flex-1 overflow-y-auto space-y-3 bg-alabaster"></div>
+        <div class="p-6 border-t border-stone/30 bg-white shadow-lg pb-24 md:pb-6">
+            <div class="flex justify-between font-extrabold text-lg text-charcoal mb-4">
+                <span>Total:</span>
+                <span class="text-ocean text-xl">₱ <span id="cart-total">0</span></span>
             </div>
+            <button onclick="window.TaraApp.showOrderInChatWidget()" class="w-full bg-[#2C2927] hover:bg-ocean text-white py-4 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all shadow-lg flex items-center justify-center cursor-pointer active:scale-95 touch-min">
+                <span>CHECKOUT NOW</span>
+            </button>
+        </div>
+    </div>
 
-            <div class="border-t border-sand/20 pt-8 flex flex-col items-center justify-center space-y-5 text-center">
-                <div class="flex items-center space-x-2 border border-clay px-4 py-2 rounded-full bg-charcoal/20 shadow-sm">
-                    <span class="text-[10px] md:text-xs font-bold text-clay tracking-widest uppercase">₱ PHP | Philippines</span>
+    <!-- ADMIN PRODUCT ADD/EDIT MODAL (With Explicit Add to Featured options!) -->
+    <div id="admin-edit-modal" class="fixed inset-0 bg-charcoal/80 z-[70] hidden items-center justify-center p-4 backdrop-blur-sm overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-stone/30 my-8">
+            <div class="p-5 bg-sand border-b border-stone/30 flex items-center justify-between">
+                <h3 id="admin-modal-title" class="font-serif font-bold text-lg text-charcoal">Add / Edit Product</h3>
+                <button onclick="window.TaraAdmin.closeProductModal()" class="text-stone hover:text-charcoal p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto text-sm">
+                <div>
+                    <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Product Name *</label>
+                    <input type="text" id="form-prod-name" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none font-semibold" placeholder="e.g. Ocean Jasper Bracelet">
                 </div>
-                
-                <div class="flex flex-col md:flex-row justify-center items-center gap-3 text-[10px] md:text-xs uppercase tracking-widest text-sand/80 text-center">
-                    <span class="text-sand font-bold">&copy; 2026 TARA'S COLLECTION.</span>
-                    <div class="flex space-x-4">
-                        <button onclick="openModal('shipping-modal')" class="hover:text-clay transition-colors cursor-pointer">Shipping Policy</button>
-                        <button onclick="openModal('contact-modal')" class="hover:text-clay transition-colors cursor-pointer">Contact Information</button>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Price (₱) *</label>
+                        <input type="number" id="form-prod-price" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none font-bold text-ocean" placeholder="350">
+                    </div>
+                    <div>
+                        <!-- STRICT EXPLICIT OPTIONS FOR ADD TO FEATURED PRODUCTS -->
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Category & Featured Status *</label>
+                        <select id="form-prod-cat" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none bg-white font-semibold text-xs">
+                            <option value="bracelets">Bracelet (Bracelets Tab Only)</option>
+                            <option value="bracelets-featured" selected>Bracelet - Add to Featured ⭐</option>
+                            <option value="personalized">Custom Bracelet (Personalized Tab Only)</option>
+                            <option value="personalized-featured">Custom Bracelet - Add to Featured ⭐</option>
+                            <option value="gemstones">Gemstone (Gemstones Tab Only)</option>
+                            <option value="gemstones-featured">Gemstone - Add to Featured ⭐</option>
+                            <option value="charms">Charm (Charms Tab Only)</option>
+                            <option value="charms-featured">Charm - Add to Featured ⭐</option>
+                        </select>
                     </div>
                 </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Status (Inventory)</label>
+                        <select id="form-prod-status" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none bg-white font-semibold text-xs">
+                            <option value="Available">Available 🟢</option>
+                            <option value="Sold Out">Sold Out 🔴</option>
+                            <option value="Hidden">Hidden 👁️</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Badge Text</label>
+                        <input type="text" id="form-prod-badge" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none uppercase text-xs font-bold" placeholder="HEALING">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Units Sold</label>
+                        <input type="number" id="form-prod-sold" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none text-xs font-extrabold text-rust" placeholder="0">
+                    </div>
+                </div>
+                <!-- WRIST SIZE AVAILABILITY SELECTOR (ONLY FOR BRACELETS/PERSONALIZED) -->
+                <div id="form-prod-sizes-wrapper" class="bg-white p-3.5 rounded-xl border border-stone/30">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-[11px] font-bold uppercase text-charcoal">Wrist Size Availability (Bracelets)</label>
+                        <span class="text-[10px] text-stone font-semibold">Tap to mark Available 🟢 or Sold Out 🔴</span>
+                    </div>
+                    <div id="form-prod-sizes-container" class="flex flex-wrap gap-1.5"></div>
+                </div>
+                <div class="bg-sand/30 p-4 rounded-xl border border-stone/30">
+                    <label class="block text-[11px] font-bold uppercase text-charcoal mb-2">📸 Upload Photos from Phone ($0 Free - Select Multiple!)</label>
+                    <input type="file" id="admin-file-upload" accept="image/*" multiple class="w-full text-xs text-stone file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-ocean file:text-white hover:file:bg-charcoal cursor-pointer">
+                    <p class="text-[10px] text-stone text-center my-2 font-semibold">OR PASTE IMAGE URL & CLICK ADD</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="form-prod-img-url" class="flex-1 px-3 py-2 border border-stone/50 rounded-xl text-xs outline-none" placeholder="https://images.unsplash.com/...">
+                        <button type="button" onclick="window.TaraAdmin.addPhotoFromUrl()" class="px-3 py-2 bg-charcoal text-white rounded-xl font-bold text-xs hover:bg-ocean transition-colors cursor-pointer">Add Photo</button>
+                    </div>
+                    <div id="admin-image-preview-container" class="mt-3 hidden text-center">
+                        <p class="text-[10px] font-bold text-charcoal uppercase mb-2">Uploaded Photos (Tap ✕ to remove)</p>
+                        <div id="admin-multi-image-preview" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Description</label>
+                    <textarea id="form-prod-desc" rows="3" class="w-full px-3 py-2 border border-stone/50 rounded-xl focus:border-ocean outline-none text-xs leading-relaxed" placeholder="Mention gemstone properties, cleansing details, and materials..."></textarea>
+                </div>
+            </div>
+            <div class="p-5 bg-sand/50 border-t border-stone/30 flex justify-end space-x-3">
+                <button type="button" onclick="window.TaraAdmin.closeProductModal()" class="px-5 py-2.5 text-xs font-bold uppercase text-stone hover:text-charcoal transition-colors">Cancel</button>
+                <button type="button" id="admin-save-product-btn" class="px-7 py-2.5 bg-charcoal hover:bg-ocean text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-md transition-colors cursor-pointer touch-min">
+                    Save Product
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="export-modal" class="fixed inset-0 bg-charcoal/85 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-6 border border-stone/30 flex flex-col max-h-[85vh]">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-serif font-bold text-xl text-charcoal">🚀 1-Tap Publish to Web (Phone Friendly!)</h3>
+                <button onclick="window.TaraApp.closeModal('export-modal')" class="text-stone hover:text-charcoal">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="bg-sand/40 p-4 rounded-xl border border-stone/40 mb-4 text-xs text-charcoal space-y-2">
+                <p class="font-bold text-rust uppercase tracking-wider">✨ How your wife can publish directly from her phone:</p>
+                <ol class="list-decimal list-inside space-y-1 text-stone font-medium">
+                    <li>Add or edit as many products as you want first (all changes are collected together!).</li>
+                    <li>Tap the <strong>Copy & Open GitHub Editor</strong> button below. (It copies all updates to your phone automatically).</li>
+                    <li>When GitHub opens in your phone browser, tap inside the code text box, select all, and tap <strong>Paste</strong>.</li>
+                    <li>Tap the green <strong>Commit changes</strong> button at the top right to make your products go live instantly!</li>
+                </ol>
+            </div>
+            <textarea id="github-export-textarea" readonly class="w-full flex-1 min-h-[160px] p-3 font-mono text-[10px] bg-stone/10 border border-stone/40 rounded-xl overflow-y-auto mb-4 text-charcoal"></textarea>
+            <div class="flex flex-col sm:flex-row justify-end gap-3">
+                <button onclick="window.TaraAdmin.copyGithubJson()" class="w-full sm:w-auto bg-stone hover:bg-stone/80 text-white px-6 py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all cursor-pointer">
+                    📋 Copy Code Only
+                </button>
+                <a href="https://github.com" target="_blank" onclick="window.TaraAdmin.copyGithubJson()" class="w-full sm:w-auto text-center bg-[#2E4C63] hover:bg-[#1E3A4F] text-white px-8 py-3.5 rounded-xl text-xs font-extrabold uppercase tracking-widest transition-all shadow-lg cursor-pointer flex items-center justify-center space-x-2">
+                    <span>🚀 Copy & Open GitHub Editor</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="proof-modal" onclick="window.TaraApp.closeModal('proof-modal')" class="fixed inset-0 bg-charcoal/90 z-[80] hidden items-center justify-center p-4 backdrop-blur-md cursor-pointer">
+        <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-lg w-full text-center relative" onclick="event.stopPropagation()">
+            <button onclick="window.TaraApp.prevProof(event)" class="absolute -left-3 sm:-left-14 top-1/2 -translate-y-1/2 bg-charcoal/90 hover:bg-charcoal text-white p-3 rounded-full shadow-xl transition-transform hover:scale-110 z-20 cursor-pointer border border-white/20 touch-min" title="Previous Proof">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button onclick="window.TaraApp.nextProof(event)" class="absolute -right-3 sm:-right-14 top-1/2 -translate-y-1/2 bg-charcoal/90 hover:bg-charcoal text-white p-3 rounded-full shadow-xl transition-transform hover:scale-110 z-20 cursor-pointer border border-white/20 touch-min" title="Next Proof">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+            <img id="proof-enlarged-image" src="" class="w-full max-h-[60vh] object-cover rounded-xl border border-stone/20">
+            <p id="proof-caption-text" class="text-xs md:text-sm font-extrabold text-charcoal py-3.5 uppercase tracking-wide"></p>
+            <div class="flex justify-center pb-2">
+                <a id="proof-fb-link-btn" href="#" target="_blank" class="w-full bg-[#1877F2] hover:bg-[#155DBD] text-white py-3.5 px-6 rounded-xl font-extrabold text-xs md:text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-2.5 transition-all hover:scale-[1.02] cursor-pointer touch-min">
+                    <svg class="w-5 h-5 fill-current flex-shrink-0" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    <span>View Proof of Transaction in Facebook</span>
+                </a>
+            </div>
+            <button onclick="window.TaraApp.closeModal('proof-modal')" class="mt-2 text-[10px] font-extrabold text-stone uppercase hover:underline cursor-pointer">Close Preview</button>
+        </div>
+    </div>
+
+    <div id="about-modal" onclick="window.TaraApp.closeModal('about-modal')" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-sand p-8 max-w-md w-full rounded-2xl text-center shadow-2xl border border-clay/30 relative" onclick="event.stopPropagation()">
+            <h3 class="text-2xl font-serif font-bold text-charcoal mb-3">About Tara's Collection</h3>
+            <div class="w-12 h-1 bg-clay mx-auto mb-4"></div>
+            <p class="text-xs md:text-sm text-ocean leading-relaxed font-medium">
+                <strong>TARA'S COLLECTION</strong> is a PH local provider of Handcrafted Bracelets & Healing Stones by Leslie.<br><br>
+                We believe in the power of natural earth elements to heal, protect, and elevate daily energy. Every piece is carefully sourced, cleansed, and strung with love.
+            </p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-ocean text-sand pt-16 pb-28 md:pb-16 border-t border-stone/30 mt-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+                <div class="flex flex-col space-y-3">
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-clay">Tara's Collection</h4>
+                    <p class="text-xs text-sand/80 font-medium max-w-sm">Handcrafted natural healing bracelets and gemstone arrays cleansed with sound vibrations.</p>
+                    <div class="flex justify-center md:justify-start space-x-4 pt-2">
+                        <button onclick="document.getElementById('about-modal').classList.remove('hidden'); document.getElementById('about-modal').classList.add('flex');" class="text-xs uppercase font-bold hover:text-clay underline cursor-pointer">About Us</button>
+                        <button onclick="window.TaraApp.openChatWidget('normal')" class="text-xs uppercase font-bold hover:text-clay underline cursor-pointer">FB Messenger Support</button>
+                    </div>
+                </div>
+                <div class="flex flex-col md:items-end space-y-2">
+                    <h4 class="text-sm font-bold uppercase tracking-widest text-clay">Direct Contact</h4>
+                    <p class="text-xl font-serif font-bold text-white tracking-wider">0915 457 1859</p>
+                    <p class="text-xs font-medium text-sand/80">Central Luzon, Philippines &bull; J&T Express Delivery</p>
+                    <div class="flex items-center justify-center md:justify-end space-x-5 pt-3">
+                        <a href="https://www.facebook.com/TarasOnline" target="_blank" rel="noopener noreferrer" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified Facebook Page">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#instagram" onclick="window.TaraApp?.showToast('Our Instagram page is launching very soon!', 'info'); return false;" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified Instagram">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="#tiktok" onclick="window.TaraApp?.showToast('Our TikTok page is launching very soon!', 'info'); return false;" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified TikTok">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified YouTube Channel">
+                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-sand/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] uppercase tracking-widest text-sand/80">
+                <p>&copy; 2026 TARA'S COLLECTION. ALL RIGHTS RESERVED.</p>
+                <span class="px-3 py-1 bg-charcoal/30 rounded-full border border-clay/40 text-clay font-extrabold">₱ PHP | Philippines</span>
             </div>
         </div>
     </footer>
 
-    <!-- FLOATING ACTION BUTTONS -->
-    <button onclick="openChatModal('')" class="fixed bottom-6 right-6 bg-[#0084ff] hover:bg-[#005cbf] text-white px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center space-x-2 transition-transform hover:scale-105 z-[45] cursor-pointer">
-        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.14 2 11.25c0 2.91 1.5 5.51 3.84 7.24.16.12.27.3.3.5l.23 2.15c.05.47.6.72.96.41l2.5-2.03c.18-.14.4-.2.63-.16 1.48.33 3.03.33 4.54 0 .23-.04.45.02.63.16l2.5 2.03c.36.31.91.06.96-.41l.23-2.15c.03-.2.14-.38.3-.5 2.34-1.73 3.84-4.33 3.84-7.24C22 6.14 17.523 2 12 2zm1.09 10.42l-2.4-2.55a.86.86 0 0 0-1.2l-.04-.04l-3.35 3.56c-.32.34.18.82.57.57l3.7-2.35c.34-.22.82-.2 1.13.04l2.4 1.83c.38.29.93.25 1.28-.1l3.52-3.52c.32-.33-.18-.81-.56-.56l-3.64 2.31a.88.88 0 0 1-1.41-.19z"/></svg>
-        <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">Chat with us</span>
-    </button>
-    <button id="floating-cart-btn" onclick="toggleCart()" class="hidden fixed bottom-20 right-6 bg-ocean text-white px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.15)] flex items-center space-x-2 hover:bg-charcoal transition-transform hover:scale-105 z-[45] cursor-pointer border border-white/20">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-        <span class="font-semibold uppercase tracking-wider text-[10px] md:text-xs">Cart (<span id="cart-count">0</span>)</span>
-    </button>
-
-    <!-- SYSTEM MODALS -->
-    
-    <!-- MESSENGER AUTO-TYPE CHAT MODAL -->
-    <div id="chat-modal" class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm z-[100] hidden items-end justify-end p-4 md:p-6 transition-opacity" onclick="closeModal('chat-modal')">
-        <div class="bg-white max-w-[360px] w-full rounded-2xl shadow-[0_5px_40px_rgba(0,0,0,0.16)] border border-stone/20 overflow-hidden flex flex-col transform transition-transform mb-16 md:mb-0" onclick="event.stopPropagation()">
-            
-            <div class="bg-white border-b border-stone/10 p-4 flex items-center justify-between z-10 shadow-sm">
-                <div class="flex items-center space-x-3">
-                    <div class="relative">
-                        <img src="assets/brand/logo.jpg" class="w-9 h-9 rounded-full object-cover">
-                        <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></div>
-                    </div>
-                    <div>
-                        <h3 class="font-sans font-bold text-charcoal text-sm leading-none mb-1">Tara's Collection</h3>
-                        <p class="text-[10px] text-stone font-medium leading-none">Typically replies instantly</p>
-                    </div>
-                </div>
-                <button onclick="closeModal('chat-modal')" class="text-stone hover:bg-stone/10 p-2 rounded-full transition-colors cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-
-            <div class="bg-[#f0f2f5] p-4 flex flex-col space-y-4 h-[280px] overflow-y-auto">
-                <div class="text-center text-[10px] text-stone font-medium uppercase tracking-wider my-2">Chat with Tara's Collection</div>
-                <div class="flex items-end space-x-2">
-                    <img src="assets/brand/logo.jpg" class="w-6 h-6 rounded-full object-cover">
-                    <!-- DYNAMIC CHAT BUBBLE ID ADDED -->
-                    <div id="chat-bubble-text" class="bg-white border border-stone/10 text-charcoal text-[13px] p-3 rounded-2xl rounded-bl-sm shadow-sm max-w-[85%]">
-                        Hi there! 👋 How can we help you today?
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-3 bg-white border-t border-stone/10">
-                <div class="flex items-end space-x-2 bg-white border border-stone/30 rounded-3xl p-1 relative shadow-sm">
-                    <textarea id="chat-input" class="w-full bg-transparent border-none focus:ring-0 text-sm text-charcoal resize-none py-2.5 pl-4 pr-12 max-h-32 min-h-[44px] scrollbar-hide outline-none" placeholder="Send a message..." rows="1" oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"></textarea>
-                    
-                    <button onclick="sendChatMessage()" class="absolute right-1 bottom-1 p-2 bg-transparent text-[#0084ff] hover:text-[#005cbf] transition-colors cursor-pointer rounded-full flex items-center justify-center h-9 w-9">
-                        <svg class="w-6 h-6 transform rotate-45 translate-x-[-1px] translate-y-[1px]" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
-                    </button>
-                </div>
-                <div class="text-center mt-2">
-                    <span class="text-[9px] text-stone font-medium tracking-wide">Powered by Messenger</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- DEDICATED IMAGE ZOOM VIEWER -->
-    <div id="image-zoom-modal" class="fixed inset-0 bg-charcoal/95 z-[110] hidden items-center justify-center px-4 backdrop-blur-md transition-opacity cursor-pointer" onclick="closeModal('image-zoom-modal')">
-        <button onclick="closeModal('image-zoom-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[120]">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="flex flex-col items-center max-w-5xl w-full relative" onclick="event.stopPropagation()">
-            <button onclick="prevZoomImage(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-colors z-[120] shadow-md border border-white/20 pv-zoom-nav-btn hidden cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            </button>
-            <img id="zoom-enlarged-image" src="" class="max-h-[85vh] max-w-full rounded-sm shadow-2xl p-1 bg-white cursor-default">
-            <button onclick="nextZoomImage(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white transition-colors z-[120] shadow-md border border-white/20 pv-zoom-nav-btn hidden cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- PROOF MODAL -->
-    <div id="proof-modal" class="fixed inset-0 bg-charcoal/90 z-[70] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity cursor-pointer" onclick="closeModal('proof-modal')">
-        <button onclick="closeModal('proof-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[70]">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="flex flex-col items-center max-w-full relative" onclick="event.stopPropagation()">
-            <button onclick="prevProof(event)" class="absolute left-0 md:-left-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20 cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            </button>
-            <img id="proof-enlarged-image" src="" class="max-h-[75vh] max-w-full rounded-sm shadow-2xl p-1 bg-white mb-6">
-            <button onclick="nextProof(event)" class="absolute right-0 md:-right-16 top-1/2 -translate-y-1/2 bg-charcoal/70 hover:bg-charcoal p-3 rounded-full text-white transition-colors z-[70] shadow-md border border-white/20 cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-            <a id="proof-fb-link" href="#" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-sm text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center space-x-3 relative z-[70]">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
-                <span>View Proof in FB</span>
-            </a>
-            <p id="proof-counter" class="text-stone text-xs mt-4 tracking-widest font-semibold"></p>
-        </div>
-    </div>
-
-    <!-- GALLERY MODAL -->
-    <div id="gallery-modal" class="fixed inset-0 bg-charcoal/90 z-[70] hidden flex-col items-center justify-center px-4 backdrop-blur-sm transition-opacity" onclick="closeModal('gallery-modal')">
-        <button onclick="closeModal('gallery-modal')" class="absolute top-6 right-6 text-white hover:text-stone transition-colors z-[80] cursor-pointer">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="bg-sand rounded-md shadow-2xl w-full max-w-5xl max-h-[85vh] flex flex-col border border-stone/20 overflow-hidden" onclick="event.stopPropagation()">
-            <div class="p-6 border-b border-stone/30 bg-white text-center flex-shrink-0">
-                <h3 id="gallery-modal-title" class="text-2xl font-serif font-semibold text-charcoal">Gallery</h3>
-            </div>
-            <div id="gallery-modal-grid" class="p-6 overflow-y-auto overscroll-contain grid grid-cols-2 md:grid-cols-4 gap-4 bg-alabaster flex-1">
-                <!-- Images injected here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- CART MODAL -->
-    <div id="cart-modal" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl z-50 cart-closed flex flex-col border-l border-stone">
-        <div class="p-6 border-b border-sand flex justify-between items-center bg-sand">
-            <h2 class="text-xl font-serif font-semibold text-charcoal">Your Cart</h2>
-            <button onclick="toggleCart()" class="text-stone hover:text-charcoal transition-colors cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-        
-        <div id="cart-items" class="p-6 flex-1 overflow-y-auto overscroll-contain space-y-4 bg-alabaster"></div>
-        
-        <div class="p-6 border-t border-sand bg-sand/50">
-            <div class="flex justify-between font-semibold text-lg text-charcoal mb-4">
-                <span>Total:</span>
-                <span class="text-ocean">₱ <span id="cart-total">0</span></span>
-            </div>
-            <button id="checkout-btn" onclick="prepareCheckout()" class="w-full bg-ocean hover:bg-charcoal text-white py-3 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg cursor-pointer">
-                Checkout Now
-            </button>
-        </div>
-    </div>
-
-    <!-- ABOUT US MODAL -->
-    <div id="about-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-lg w-full rounded-md text-center shadow-2xl relative border border-clay/30">
-            <button onclick="closeModal('about-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">About Us</h3>
-            <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
-            <p class="text-ocean text-sm md:text-base leading-relaxed">
-                <strong>TARA'S COLLECTION</strong> is a PH local provider of Handcrafted Bracelets & Healing Stones by Leslie.<br><br>
-                We believe in the power of natural earth elements to heal, protect, and elevate your daily energy. Every piece is carefully sourced, cleansed, and strung with love to bring you not just beautiful accessories, but meaningful companions for your spiritual journey.
-            </p>
-        </div>
-    </div>
-
-    <!-- CONTACT MODAL -->
-    <div id="contact-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
-            <button onclick="closeModal('contact-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">Get in Touch</h3>
-            <div class="w-16 h-1 bg-clay mx-auto mb-8"></div>
-            <p class="text-ocean text-sm uppercase tracking-widest mb-1">Text or Call</p>
-            <p class="text-4xl font-serif text-charcoal mb-8 tracking-wide">0915 457 1859</p>
-            <p class="text-ocean text-sm uppercase tracking-widest mb-4">Or reach us instantly on</p>
-            <a href="https://m.me/109568137198741" target="_blank" onclick="closeModal('contact-modal')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-md text-sm font-semibold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center space-x-3 cursor-pointer">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 512 512"><path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/></svg>
-                <span>Message on Facebook</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- SHIPPING MODAL -->
-    <div id="shipping-modal" class="fixed inset-0 bg-charcoal/80 z-[80] hidden items-center justify-center px-4 backdrop-blur-sm transition-opacity">
-        <div class="bg-sand p-8 max-w-md w-full rounded-md text-center shadow-2xl relative border border-clay/30">
-            <button onclick="closeModal('shipping-modal')" class="absolute top-4 right-4 text-stone hover:text-charcoal transition-colors cursor-pointer">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <h3 class="text-3xl font-serif font-semibold text-charcoal mb-4">Shipping Info</h3>
-            <div class="w-16 h-1 bg-clay mx-auto mb-6"></div>
-            <p class="text-ocean text-sm md:text-base leading-relaxed">
-                We use <strong>J&T Express</strong> as our trusted shipping provider.<br><br>
-                Items usually ship within a couple of hours for all in-stock inventory. Final shipping costs and delivery timeframes depend on J&T Express and your location.
-            </p>
-        </div>
-    </div>
-
-    <!-- CORE JAVASCRIPT LOGIC -->
-    <script>
-        const websiteURL = "https://tarascollection.store/";
-        const googleSheetApiUrl = "https://script.google.com/macros/s/AKfycbxpRlm1z5pElKDvmpc7wqps5sjU35vTTGBTe9bU6THI16I__9mEOadwc3QZmPdvhOgf/exec";
-
-        function updateBodyScroll() {
-            const modals = document.querySelectorAll('.fixed.inset-0');
-            let isAnyModalOpen = false;
-            modals.forEach(modal => {
-                if (!modal.classList.contains('hidden')) { isAnyModalOpen = true; }
-            });
-
-            const cartModal = document.getElementById('cart-modal');
-            const isCartOpen = cartModal && cartModal.classList.contains('cart-open');
-            
-            if (isAnyModalOpen || isCartOpen) { document.body.style.overflow = 'hidden'; } 
-            else { document.body.style.overflow = ''; }
-        }
-
-        let products = [
-            { name: "Rose Quartz Bracelet", price: 850, images: ["assets/products/rose-quartz.jpg", "assets/products/rose-quartz1.jpg", "assets/products/rose-quartz2.jpg"], desc: "Known as the stone of universal love. It restores trust and harmony in relationships, encouraging unconditional love." },
-            { name: "Special Curation", price: 1500, images: ["assets/products/special-curation.jpg"], desc: "A carefully selected blend of powerful healing stones. Hand-picked to provide comprehensive energetic balance and harmony." },
-            { name: "Turquoise", price: 850, images: ["assets/products/turquoise.jpg"], desc: "A purification stone that dispels negative energy. It balances and aligns all the chakras, stabilizing mood swings." },
-            { name: "Black Tourmaline", price: 850, images: ["assets/products/black-tourmaline.jpg"], desc: "A powerful grounding stone that acts as a protective shield against negative energy and electromagnetic smog." },
-            { name: "Citrine Wealth", price: 1200, images: ["assets/products/citrine.jpg", "assets/products/citrine1.jpg", "assets/products/citrine2.jpg"], desc: "A joyful stone with bright energy that lights up many aspects of lives. It is associated with wealth, prosperity, and success." },
-            { name: "Coral Jade", price: 850, images: ["assets/products/coral-jade.jpg"], desc: "A fossilized gemstone that brings a soothing and grounded energy. It promotes courage and helps overcome fear." },
-            { name: "Kunzite", price: 850, images: ["assets/products/kunzite.jpg"], desc: "A beautiful stone of emotion that opens the heart to unconditional love and produces loving thoughts." },
-            { name: "Labradorite", price: 850, images: ["assets/products/labradorite.jpg", "assets/products/labradorite1.jpg"], desc: "A stone of transformation and magic. It clears, balances, and protects the aura." },          
-            { name: "Shungite 7 Chakra", price: 880, images: ["assets/products/shungite.jpg", "assets/products/shungite1.jpg"], desc: "A rare black stone known for its incredible grounding and purification properties. It perfectly aligns and clears all seven chakras." },
-            { name: "Lapis Lazuli", price: 850, images: ["assets/products/lapis-lazuli.jpg", "assets/products/lapis-lazuli1.jpg", "assets/products/lapis-lazuli2.jpg"], desc: "A stone of protection that may be worn to guard against psychic attacks. It quickly releases stress, bringing deep peace." },
-            { name: "Nanhong Agate", price: 850, images: ["assets/products/nanhong-agate.jpg"], desc: "A rare and highly prized red agate that boosts vitality and stamina. It encourages a sense of security and self-confidence." },
-            { name: "Lavender Moon Quartz", price: 850, images: ["assets/products/lavender-moon-quartz.jpg"], desc: "A rare, soothing stone that promotes deep emotional healing and brings a sense of joy and self-worth." },
-            { name: "Libyan Desert Glass", price: 850, images: ["assets/products/libyan-desert-glass.jpg"], desc: "A highly energetic tektite that enhances willpower, creativity, and spiritual awakening." },
-            { name: "Lavender Amethyst", price: 850, images: ["assets/products/lavender-amethyst.jpg"], desc: "A gentle vibration stone that instills peace, calms the mind, and encourages restful sleep." },
-            { name: "Alashan Agate", price: 850, images: ["assets/products/alashan.jpg"], desc: "Known as the stone of inner stability, it balances yin and yang while providing strength and courage." },
-            { name: "Tigers Eye", price: 850, images: ["assets/products/tigers-eye.jpg"], desc: "A stone of protection that brings good luck. It focuses the mind, promoting mental clarity and aiding to resolve problems objectively." },
-            { name: "Green Phantom", price: 850, images: ["assets/products/green-phantom.jpg"], desc: "An excellent stone for personal growth and breaking through past traumas, accelerating healing and regeneration." },
-            { name: "Flower Amber", price: 850, images: ["assets/products/flower-amber.jpg", "assets/products/flower-amber1.jpg"], desc: "A warm, healing resin filled with ancient life energy. It draws disease from the body and revitalizes tissues." },
-            { name: "Lucky Turn Amber", price: 850, images: ["assets/products/lucky-turn-amber.jpg", "assets/products/lucky-turn-amber1.jpg"], desc: "Known to attract good luck and prosperity. It carries a sunny, uplifting energy that clears the mind." },
-            { name: "Sea Mica", price: 850, images: ["assets/products/sea-mica.jpg", "assets/products/sea-mica1.jpg"], desc: "A calming stone that mimics the gentle waves of the ocean, bringing emotional balance and reducing stress." },
-            { name: "African Turquoise", price: 850, images: ["assets/products/african-turquoise.jpg", "assets/products/african-turquoise1.jpg"], desc: "Not a true turquoise, but a type of jasper that encourages growth, development, and positive change." },
-            { name: "Pyrite Raw", price: 850, images: ["assets/products/pyrite-raw.jpg"], desc: "Often called Fool's Gold, this stone is a powerful protection amulet. It shields against all forms of negative vibrations." },
-            { name: "Leklai Protection", price: 850, images: ["assets/products/leklai.jpg"], desc: "A mysterious and sacred amulet known for its supreme protective energies. It creates a powerful barrier against negative forces." },
-            { name: "Que Sera Stone", price: 850, images: ["assets/products/que-sera.jpg"], desc: "A deeply grounding stone that helps to soothe, calm, and bring peace. It balances the mind and soul." },
-            { name: "Kambaba Jasper", price: 850, images: ["assets/products/kambaba-jasper.jpg"], desc: "A stone of peace and tranquility, imbued with the nourishing green energy of nature. It comforts and protects." },
-            { name: "Xiuyu Jade", price: 850, images: ["assets/products/xiuyu-jade.jpg"], desc: "A traditional symbol of serenity and purity. It signifies wisdom gathered in tranquil peace, increasing love and nurturing." },
-            { name: "Colorful Moonstone", price: 850, images: ["assets/products/colorful-moonstone.jpg"], desc: "A stone for new beginnings that promotes inner growth and strength. It soothes emotional instability and stress." },
-            { name: "Golden Rutile", price: 1200, images: ["assets/products/golden-rutile.jpg"], desc: "An illuminating stone infused with golden strands of energy. It clears energy blockages and stimulates spiritual creativity." },
-            { name: "Fluorite Bracelet", price: 750, images: ["assets/products/fluorite.jpg"], desc: "A highly protective and stabilizing stone, useful for grounding and harmonizing spiritual energy." },
-            { name: "Ocean Jasper Druzy", price: 950, images: ["assets/products/ocean-jasper.jpg"], desc: "An excellent healing stone that encourages a feeling of joy and elevated spirits. It helps release negative feelings." },
-            { name: "Raw Ruby Crystal", price: 1100, images: ["assets/products/raw-ruby.jpg"], desc: "A vibrant stone that encourages passion and a zest for life. It improves motivation and aids in setting realistic goals." },
-            { name: "Black Obsidian", price: 790, images: ["assets/products/black-obsidian.jpg"], desc: "A strongly protective stone that forms a shield against negativity. It draws out mental stress and tension." },
-            { name: "Amethyst Bracelet", price: 900, images: ["assets/products/amethyst.jpg"], desc: "A powerful and protective stone with a high spiritual vibration. It relieves stress, soothes irritability, and balances mood swings." }
-        ];
-
-        const customBases = [
-            { name: "Custom Base Style 1", price: 500, img: "assets/products/custom-base-1.jpg" },
-            { name: "Custom Base Style 2", price: 500, img: "assets/products/custom-base-2.jpg" },
-            { name: "Custom Base Style 3", price: 500, img: "assets/products/custom-base-3.jpg" },            
-            { name: "Custom Base Style 4", price: 500, img: "assets/products/custom-base-4.jpeg" },
-            { name: "Custom Base Style 5", price: 500, img: "assets/products/custom-base-5.jpeg" },
-            { name: "Custom Base Style 6", price: 500, img: "assets/products/custom-base-6.jpeg" },
-            { name: "Custom Base Style 7", price: 500, img: "assets/products/custom-base-7.jpg" },
-            { name: "Custom Base Style 8", price: 500, img: "assets/products/custom-base-8.jpeg" }
-        ];
-
-        const proofs = [
-            { src: 'assets/proofs/proof-1.jpg', link: 'https://www.facebook.com/photo?fbid=1496846199120652&set=pb.100063858590900.-2207520000' },
-            { src: 'assets/proofs/proof-2.jpg', link: 'https://www.facebook.com/photo.php?fbid=1463990942406178&set=pb.100063858590900.-2207520000&type=3' },
-            { src: 'assets/proofs/proof-3.jpg', link: 'https://www.facebook.com/photo?fbid=1434517582020181&set=pb.100063858590900.-2207520000' },
-            { src: 'assets/proofs/proof-4.jpg', link: 'https://www.facebook.com/photo?fbid=1406069524864987&set=pb.100063858590900.-2207520000' },
-            { src: 'assets/proofs/proof-5.jpg', link: 'https://www.facebook.com/photo?fbid=1405798064892133&set=pb.100063858590900.-2207520000' },
-            { src: 'assets/proofs/proof-6.jpg', link: 'https://www.facebook.com/photo?fbid=1405797881558818&set=pb.100063858590900.-2207520000' }
-        ];
-
-        const galleryData = {
-            "bracelets": [
-                { img: "assets/gallery/bracelet1.jpg", name: "Bracelet Style 1" },
-                { img: "assets/gallery/bracelet2.jpg", name: "Bracelet Style 2" },
-                { img: "assets/gallery/bracelet3.jpg", name: "Bracelet Style 3" },
-                { img: "assets/gallery/bracelet4.jpg", name: "Bracelet Style 4" },
-                { img: "assets/gallery/bracelet5.jpg", name: "Bracelet Style 5" },
-                { img: "assets/gallery/bracelet6.jpg", name: "Bracelet Style 6" },
-                { img: "assets/gallery/bracelet7.jpg", name: "Bracelet Style 7" },
-                { img: "assets/gallery/bracelet8.jpg", name: "Bracelet Style 8" },
-                { img: "assets/gallery/bracelet9.jpg", name: "Bracelet Style 9" },
-                { img: "assets/gallery/bracelet10.jpg", name: "Bracelet Style 10" }
-            ],
-            "charms": [
-                { img: "assets/gallery/charms1.jpg", name: "Charm Style 1" },
-                { img: "assets/gallery/charms2.jpg", name: "Charm Style 2" }
-            ],
-            "personalized": [
-                { img: "assets/gallery/personalize1.jpg", name: "Personalized Style 1" },
-                { img: "assets/gallery/personalize2.jpg", name: "Personalized Style 2" },
-                { img: "assets/gallery/personalize3.jpg", name: "Personalized Style 3" },
-                { img: "assets/gallery/personalize4.jpg", name: "Personalized Style 4" },
-                { img: "assets/gallery/personalize5.jpg", name: "Personalized Style 5" },
-                { img: "assets/gallery/personalize6.jpg", name: "Personalized Style 6" },
-                { img: "assets/gallery/personalize7.jpg", name: "Personalized Style 7" },
-                { img: "assets/gallery/personalize8.jpg", name: "Personalized Style 8" },
-                { img: "assets/gallery/personalize9.jpg", name: "Personalized Style 9" },
-                { img: "assets/gallery/personalize10.jpg", name: "Personalized Style 10" },
-                { img: "assets/gallery/personalize11.jpg", name: "Personalized Style 11" },
-                { img: "assets/gallery/personalize12.jpg", name: "Personalized Style 12" },
-                { img: "assets/gallery/personalize13.jpg", name: "Personalized Style 13" },
-                { img: "assets/gallery/personalize14.jpg", name: "Personalized Style 14" },
-                { img: "assets/gallery/personalize15.jpg", name: "Personalized Style 15" },
-                { img: "assets/gallery/personalize16.jpeg", name: "Personalized Style 16" },
-                { img: "assets/gallery/personalize17.jpeg", name: "Personalized Style 17" },
-                { img: "assets/gallery/personalize18.jpeg", name: "Personalized Style 18" },
-                { img: "assets/gallery/personalize19.jpg", name: "Personalized Style 19" },
-                { img: "assets/gallery/personalize20.jpeg", name: "Personalized Style 20" }
-            ],
-            "gemstones": [
-                { img: "assets/gallery/gemstone1.jpg", name: "Gemstone Style 1" }
-            ]
-        };
-
-        /* ==============================================================
-           DYNAMIC SIZE ENGINE STATE
-           ============================================================== */
-        let currentCategory = 'Adult';
-        let currentSize = 16;
-        const sizeOptions = {
-            'Adult': [14, 15, 16, 17, 18, 19, 20],
-            'Kids': [10, 11, 12, 13, 14, 15]
-        };
-
-        function renderSizeSelector() {
-            const btnAdult = document.getElementById('cat-adult');
-            const btnKids = document.getElementById('cat-kids');
-
-            if (currentCategory === 'Adult') {
-                btnAdult.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-charcoal text-white border-charcoal cursor-pointer";
-                btnKids.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-transparent text-charcoal border-stone hover:border-charcoal cursor-pointer";
-            } else {
-                btnKids.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-charcoal text-white border-charcoal cursor-pointer";
-                btnAdult.className = "px-5 py-2 border rounded-full text-[10px] md:text-xs font-semibold uppercase tracking-wider transition-colors bg-transparent text-charcoal border-stone hover:border-charcoal cursor-pointer";
-            }
-
-            document.getElementById('selected-size-label').innerText = currentSize + ' cm';
-
-            const container = document.getElementById('size-pills-container');
-            let pillsHTML = '';
-            sizeOptions[currentCategory].forEach(sz => {
-                const isSelected = sz === currentSize;
-                const activeClass = isSelected ? 'bg-ocean text-white border-ocean' : 'bg-transparent text-charcoal border-stone hover:border-charcoal';
-                pillsHTML += `<button onclick="setSize(${sz})" class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center border rounded-full text-xs font-semibold transition-colors cursor-pointer ${activeClass}">${sz}</button>`;
-            });
-            container.innerHTML = pillsHTML;
-        }
-
-        function setCategory(cat) {
-            currentCategory = cat;
-            currentSize = cat === 'Adult' ? 16 : 12;
-            renderSizeSelector();
-        }
-
-        function setSize(sz) {
-            currentSize = sz;
-            renderSizeSelector();
-        }
-
-        /* ==============================================================
-           3. DYNAMIC RENDERING & INITIALIZATION
-           ============================================================== */
-        window.onload = function() {
-            renderAllContent(); 
-            fetchLiveProducts(); 
-            checkDeepLink(); 
-        };
-
-        async function fetchLiveProducts() {
-            try {
-                const response = await fetch(googleSheetApiUrl);
-                const liveSheetData = await response.json();
-
-                if (Array.isArray(liveSheetData) && liveSheetData.length > 0) {
-                    const sheetProductMap = new Map();
-                    liveSheetData.forEach(item => {
-                        if (item.name) {
-                            sheetProductMap.set(item.name.toLowerCase().trim(), item.price);
-                        }
-                    });
-
-                    products.forEach(p => {
-                        const key = p.name.toLowerCase().trim();
-                        if (sheetProductMap.has(key)) {
-                            p.price = sheetProductMap.get(key);
-                        }
-                    });
-
-                    const existingProductNames = new Set(products.map(p => p.name.toLowerCase().trim()));
-                    liveSheetData.forEach(sheetItem => {
-                        if (sheetItem.name) {
-                            const cleanName = sheetItem.name.trim();
-                            const key = cleanName.toLowerCase();
-                            if (!existingProductNames.has(key)) {
-                                products.push({
-                                    name: cleanName,
-                                    price: sheetItem.price || 0,
-                                    images: ["assets/brand/logo.jpg"], 
-                                    desc: "Handcrafted piece by Tara's Collection. Inquire for full details and custom sizing."
-                                });
-                            }
-                        }
-                    });
-                    renderAllContent(); 
-                }
-            } catch (error) {
-                console.warn("Using offline fallback products. Google Sheets sync failed.");
-            }
-        }
-
-        /* DUAL DEEP LINK RESOLUTION ENGINE */
-        function checkDeepLink() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const itemParam = urlParams.get('item');
-            const galleryParam = urlParams.get('gallery');
-
-            if (itemParam) {
-                const query = itemParam.replace(/-/g, ' ').toLowerCase();
-                const foundIndex = products.findIndex(p => p.name.toLowerCase() === query);
-                if (foundIndex !== -1) {
-                    openProductPage(foundIndex, true);
-                } else {
-                    const foundBase = customBases.find(b => b.name.toLowerCase() === query);
-                    if(foundBase) {
-                        openBasePage(foundBase.img, foundBase.name, 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', foundBase.price, true);
-                    }
-                }
-            } else if (galleryParam) {
-                const query = galleryParam.replace(/-/g, ' ').toLowerCase();
-                for (const category in galleryData) {
-                    const items = galleryData[category];
-                    const foundIndex = items.findIndex(item => item.name.toLowerCase() === query);
-                    if (foundIndex !== -1) {
-                        openGalleryProductPage(category, foundIndex, true);
-                        break;
-                    }
-                }
-            }
-        }
-
-        function renderAllContent() {
-            const productGrid = document.getElementById('unified-product-grid');
-            let productHTML = '';
-            products.forEach((p, index) => {
-                const isHidden = index >= 8 ? 'extra-product hidden' : '';
-                
-                const multiIndicator = p.images.length > 1 
-                    ? `<div class="absolute top-2 right-2 bg-white/95 text-charcoal text-[9px] px-3 py-1 rounded-full shadow-md font-extrabold uppercase tracking-widest z-10 border border-stone/20 whitespace-nowrap pointer-events-none">${p.images.length} PHOTOS</div>` 
-                    : '';
-                
-                productHTML += `
-                <div class="product-card ${isHidden} group flex flex-col relative text-center items-center mt-3 cursor-pointer" onclick="openProductPage(${index})">
-                    <div class="relative w-full pt-[100%] mb-4 block">
-                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
-                            <img src="${p.images[0]}" alt="${p.name}" class="blob-image mix-blend-multiply">
-                        </div>
-                        ${multiIndicator}
-                    </div>
-                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${p.name}</h3>
-                    <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">₱ ${p.price}.00</p>
-                </div>`;
-            });
-            productGrid.innerHTML = productHTML;
-
-            const customGrid = document.getElementById('custom-bases-grid');
-            let customHTML = '';
-            customBases.forEach((c) => {
-                const safeName = c.name.replace(/'/g, "\\'");
-                customHTML += `
-                <div class="product-card group flex flex-col relative text-center items-center mt-3 cursor-pointer" onclick="openBasePage('${c.img}', '${safeName}', 'A beautifully handcrafted base ready for your unique customization. Add your favorite healing stones to complete the piece.', ${c.price})">
-                    <div class="relative w-full pt-[100%] mb-4 block">
-                        <div class="absolute inset-0 blob-frame shadow-sm pointer-events-none">
-                            <img src="${c.img}" alt="${c.name}" class="blob-image mix-blend-multiply">
-                        </div>
-                    </div>
-                    <h3 class="text-base font-serif font-semibold tracking-wide text-charcoal product-title">${c.name}</h3>
-                    <p class="text-sm text-ocean/80 mt-1 mb-4 font-medium tracking-wider">Base: ₱ ${c.price}.00</p>
-                </div>`;
-            });
-            customGrid.innerHTML = customHTML;
-
-            const marqueeContainer = document.getElementById('marquee-track');
-            let proofHTML = '';
-            proofs.forEach((proof, index) => {
-                proofHTML += `<img src="${proof.src}" onclick="openProofModal(${index})" class="h-64 md:h-80 w-48 md:w-56 object-cover rounded-md shadow-md cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0 bg-stone/10">`;
-            });
-            marqueeContainer.innerHTML = proofHTML + proofHTML;
-
-            bindToggleButton();
-        }
-
-        const searchInput = document.getElementById('search-input');
-        const clearSearchBtn = document.getElementById('clear-search');
-        
-        searchInput.addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase().trim();
-            const allCards = document.querySelectorAll('.product-card');
-            const toggleContainer = document.getElementById('toggle-container');
-            
-            if (query.length > 0) {
-                clearSearchBtn.classList.remove('hidden');
-                if(toggleContainer) toggleContainer.classList.add('hidden');
-                
-                allCards.forEach(card => {
-                    if(card.classList.contains('extra-product')) {
-                        card.classList.remove('hidden');
-                    }
-                    const title = card.querySelector('.product-title').innerText.toLowerCase();
-                    if (title.includes(query)) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            } else {
-                resetSearch(); 
-            }
-        });
-
-        function resetSearch() {
-            searchInput.value = '';
-            clearSearchBtn.classList.add('hidden');
-            
-            const toggleContainer = document.getElementById('toggle-container');
-            const toggleBtn = document.getElementById('toggle-btn');
-            
-            if(toggleContainer) toggleContainer.classList.remove('hidden');
-            if(toggleBtn) {
-                const spanText = toggleBtn.querySelector('span');
-                const svgIcon = toggleBtn.querySelector('svg');
-                if (spanText) spanText.innerText = "Discover More Styles";
-                if (svgIcon) {
-                    svgIcon.classList.replace('group-hover:-translate-y-1', 'group-hover:translate-y-1');
-                    svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>`;
-                }
-            }
-            
-            document.querySelectorAll('.product-card').forEach(card => {
-                if (card.classList.contains('extra-product')) {
-                    card.classList.add('hidden');
-                    card.style.display = ''; 
-                } else {
-                    card.style.display = 'flex';
-                }
-            });
-        }
-
-        function bindToggleButton() {
-            const tglBtn = document.getElementById('toggle-btn');
-            if(!tglBtn) return;
-            
-            tglBtn.onclick = function() {
-                const extraCards = document.querySelectorAll('.extra-product');
-                if(extraCards.length === 0) return;
-                
-                const isHidden = extraCards[0].classList.contains('hidden');
-                const spanText = this.querySelector('span');
-                const svgIcon = this.querySelector('svg');
-                
-                if (isHidden) {
-                    extraCards.forEach(c => c.classList.remove('hidden'));
-                    spanText.innerText = "Show Less Styles";
-                    svgIcon.classList.replace('group-hover:translate-y-1', 'group-hover:-translate-y-1');
-                    svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>`;
-                } else {
-                    extraCards.forEach(c => c.classList.add('hidden'));
-                    spanText.innerText = "Discover More Styles";
-                    svgIcon.classList.replace('group-hover:-translate-y-1', 'group-hover:translate-y-1');
-                    svgIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>`;
-                    document.getElementById('products-section').scrollIntoView({ behavior: 'smooth' });
-                }
-            };
-        }
-
-        /* PAGE VIEW HISTORY STATE */
-        window.addEventListener('popstate', function(event) {
-            closeModal('gallery-modal');
-            closeModal('chat-modal');
-            closeModal('cart-modal');
-            closeModal('proof-modal');
-            closeModal('image-zoom-modal');
-
-            if (event.state && event.state.view === 'product') {
-                if (event.state.isBase) {
-                    openBasePage(event.state.img, event.state.title, event.state.desc, event.state.price, true);
-                } else {
-                    openProductPage(event.state.index, true);
-                }
-            } else if (event.state && event.state.view === 'gallery_item') {
-                openGalleryProductPage(event.state.category, event.state.index, true);
-            } else if (event.state && event.state.view === 'gallery_menu') {
-                document.getElementById('product-view').classList.add('hidden');
-                document.getElementById('home-view').classList.remove('hidden');
-                openGalleryModal(event.state.category, event.state.title, true);
-            } else {
-                closeProductPage(true);
-            }
-        });
-
-        /* ==============================================================
-           5. FULL-PAGE VIEW SWAP LOGIC
-           ============================================================== */
-        let currentModalImages = [];
-        let currentModalIndex = 0;
-
-        function openProductPage(index, fromPopState = false) {
-            if (!products[index]) return;
-            const p = products[index];
-            const safeName = p.name.replace(/'/g, "\\'");
-            
-            currentModalImages = p.images;
-            currentModalIndex = 0;
-            
-            document.getElementById('pv-title-crumb').innerText = p.name;
-            document.getElementById('pv-title').innerText = p.name;
-            document.getElementById('pv-price').innerText = `₱ ${p.price}.00`;
-            document.getElementById('pv-desc').innerText = p.desc;
-            
-            document.getElementById('pv-button-container').classList.remove('hidden');
-            document.getElementById('pv-related-section').classList.remove('hidden');
-            
-            // Re-show Add To Cart and Size Selector if hidden previously
-            document.getElementById('pv-add-cart-btn').classList.remove('hidden');
-            document.getElementById('pv-size-selector').classList.remove('hidden');
-            
-            setCategory('Adult');
-            
-            document.getElementById('pv-add-cart-btn').onclick = function() { addToCart(safeName, p.price, currentCategory, currentSize); };
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeName, currentCategory, currentSize); };
-            document.getElementById('pv-inquire-btn').innerText = "INQUIRE VIA MESSENGER";
-
-            updatePvImageDisplay();
-            buildPvThumbnails();
-            generateRelatedProducts(index);
-
-            // Execute Page View Swap
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-
-            if (!fromPopState) {
-                try {
-                    const newUrl = window.location.pathname + '?item=' + encodeURIComponent(p.name.replace(/\s+/g, '-').toLowerCase());
-                    window.history.pushState({ view: 'product', index: index, isBase: false }, '', newUrl);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function openBasePage(img, title, desc, price, fromPopState = false) {
-            const safeTitle = title.replace(/'/g, "\\'");
-            currentModalImages = [img];
-            currentModalIndex = 0;
-            
-            document.getElementById('pv-title-crumb').innerText = title;
-            document.getElementById('pv-title').innerText = title;
-            document.getElementById('pv-price').innerText = `Base Price: ₱ ${price}.00`;
-            document.getElementById('pv-desc').innerText = desc;
-            
-            document.getElementById('pv-add-cart-btn').classList.add('hidden');
-            document.getElementById('pv-related-section').classList.add('hidden');
-            
-            // Re-show Size Selector 
-            document.getElementById('pv-size-selector').classList.remove('hidden');
-            setCategory('Adult');
-
-            document.getElementById('pv-inquire-btn').innerText = "INQUIRE FOR CUSTOMIZATION";
-            document.getElementById('pv-inquire-btn').onclick = function() { inquireItem(safeTitle, currentCategory, currentSize); };
-
-            updatePvImageDisplay();
-            buildPvThumbnails(); 
-
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-
-            if (!fromPopState) {
-                try {
-                    const newUrl = window.location.pathname + '?item=' + encodeURIComponent(title.replace(/\s+/g, '-').toLowerCase());
-                    window.history.pushState({ view: 'product', img: img, title: title, desc: desc, price: price, isBase: true }, '', newUrl);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function openGalleryProductPage(categoryKey, index, fromPopState = false) {
-            const data = galleryData[categoryKey];
-            if (!data || !data[index]) return;
-            const item = data[index];
-            const safeName = item.name.replace(/'/g, "\\'");
-            
-            currentModalImages = [item.img];
-            currentModalIndex = 0;
-            
-            document.getElementById('pv-title-crumb').innerText = item.name;
-            document.getElementById('pv-title').innerText = item.name;
-            document.getElementById('pv-price').innerText = ""; 
-            document.getElementById('pv-desc').innerText = `A beautiful piece from our ${categoryKey} collection. Contact us to design your own version.`; 
-            
-            document.getElementById('pv-add-cart-btn').classList.add('hidden');
-            document.getElementById('pv-related-section').classList.remove('hidden');
-            
-            // HIDE SIZING FOR CHARMS & GEMSTONES
-            const hideSizing = (categoryKey === 'charms' || categoryKey === 'gemstones');
-            
-            if (hideSizing) {
-                document.getElementById('pv-size-selector').classList.add('hidden');
-                document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName, categoryKey, null, null); };
-            } else {
-                document.getElementById('pv-size-selector').classList.remove('hidden');
-                setCategory('Adult');
-                document.getElementById('pv-inquire-btn').onclick = function() { inquireGalleryItem(safeName, categoryKey, currentCategory, currentSize); };
-            }
-            
-            document.getElementById('pv-inquire-btn').innerText = "INQUIRE ABOUT THIS STYLE";
-
-            updatePvImageDisplay();
-            buildPvThumbnails(); 
-            generateRelatedGalleryProducts(categoryKey, index);
-
-            closeModal('gallery-modal');
-
-            document.getElementById('home-view').classList.add('hidden');
-            document.getElementById('product-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-
-            if (!fromPopState) {
-                try {
-                    const newUrl = window.location.pathname + '?gallery=' + encodeURIComponent(item.name.replace(/\s+/g, '-').toLowerCase());
-                    window.history.pushState({ view: 'gallery_item', category: categoryKey, index: index }, '', newUrl);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function closeProductPage(fromPopState = false) {
-            document.getElementById('product-view').classList.add('hidden');
-            document.getElementById('home-view').classList.remove('hidden');
-            window.scrollTo({top: 0, behavior: 'instant'});
-            
-            if (!fromPopState) {
-                try {
-                    window.history.pushState({ view: 'home' }, '', window.location.pathname);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        function generateRelatedProducts(currentIndex) {
-            let availableProducts = products.filter((_, i) => i !== currentIndex);
-            
-            for (let i = availableProducts.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [availableProducts[i], availableProducts[j]] = [availableProducts[j], availableProducts[i]];
-            }
-            
-            let relatedProducts = availableProducts.slice(0, 4);
-            let relatedHTML = '';
-            
-            relatedProducts.forEach(rel => {
-                const origIndex = products.findIndex(orig => orig.name === rel.name);
-                relatedHTML += `
-                <div class="group flex flex-col relative text-center items-center cursor-pointer mt-3" onclick="openProductPage(${origIndex})">
-                    <div class="relative w-full mb-3 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm pointer-events-none">
-                                <img src="${rel.images[0]}" class="blob-image mix-blend-multiply">
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
-                    <p class="text-[10px] md:text-xs text-ocean mt-1">₱ ${rel.price}.00</p>
-                </div>
-                `;
-            });
-            document.getElementById('pv-related-grid').innerHTML = relatedHTML;
-        }
-
-        function generateRelatedGalleryProducts(categoryKey, currentIndex) {
-            let availableProducts = galleryData[categoryKey].filter((_, i) => i !== currentIndex);
-            
-            for (let i = availableProducts.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [availableProducts[i], availableProducts[j]] = [availableProducts[j], availableProducts[i]];
-            }
-            
-            let relatedProducts = availableProducts.slice(0, 4);
-            let relatedHTML = '';
-            
-            relatedProducts.forEach(rel => {
-                const origIndex = galleryData[categoryKey].findIndex(orig => orig.name === rel.name);
-                relatedHTML += `
-                <div class="group flex flex-col relative text-center items-center cursor-pointer mt-3" onclick="openGalleryProductPage('${categoryKey}', ${origIndex})">
-                    <div class="relative w-full mb-3 block">
-                        <div class="blob-wrapper">
-                            <div class="blob-frame shadow-sm pointer-events-none">
-                                <img src="${rel.img}" class="blob-image mix-blend-multiply">
-                            </div>
-                        </div>
-                    </div>
-                    <h4 class="text-xs md:text-sm font-serif font-semibold tracking-wide text-charcoal truncate w-full">${rel.name}</h4>
-                </div>
-                `;
-            });
-            document.getElementById('pv-related-grid').innerHTML = relatedHTML;
-        }
-
-        function buildPvThumbnails() {
-            const thumbContainer = document.getElementById('pv-thumbnails');
-            if (currentModalImages.length > 1) {
-                let thumbHTML = '';
-                currentModalImages.forEach((img, i) => {
-                    const borderClass = i === currentModalIndex ? 'border-charcoal opacity-100' : 'border-transparent hover:border-stone/50 opacity-60 hover:opacity-100';
-                    thumbHTML += `<img src="${img}" onclick="setPvImage(${i})" class="w-14 h-14 md:w-20 md:h-20 object-cover cursor-pointer rounded-sm border-2 transition-all ${borderClass}">`;
-                });
-                thumbContainer.innerHTML = thumbHTML;
-                thumbContainer.classList.remove('hidden');
-            } else {
-                thumbContainer.innerHTML = '';
-                thumbContainer.classList.add('hidden');
-            }
-        }
-
-        function setPvImage(i) {
-            currentModalIndex = i;
-            updatePvImageDisplay();
-            buildPvThumbnails();
-        }
-
-        function updatePvImageDisplay() {
-            document.getElementById('pv-main-image').src = currentModalImages[currentModalIndex];
-            const btns = document.querySelectorAll('.pv-nav-btn');
-            
-            if (currentModalImages.length > 1) {
-                btns.forEach(btn => btn.classList.remove('hidden'));
-            } else {
-                btns.forEach(btn => btn.classList.add('hidden'));
-            }
-        }
-
-        function prevPvImage(e) {
-            e.stopPropagation();
-            if (currentModalIndex > 0) currentModalIndex--;
-            else currentModalIndex = currentModalImages.length - 1;
-            updatePvImageDisplay();
-            buildPvThumbnails();
-        }
-
-        function nextPvImage(e) {
-            e.stopPropagation();
-            if (currentModalIndex < currentModalImages.length - 1) currentModalIndex++;
-            else currentModalIndex = 0; 
-            updatePvImageDisplay();
-            buildPvThumbnails();
-        }
-
-        /* ==============================================================
-           5b. DEDICATED IMAGE ZOOM ENGINE
-           ============================================================== */
-        function openImageZoom() {
-            updateZoomImageDisplay();
-            openModal('image-zoom-modal');
-        }
-
-        function updateZoomImageDisplay() {
-            document.getElementById('zoom-enlarged-image').src = currentModalImages[currentModalIndex];
-            const btns = document.querySelectorAll('.pv-zoom-nav-btn');
-            
-            if (currentModalImages.length > 1) {
-                btns.forEach(btn => btn.classList.remove('hidden'));
-            } else {
-                btns.forEach(btn => btn.classList.add('hidden'));
-            }
-        }
-
-        function prevZoomImage(e) {
-            e.stopPropagation();
-            prevPvImage(e); 
-            updateZoomImageDisplay();
-        }
-
-        function nextZoomImage(e) {
-            e.stopPropagation();
-            nextPvImage(e); 
-            updateZoomImageDisplay();
-        }
-
-        /* SYSTEM MODALS */
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            updateBodyScroll(); 
-        }
-
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            updateBodyScroll(); 
-        }
-
-        let currentProofIndex = 0;
-
-        function openProofModal(index) {
-            currentProofIndex = index;
-            updateProofDisplay();
-            openModal('proof-modal');
-        }
-
-        function updateProofDisplay() {
-            const p = proofs[currentProofIndex];
-            document.getElementById('proof-enlarged-image').src = p.src;
-            document.getElementById('proof-fb-link').href = p.link;
-            document.getElementById('proof-counter').innerText = `Proof ${currentProofIndex + 1} of ${proofs.length}`;
-        }
-
-        function prevProof(e) {
-            e.stopPropagation();
-            if (currentProofIndex > 0) currentProofIndex--;
-            else currentProofIndex = proofs.length - 1;
-            updateProofDisplay();
-        }
-
-        function nextProof(e) {
-            e.stopPropagation();
-            if (currentProofIndex < proofs.length - 1) currentProofIndex++;
-            else currentProofIndex = 0;
-            updateProofDisplay();
-        }
-
-        /* GALLERY MENU */
-        function openGalleryModal(categoryKey, title, fromPopState = false) {
-            const data = galleryData[categoryKey];
-            document.getElementById('gallery-modal-title').innerText = title;
-            
-            const gridContainer = document.getElementById('gallery-modal-grid');
-            if (!data || data.length === 0) {
-                gridContainer.innerHTML = `<p class="col-span-full text-center text-stone italic py-10">Gallery coming soon!</p>`;
-            } else {
-                let gridHTML = '';
-                data.forEach((item, index) => {
-                    gridHTML += `
-                    <div class="flex flex-col relative text-center group cursor-pointer" onclick="openGalleryProductPage('${categoryKey}', ${index})">
-                        <div class="relative w-full aspect-square mb-2 rounded-md shadow-sm bg-stone/10 overflow-hidden block">
-                            <img src="${item.img}" alt="${item.name}" class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110 pointer-events-none">
-                        </div>
-                        <h4 class="text-[10px] md:text-xs font-semibold uppercase tracking-wide text-charcoal">${item.name}</h4>
-                    </div>`;
-                });
-                gridContainer.innerHTML = gridHTML;
-            }
-            openModal('gallery-modal');
-
-            if (!fromPopState) {
-                try {
-                    const newUrl = window.location.pathname + '?category=' + categoryKey;
-                    window.history.pushState({ view: 'gallery_menu', category: categoryKey, title: title }, '', newUrl);
-                } catch (e) {
-                    console.log("Local execution blocked history state.");
-                }
-            }
-        }
-
-        /* ==============================================================
-           NATIVE CHAT HAND-OFF WIDGET
-           ============================================================== */
-        let isCheckoutChat = false; 
-
-        function openChatModal(initialMessage, isCheckout = false) {
-            isCheckoutChat = isCheckout;
-            toggleCart(true); 
-
-            const chatInput = document.getElementById('chat-input');
-            const chatBubble = document.getElementById('chat-bubble-text');
-
-            chatInput.value = initialMessage;
-            
-            // Set dynamic bubble text based on context
-            if (isCheckout) {
-                chatBubble.innerText = "Hi! 👋 Your order is ready. Just click the blue send arrow below to open Messenger and send it to us!";
-            } else if (initialMessage.trim() !== '') {
-                chatBubble.innerText = "Hi! 👋 Ready to inquire about this piece? Just click the blue send arrow below to open Messenger and send us your message!";
-            } else {
-                chatBubble.innerText = "Hi there! 👋 How can we help you today? Type your message below and click the blue arrow to chat with us on Messenger!";
-            }
-            
-            // Auto-adjust height
-            chatInput.style.height = 'auto';
-            if(initialMessage) {
-                setTimeout(() => { chatInput.style.height = (chatInput.scrollHeight) + 'px'; }, 10);
-            }
-            
-            openModal('chat-modal');
-        }
-
-        function sendChatMessage() {
-            const text = document.getElementById('chat-input').value;
-            if(!text.trim()) return;
-            
-            const messengerUrl = `https://m.me/109568137198741?text=${encodeURIComponent(text)}`;
-            window.open(messengerUrl, '_blank');
-            closeModal('chat-modal');
-
-            if (isCheckoutChat) {
-                cart = [];
-                updateCartUI();
-                isCheckoutChat = false; 
-            }
-        }
-
-        function inquireGalleryItem(itemName, categoryKey, category = null, size = null) {
-            const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
-            const uniqueLink = `${websiteURL}?gallery=${productSlug}`;
-            let sizeText = (category && size) ? `\nCategory: ${category} | Size: ${size} cm\n` : '\n';
-            const message = `Hi Tara's Collection! I would like to inquire about this gallery style: ${itemName}\n${sizeText}\nLink: ${uniqueLink}`;
-            openChatModal(message, false);
-        }
-
-        function inquireItem(itemName, category = null, size = null) {
-            const productSlug = encodeURIComponent(itemName.replace(/\s+/g, '-').toLowerCase());
-            const uniqueLink = `${websiteURL}?item=${productSlug}`;
-            let sizeText = (category && size) ? `\nCategory: ${category} | Size: ${size} cm\n` : '\n';
-            const message = `Hi Tara's Collection! I would like to inquire about the: ${itemName}.\n${sizeText}\nCan you provide more details?\n\nLink: ${uniqueLink}`;
-            openChatModal(message, false);
-        }
-
-        /* CART LOGIC */
-        let cart = [];
-
-        function addToCart(name, price, category = null, size = null) {
-            cart.push({name, price, category, size});
-            updateCartUI();
-            
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "ADDED ✓";
-            
-            if(btn.classList.contains("bg-ocean")) {
-                btn.classList.replace("bg-ocean", "bg-clay");
-                btn.classList.replace("border-ocean", "border-clay");
-            } else {
-                btn.classList.replace("bg-charcoal", "bg-clay");
-                btn.classList.replace("border-charcoal", "border-clay");
-            }
-            
-            setTimeout(() => {
-                btn.innerText = originalText;
-                if(btn.id === "pv-add-cart-btn") {
-                    btn.classList.replace("bg-clay", "bg-charcoal");
-                    btn.classList.replace("border-clay", "border-charcoal");
-                } else {
-                    btn.classList.replace("bg-clay", "bg-ocean");
-                    btn.classList.replace("border-clay", "border-ocean");
-                }
-            }, 1000);
-        }
-
-        function updateCartUI() {
-            const countEl = document.getElementById('cart-count');
-            const topCountEl = document.getElementById('top-cart-count');
-            const floatingBtn = document.getElementById('floating-cart-btn');
-            const itemsContainer = document.getElementById('cart-items');
-            const totalEl = document.getElementById('cart-total');
-            
-            countEl.innerText = cart.length;
-            topCountEl.innerText = cart.length;
-            
-            if (cart.length > 0) {
-                floatingBtn.classList.remove('hidden');
-            } else {
-                floatingBtn.classList.add('hidden');
-                // Force close the cart if the user empties it
-                const modal = document.getElementById('cart-modal');
-                modal.classList.replace('cart-open', 'cart-closed');
-            }
-
-            itemsContainer.innerHTML = "";
-            let total = 0;
-            
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = "<p class='text-stone text-center italic mt-10'>Your cart is empty.</p>";
-            } else {
-                cart.forEach((item, index) => {
-                    total += item.price;
-                    let sizeLabel = (item.category && item.size) ? `<p class="text-[10px] text-stone uppercase tracking-wider mb-0.5">Size: ${item.category} (${item.size} cm)</p>` : '';
-                    itemsContainer.innerHTML += `
-                        <div class="flex justify-between items-center border-b border-stone/30 pb-2">
-                            <div>
-                                <p class="text-sm font-medium uppercase text-charcoal">${item.name}</p>
-                                ${sizeLabel}
-                                <p class="text-xs text-ocean">₱ ${item.price}.00</p>
-                            </div>
-                            <button onclick="removeFromCart(${index})" class="text-rust hover:text-charcoal text-xs uppercase font-semibold transition-colors cursor-pointer">Remove</button>
-                        </div>
-                    `;
-                });
-            }
-            totalEl.innerText = total.toLocaleString();
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function toggleCart(forceClose = false) {
-            const modal = document.getElementById('cart-modal');
-            if (forceClose || modal.classList.contains('cart-open')) {
-                modal.classList.replace('cart-open', 'cart-closed');
-            } else {
-                modal.classList.replace('cart-closed', 'cart-open');
-            }
-            updateBodyScroll(); 
-        }
-
-        function prepareCheckout() {
-            if (cart.length === 0) return;
-            
-            let message = "Hi Tara's Collection! I would like to order the following items:\n\n";
-            let total = 0;
-            
-            cart.forEach(item => {
-                const productSlug = encodeURIComponent(item.name.replace(/\s+/g, '-').toLowerCase());
-                const uniqueLink = `${websiteURL}?item=${productSlug}`;
-                
-                message += `- ${item.name} (₱${item.price})\n`;
-                if (item.category && item.size) {
-                    message += `  Size: ${item.category} (${item.size} cm)\n`;
-                }
-                message += `  Link: ${uniqueLink}\n\n`;
-                total += item.price;
-            });
-            
-            message += `Estimated Total: ₱${total.toLocaleString()}\n\nPlease let me know how to proceed with payment and shipping. Thank you!`;
-            
-            toggleCart(true); 
-            setTimeout(() => {
-                openChatModal(message, true); // True flags this as a checkout chat
-            }, 300);
-        }
-
-    </script>
+    <!-- SCRIPTS LOAD (STATIC ZERO-BUILD) -->
+    <script src="js/store.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
