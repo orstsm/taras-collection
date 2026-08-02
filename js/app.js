@@ -108,6 +108,7 @@ class StorefrontApp {
 
   /* --- ROBUST TAB SWITCHER WITH EXACT ACTIVE-ONLY HIGHLIGHTING --- */
   selectTab(tabName, isInit = false, skipPush = false) {
+    this.toggleCartDrawer(false);
     this.activeTab = tabName;
 
     if (!skipPush && !isInit) {
@@ -191,6 +192,7 @@ class StorefrontApp {
 
   /* --- VIEW SWITCHER --- */
   switchView(viewId, currentTab = null, skipPush = false) {
+    this.toggleCartDrawer(false);
     if (!skipPush && viewId === "admin-view") {
       history.pushState({ view: "admin-view" }, "", "#admin");
     }
