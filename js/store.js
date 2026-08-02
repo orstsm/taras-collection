@@ -299,7 +299,6 @@ class StoreManager {
         this.notifyObservers();
       } catch (e) {
         console.warn("LocalStorage quota exceeded or save error (saved to RAM instead):", e);
-        window.TaraApp?.showToast("💾 Saved to active memory (phone browser storage limit reached). Don't forget to 1-Tap Publish!", "warning");
         this.notifyObservers();
       }
     }
