@@ -22,7 +22,9 @@ class StorefrontApp {
     this.bindChatWidget();
     
     window.addEventListener("storeUpdated", () => {
-      this.renderCurrentTab();
+      if (this.currentView === "home-view" || !this.currentView) {
+        this.renderCurrentTab();
+      }
       this.renderYouTubeShorts();
       this.renderCustomerProofs();
       if (window.TaraStore && window.TaraStore.cart) {
@@ -443,26 +445,25 @@ class StorefrontApp {
     const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
     const isOldUpload = product.createdAt && (Date.now() - product.createdAt >= thirtyDaysMs);
 
-    let badgeText = product.badge || (isSoldOut ? "SOLD OUT" : "");
-    if (!badgeText && product.isNew && !isOldUpload) {
-      badgeText = "NEW";
-    }
+    let badgeText = (product.badge || "").trim().toUpperCase();
+    let badgeClass = "badge-new";
 
-    // Automatically remove NEW banner after 1 month (30 days)
-    if (badgeText === "NEW" && isOldUpload) {
-      badgeText = (product.category === "personalized") ? "CUSTOMIZABLE" : "";
-    }
-
-    let badgeClass = "badge-bestseller";
-    if (badgeText === "SOLD OUT") {
+    if (isSoldOut) {
+      badgeText = "SOLD OUT";
       badgeClass = "badge-soldout";
-    } else if (badgeText === "HEALING") {
-      badgeClass = "badge-healing";
-    } else if (badgeText === "NEW") {
-      badgeClass = "badge-new"; // Green ALWAYS wins when badge text is NEW!
-    } else if (badgeText === "CUSTOMIZABLE" || product.category === "personalized") {
-      badgeClass = "badge-customizable";
-      if (!badgeText) badgeText = "CUSTOMIZABLE";
+    } else {
+      if (!badgeText && product.isNew && !isOldUpload) {
+        badgeText = "NEW";
+      }
+      if (badgeText === "NEW" && isOldUpload) {
+        badgeText = (product.category === "personalized") ? "CUSTOMIZABLE" : "";
+      }
+      if (badgeText === "SOLD OUT" && !isSoldOut) {
+        badgeText = "NEW"; // Reverted back to available!
+      }
+      if (badgeText === "HEALING") badgeClass = "badge-healing";
+      else if (badgeText === "CUSTOMIZABLE") badgeClass = "badge-customizable";
+      else badgeClass = "badge-new";
     }
 
     const catLabel = product.category === "personalized" ? "Custom Bracelet" : (product.category || "").toUpperCase();
@@ -534,6 +535,17 @@ class StorefrontApp {
         };
         thumbContainer.appendChild(btn);
       });
+    }
+
+    const stoneSizeBox = document.getElementById("pv-stone-size-box");
+    const stoneSizeVal = document.getElementById("pv-stone-size-value");
+    if (stoneSizeBox && stoneSizeVal) {
+      if (product.stoneSizes && Array.isArray(product.stoneSizes) && product.stoneSizes.length > 0) {
+        stoneSizeVal.textContent = product.stoneSizes.join(", ");
+        stoneSizeBox.classList.remove("hidden");
+      } else {
+        stoneSizeBox.classList.add("hidden");
+      }
     }
 
     const sizeSelectorEl = document.getElementById("pv-size-selector");

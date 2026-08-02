@@ -242,7 +242,16 @@
                         <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Guaranteed Authentic Earth Gemstones</p>
                     </div>
 
-                    <p id="pv-desc" class="text-sm text-charcoal/90 leading-relaxed mb-8 font-normal"></p>
+                    <p id="pv-desc" class="text-sm text-charcoal/90 leading-relaxed mb-6 font-normal"></p>
+
+                    <!-- AVAILABLE STONE SIZES DISPLAY (ONLY THE SELECTED ONES SHOW UP) -->
+                    <div id="pv-stone-size-box" class="hidden mb-6 w-full bg-white p-3.5 rounded-xl border border-stone/40 shadow-sm flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-sand/80 flex items-center justify-center text-lg flex-shrink-0">💎</div>
+                        <div>
+                            <p class="text-[10px] font-extrabold text-stone uppercase tracking-widest">Available Stone / Bead Size</p>
+                            <p id="pv-stone-size-value" class="text-sm font-bold text-ocean tracking-wide mt-0.5"></p>
+                        </div>
+                    </div>
 
                     <div id="pv-size-selector" class="mb-8 w-full bg-sand/40 p-4 rounded-xl border border-stone/30">
                         <div class="flex justify-between items-center mb-3">
@@ -668,6 +677,14 @@
                     </div>
                     <div id="form-prod-sizes-container" class="flex flex-wrap gap-1.5"></div>
                 </div>
+                <!-- STONE SIZE SELECTOR (ONLY FOR BRACELETS/PERSONALIZED) -->
+                <div id="form-prod-stones-wrapper" class="bg-white p-3.5 rounded-xl border border-stone/30">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-[11px] font-bold uppercase text-charcoal">Stone Size Availability (Beads)</label>
+                        <span class="text-[10px] text-stone font-semibold">Tap to select available stone sizes 💎</span>
+                    </div>
+                    <div id="form-prod-stones-container" class="flex flex-wrap gap-1.5"></div>
+                </div>
                 <div class="bg-sand/30 p-4 rounded-xl border border-stone/30">
                     <label class="block text-[11px] font-bold uppercase text-charcoal mb-2">📸 Upload Photos from Phone ($0 Free - Select Multiple!)</label>
                     <input type="file" id="admin-file-upload" accept="image/*" multiple class="w-full text-xs text-stone file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-ocean file:text-white hover:file:bg-charcoal cursor-pointer">
@@ -677,8 +694,8 @@
                         <button type="button" onclick="window.TaraAdmin.addPhotoFromUrl()" class="px-3 py-2 bg-charcoal text-white rounded-xl font-bold text-xs hover:bg-ocean transition-colors cursor-pointer">Add Photo</button>
                     </div>
                     <div id="admin-image-preview-container" class="mt-3 hidden text-center">
-                        <p class="text-[10px] font-bold text-charcoal uppercase mb-2">Uploaded Photos (Tap ✕ to remove)</p>
-                        <div id="admin-multi-image-preview" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+                        <p class="text-[10px] font-bold text-charcoal uppercase mb-2">Uploaded Photos — Tap ⬅️/➡️ arrows to set #1 Cover!</p>
+                        <div id="admin-multi-image-preview" class="grid grid-cols-2 sm:grid-cols-3 gap-3.5"></div>
                     </div>
                 </div>
                 <div>

@@ -257,8 +257,8 @@ class StoreManager {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.data));
         this.notifyObservers();
       } catch (e) {
-        console.error("LocalStorage quota exceeded or save error:", e);
-        alert("⚠️ Browser storage quota exceeded! Please try using image URLs or deleting older draft photos.");
+        console.warn("LocalStorage quota exceeded or save error (saved to RAM instead):", e);
+        window.TaraApp?.showToast("💾 Saved to active memory (phone browser storage limit reached). Don't forget to 1-Tap Publish!", "warning");
         this.notifyObservers();
       }
     }

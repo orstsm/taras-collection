@@ -115,33 +115,33 @@ body {
     transform: scale(1.42); 
 }
 
-/* Sold out state styling */
+/* Sold out state styling - keep photos full color and vibrant! */
 .card-sold-out .blob-image {
-    filter: grayscale(80%) brightness(0.9);
+    filter: none;
 }
 .card-sold-out {
-    opacity: 0.85;
+    opacity: 1;
 }
 
-/* Badge styling */
+/* Uniform high-contrast badge styling */
 .product-badge {
     position: absolute;
     top: 8px;
     left: 8px;
     z-index: 10;
     font-size: 9px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 3px 8px;
+    padding: 3.5px 9px;
     border-radius: 9999px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
 }
-.badge-bestseller { background-color: #2E4C63; color: #ffffff; }
-.badge-healing { background-color: #CBA378; color: #2C2927; font-weight: 800; }
-.badge-new { background-color: #16a34a; color: #ffffff; font-weight: 800; border: 1px solid rgba(255,255,255,0.3); }
-.badge-soldout { background-color: #C86D39; color: #ffffff; }
-.badge-customizable { background-color: #ffffff; color: #2C2927; border: 1px solid #B8B8AC; }
+.badge-bestseller { background-color: #16a34a; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+.badge-healing { background-color: #16a34a; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+.badge-new { background-color: #16a34a; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+.badge-soldout { background-color: #C86D39; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+.badge-customizable { background-color: #16a34a; color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
 
 /* ==========================================================================
    MARQUEE & VIDEO ANIMATIONS

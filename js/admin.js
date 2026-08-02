@@ -65,6 +65,7 @@ class AdminDashboard {
       desc: document.getElementById("form-prod-desc")?.value || "",
       images: this.uploadedImages || [],
       sizes: this.selectedWristSizes || ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"],
+      stoneSizes: this.selectedStoneSizes || [],
       savedAt: Date.now()
     };
 
@@ -80,16 +81,18 @@ class AdminDashboard {
     localStorage.removeItem(ADMIN_DRAFT_KEY);
     this.uploadedImages = [];
     this.selectedWristSizes = ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"];
+    this.selectedStoneSizes = [];
     if (document.getElementById("form-prod-name")) document.getElementById("form-prod-name").value = "";
     if (document.getElementById("form-prod-price")) document.getElementById("form-prod-price").value = "";
     if (document.getElementById("form-prod-cat")) document.getElementById("form-prod-cat").value = "bracelets-featured";
     if (document.getElementById("form-prod-status")) document.getElementById("form-prod-status").value = "Available";
-    if (document.getElementById("form-prod-badge")) document.getElementById("form-prod-badge").value = "";
+    if (document.getElementById("form-prod-badge")) document.getElementById("form-prod-badge").value = "NEW";
     if (document.getElementById("form-prod-img-url")) document.getElementById("form-prod-img-url").value = "";
     if (document.getElementById("form-prod-desc")) document.getElementById("form-prod-desc").value = "";
     if (document.getElementById("admin-file-upload")) document.getElementById("admin-file-upload").value = "";
     this.renderMultiImagePreview();
     this.renderWristSizeSelector();
+    if (this.renderStoneSizeSelector) this.renderStoneSizeSelector();
     this.updateSizeSectionVisibility();
     window.TaraApp?.showToast("Draft cleared. Ready for a new item!", "info");
   }
@@ -265,7 +268,7 @@ class AdminDashboard {
     visibleProducts.forEach(prod => {
 
       const row = document.createElement("div");
-      row.className = "flex items-center justify-between p-3.5 bg-white rounded-xl border border-stone/20 shadow-sm gap-3";
+      row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white rounded-xl border border-stone/25 shadow-sm gap-3 transition-all hover:border-ocean/40";
 
       const thumb = prod.images && prod.images.length > 0 ? prod.images[0] : "assets/brand/logo.jpg";
       let badgeColor = "bg-green-100 text-green-800 border-green-300";
@@ -275,29 +278,33 @@ class AdminDashboard {
       const sectionLabel = (prod.category === "personalized" ? "Custom" : (prod.category || "")) + (prod.featured ? " + Featured ⭐" : "");
 
       row.innerHTML = `
-        <div class="flex items-center space-x-3 min-w-0">
-          <img src="${thumb}" class="w-12 h-12 rounded-lg object-cover border border-stone/30 flex-shrink-0">
-          <div class="min-w-0">
-            <h4 class="font-serif font-bold text-sm text-charcoal truncate">${prod.name}</h4>
-            <div class="flex items-center space-x-2 mt-0.5">
-              <span class="text-xs font-extrabold text-ocean">₱${prod.price ? prod.price.toLocaleString() : 0}</span>
-              <span class="text-[9px] bg-sand/80 px-2 py-0.5 rounded text-charcoal font-bold">${sectionLabel}</span>
-              <span class="text-[10px] font-bold uppercase px-2 py-0.2 rounded-full border ${badgeColor}">${prod.status}</span>
+        <div class="flex items-start sm:items-center space-x-3.5 min-w-0 flex-1">
+          <img src="${thumb}" class="w-14 h-14 rounded-xl object-cover border border-stone/30 flex-shrink-0">
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-2">
+              <h4 class="font-serif font-bold text-base text-charcoal truncate">${prod.name}</h4>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border flex-shrink-0 ${badgeColor}">${prod.status}</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 mt-1.5">
+              <span class="text-sm font-extrabold text-ocean">₱${prod.price ? prod.price.toLocaleString() : 0}</span>
+              <span class="text-[10px] bg-sand/80 px-2 py-0.5 rounded text-charcoal font-bold truncate">${sectionLabel}</span>
             </div>
           </div>
         </div>
-        <div class="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
-          <div class="flex items-center bg-sand/60 border border-stone/30 rounded-lg px-1.5 py-1 text-xs font-bold text-charcoal shadow-sm" title="Quickly adjust sold count">
-            <button onclick="window.TaraAdmin.adjustSoldCount('${prod.id}', -1)" class="w-5 h-5 rounded hover:bg-stone/20 text-charcoal flex items-center justify-center font-extrabold text-xs cursor-pointer">-</button>
-            <span class="px-1.5 text-[11px] text-rust font-extrabold whitespace-nowrap">${prod.soldCount || 0} Sold</span>
-            <button onclick="window.TaraAdmin.adjustSoldCount('${prod.id}', 1)" class="w-5 h-5 rounded hover:bg-stone/20 text-charcoal flex items-center justify-center font-extrabold text-xs cursor-pointer">+</button>
+        <div class="flex items-center justify-between sm:justify-end gap-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone/15 flex-shrink-0">
+          <div class="flex items-center bg-sand/60 border border-stone/30 rounded-lg px-2 py-1 text-xs font-bold text-charcoal shadow-sm" title="Quickly adjust sold count">
+            <button onclick="window.TaraAdmin.adjustSoldCount('${prod.id}', -1)" class="w-6 h-6 rounded hover:bg-stone/20 text-charcoal flex items-center justify-center font-extrabold text-sm cursor-pointer">-</button>
+            <span class="px-2.5 text-xs text-rust font-extrabold whitespace-nowrap">${prod.soldCount || 0} Sold</span>
+            <button onclick="window.TaraAdmin.adjustSoldCount('${prod.id}', 1)" class="w-6 h-6 rounded hover:bg-stone/20 text-charcoal flex items-center justify-center font-extrabold text-sm cursor-pointer">+</button>
           </div>
-          <button onclick="window.TaraAdmin.openEditModal('${prod.id}')" class="px-3 py-1.5 bg-charcoal hover:bg-ocean text-white rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer">
-            Edit
-          </button>
-          <button onclick="window.TaraAdmin.deleteProduct('${prod.id}')" class="text-red-500 hover:text-red-700 p-1.5 rounded-lg cursor-pointer transition-colors" title="Remove Product">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-          </button>
+          <div class="flex items-center gap-2">
+            <button onclick="window.TaraAdmin.openEditModal('${prod.id}')" class="px-4 py-2 bg-charcoal hover:bg-ocean text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-sm">
+              Edit
+            </button>
+            <button onclick="window.TaraAdmin.deleteProduct('${prod.id}')" class="text-red-500 hover:text-red-700 p-2 rounded-lg cursor-pointer transition-colors border border-red-200 hover:border-red-400 bg-red-50/50" title="Remove Product">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            </button>
+          </div>
         </div>
       `;
       list.appendChild(row);
@@ -331,6 +338,11 @@ class AdminDashboard {
     const currentIdx = statuses.indexOf(product.status || "Available");
     const nextIdx = (currentIdx + 1) % statuses.length;
     product.status = statuses[nextIdx];
+    if (product.status === "Sold Out") {
+      product.badge = "SOLD OUT";
+    } else if (product.badge === "SOLD OUT" && product.status !== "Sold Out") {
+      product.badge = "NEW";
+    }
     window.TaraStore.saveData();
     window.TaraApp?.showToast(`Updated "${product.name}" to ${product.status}`, "info");
   }
@@ -363,17 +375,33 @@ class AdminDashboard {
     if (importInput) importInput.addEventListener("change", (e) => this.importDraftJsonFile(e));
     if (searchCat) searchCat.addEventListener("input", () => this.renderInventoryList());
     if (catSelect) catSelect.addEventListener("change", () => this.updateSizeSectionVisibility());
+
+    const statusSelect = document.getElementById("form-prod-status");
+    if (statusSelect) {
+      statusSelect.addEventListener("change", () => {
+        const badgeInput = document.getElementById("form-prod-badge");
+        if (badgeInput && statusSelect.value === "Sold Out") {
+          badgeInput.value = "SOLD OUT";
+        } else if (badgeInput && badgeInput.value.toUpperCase() === "SOLD OUT" && statusSelect.value !== "Sold Out") {
+          badgeInput.value = "NEW";
+        }
+        this.saveUnfinishedDraft();
+      });
+    }
   }
 
   updateSizeSectionVisibility() {
     const wrapper = document.getElementById("form-prod-sizes-wrapper");
+    const stonesWrapper = document.getElementById("form-prod-stones-wrapper");
     const catVal = document.getElementById("form-prod-cat")?.value || "";
-    if (!wrapper) return;
     const isBracelet = catVal.startsWith("bracelets") || catVal.startsWith("personalized");
-    if (isBracelet) {
-      wrapper.classList.remove("hidden");
-    } else {
-      wrapper.classList.add("hidden");
+    if (wrapper) {
+      if (isBracelet) wrapper.classList.remove("hidden");
+      else wrapper.classList.add("hidden");
+    }
+    if (stonesWrapper) {
+      if (isBracelet) stonesWrapper.classList.remove("hidden");
+      else stonesWrapper.classList.add("hidden");
     }
   }
 
@@ -409,13 +437,45 @@ class AdminDashboard {
     this.saveUnfinishedDraft();
   }
 
+  renderStoneSizeSelector() {
+    const container = document.getElementById("form-prod-stones-container");
+    if (!container) return;
+    container.innerHTML = "";
+    const standardStones = ["6mm", "6mm+", "7mm+", "8mm", "8mm+", "9mm+", "10mm", "10mm+", "11mm", "11mm+", "12mm", "12mm+", "13mm", "13mm+", "14mm", "14mm+", "Other Sizes"];
+    if (!this.selectedStoneSizes) this.selectedStoneSizes = [];
+
+    standardStones.forEach(size => {
+      const isSelected = this.selectedStoneSizes.includes(size);
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = `px-2.5 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer ${
+        isSelected ? "bg-ocean text-white border-ocean shadow-sm font-extrabold" : "bg-white text-charcoal border-stone/40 hover:border-ocean"
+      }`;
+      chip.textContent = isSelected ? `💎 ${size}` : size;
+      chip.onclick = () => this.toggleStoneSize(size);
+      container.appendChild(chip);
+    });
+  }
+
+  toggleStoneSize(size) {
+    if (!this.selectedStoneSizes) this.selectedStoneSizes = [];
+    const idx = this.selectedStoneSizes.indexOf(size);
+    if (idx > -1) {
+      this.selectedStoneSizes.splice(idx, 1);
+    } else {
+      this.selectedStoneSizes.push(size);
+    }
+    this.renderStoneSizeSelector();
+    this.saveUnfinishedDraft();
+  }
+
   compressImage(file, callback) {
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        const maxW = 800;
-        const maxH = 800;
+        const maxW = 500;
+        const maxH = 500;
         let w = img.width;
         let h = img.height;
         if (w > h) {
@@ -428,7 +488,7 @@ class AdminDashboard {
         canvas.height = h;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.58);
         callback(dataUrl);
       };
       img.onerror = () => callback(e.target.result);
@@ -490,19 +550,45 @@ class AdminDashboard {
     container.classList.remove("hidden");
     this.uploadedImages.forEach((src, idx) => {
       const thumbBox = document.createElement("div");
-      thumbBox.className = "relative group aspect-square rounded-lg overflow-hidden border border-stone/30 bg-white shadow-sm";
+      thumbBox.className = "relative group aspect-square rounded-xl overflow-hidden border-2 bg-white shadow-sm flex flex-col justify-between " + (idx === 0 ? "border-green-600 shadow-md" : "border-stone/30");
+      thumbBox.setAttribute("draggable", "true");
+      thumbBox.ondragstart = (e) => { e.dataTransfer.setData("text/plain", idx.toString()); };
+      thumbBox.ondragover = (e) => { e.preventDefault(); };
+      thumbBox.ondrop = (e) => {
+        e.preventDefault();
+        const fromIdx = parseInt(e.dataTransfer.getData("text/plain"), 10);
+        if (!isNaN(fromIdx)) this.movePhoto(fromIdx, idx);
+      };
+
+      const coverTag = idx === 0 ? `<span class="absolute top-1.5 left-1.5 bg-green-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded shadow z-10">⭐ #1 COVER</span>` : "";
+
       thumbBox.innerHTML = `
-        <img src="${src}" class="w-full h-full object-cover">
-        <button type="button" onclick="window.TaraAdmin.removePhoto(${idx})" class="absolute top-1 right-1 bg-red-600/90 text-white w-6 h-6 rounded-full text-xs font-extrabold flex items-center justify-center hover:bg-red-700 shadow-md cursor-pointer" title="Delete Photo">✕</button>
+        <img src="${src}" class="w-full h-full object-cover absolute inset-0">
+        ${coverTag}
+        <button type="button" onclick="window.TaraAdmin.removePhoto(${idx})" class="absolute top-1.5 right-1.5 bg-red-600/95 text-white w-6 h-6 rounded-full text-xs font-extrabold flex items-center justify-center hover:bg-red-700 shadow-md cursor-pointer z-10" title="Delete Photo">✕</button>
+        <div class="absolute bottom-0 inset-x-0 bg-charcoal/85 py-1 px-1 flex items-center justify-between gap-1 z-10 backdrop-blur-xs">
+          <button type="button" ${idx === 0 ? "disabled class='opacity-20 pointer-events-none px-2 py-0.5 text-[11px] text-white'" : `onclick="window.TaraAdmin.movePhoto(${idx}, ${idx-1})" class="px-2 py-0.5 bg-white/20 hover:bg-ocean text-white rounded text-[11px] font-extrabold cursor-pointer"`} title="Move Left / Towards Front">⬅️</button>
+          <span class="text-[10px] font-bold text-sand">${idx + 1} of ${this.uploadedImages.length}</span>
+          <button type="button" ${idx === this.uploadedImages.length - 1 ? "disabled class='opacity-20 pointer-events-none px-2 py-0.5 text-[11px] text-white'" : `onclick="window.TaraAdmin.movePhoto(${idx}, ${idx+1})" class="px-2 py-0.5 bg-white/20 hover:bg-ocean text-white rounded text-[11px] font-extrabold cursor-pointer"`} title="Move Right">➡️</button>
+        </div>
       `;
       grid.appendChild(thumbBox);
     });
+  }
+
+  movePhoto(fromIdx, toIdx) {
+    if (!this.uploadedImages || fromIdx < 0 || toIdx < 0 || fromIdx >= this.uploadedImages.length || toIdx >= this.uploadedImages.length) return;
+    const item = this.uploadedImages.splice(fromIdx, 1)[0];
+    this.uploadedImages.splice(toIdx, 0, item);
+    this.renderMultiImagePreview();
+    this.saveUnfinishedDraft();
   }
 
   openAddModal() {
     this.editingProductId = null;
     this.uploadedImages = [];
     this.selectedWristSizes = ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"];
+    this.selectedStoneSizes = [];
     document.getElementById("admin-modal-title").innerHTML = `
       <span>Add New Product</span>
       <button onclick="window.TaraAdmin.clearUnfinishedDraft()" class="ml-3 text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded border border-red-300 font-bold uppercase hover:bg-red-200 cursor-pointer" title="Wipe draft text and start clean">🗑️ Clear Draft</button>
@@ -516,7 +602,7 @@ class AdminDashboard {
         document.getElementById("form-prod-price").value = d.price || "";
         document.getElementById("form-prod-cat").value = d.cat || "bracelets-featured";
         document.getElementById("form-prod-status").value = d.status || "Available";
-        document.getElementById("form-prod-badge").value = d.badge || "";
+        document.getElementById("form-prod-badge").value = d.badge || "NEW";
         if (document.getElementById("form-prod-sold")) document.getElementById("form-prod-sold").value = d.sold || "";
         document.getElementById("form-prod-img-url").value = d.url || "";
         document.getElementById("form-prod-desc").value = d.desc || "";
@@ -528,6 +614,9 @@ class AdminDashboard {
         if (d.sizes && Array.isArray(d.sizes)) {
           this.selectedWristSizes = d.sizes;
         }
+        if (d.stoneSizes && Array.isArray(d.stoneSizes)) {
+          this.selectedStoneSizes = d.stoneSizes;
+        }
         window.TaraApp?.showToast("✨ Restored your unfinished draft!", "info");
       } catch (err) {
         localStorage.removeItem(ADMIN_DRAFT_KEY);
@@ -537,7 +626,7 @@ class AdminDashboard {
       document.getElementById("form-prod-price").value = "";
       document.getElementById("form-prod-cat").value = "bracelets-featured";
       document.getElementById("form-prod-status").value = "Available";
-      document.getElementById("form-prod-badge").value = "";
+      document.getElementById("form-prod-badge").value = "NEW";
       if (document.getElementById("form-prod-sold")) document.getElementById("form-prod-sold").value = "";
       document.getElementById("form-prod-img-url").value = "";
       document.getElementById("form-prod-desc").value = "";
@@ -545,6 +634,7 @@ class AdminDashboard {
 
     this.renderMultiImagePreview();
     this.renderWristSizeSelector();
+    this.renderStoneSizeSelector();
     this.updateSizeSectionVisibility();
 
     const modal = document.getElementById("admin-edit-modal");
@@ -562,6 +652,7 @@ class AdminDashboard {
     this.editingProductId = p.id;
     this.uploadedImages = [...(p.images || [])];
     this.selectedWristSizes = [...(p.sizes || ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"])];
+    this.selectedStoneSizes = [...(p.stoneSizes || [])];
     
     document.getElementById("admin-modal-title").textContent = `Edit: ${p.name}`;
     document.getElementById("form-prod-name").value = p.name;
@@ -573,13 +664,14 @@ class AdminDashboard {
     if (catSelect) catSelect.value = catVal;
 
     document.getElementById("form-prod-status").value = p.status;
-    document.getElementById("form-prod-badge").value = p.badge || "";
+    document.getElementById("form-prod-badge").value = p.badge || (p.status === "Sold Out" ? "SOLD OUT" : "");
     if (document.getElementById("form-prod-sold")) document.getElementById("form-prod-sold").value = p.soldCount || "";
     document.getElementById("form-prod-img-url").value = "";
     document.getElementById("form-prod-desc").value = p.description || "";
 
     this.renderMultiImagePreview();
     this.renderWristSizeSelector();
+    this.renderStoneSizeSelector();
     this.updateSizeSectionVisibility();
 
     const modal = document.getElementById("admin-edit-modal");
@@ -632,6 +724,7 @@ class AdminDashboard {
 
     const finalImages = (this.uploadedImages && this.uploadedImages.length > 0) ? [...this.uploadedImages] : ["assets/brand/logo.jpg"];
     const finalSizes = this.selectedWristSizes || ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"];
+    const finalStones = this.selectedStoneSizes || [];
 
     const tabNames = {
       "personalized": "Personalized tab",
@@ -652,11 +745,12 @@ class AdminDashboard {
           existing.featured = isFeatured;
           existing.isCustomBase = (actualCategory === "personalized");
           existing.status = status;
-          existing.badge = badge;
+          existing.badge = status === "Sold Out" ? "SOLD OUT" : badge;
           existing.soldCount = soldCount;
           existing.description = desc;
           existing.images = finalImages;
           existing.sizes = finalSizes;
+          existing.stoneSizes = finalStones;
         }
       } else {
         const newId = name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Date.now();
@@ -668,13 +762,14 @@ class AdminDashboard {
           featured: isFeatured,
           isCustomBase: (actualCategory === "personalized"),
           status: status,
-          badge: badge || "NEW",
+          badge: status === "Sold Out" ? "SOLD OUT" : (badge || "NEW"),
           soldCount: soldCount,
           isNew: true,
           createdAt: Date.now(),
           description: desc,
           images: finalImages,
-          sizes: finalSizes
+          sizes: finalSizes,
+          stoneSizes: finalStones
         };
         if (window.TaraStore && window.TaraStore.data && window.TaraStore.data.products) {
           window.TaraStore.data.products.unshift(newProduct);
