@@ -98,11 +98,18 @@ class StorefrontApp {
       }
     });
 
-    // Parse incoming Facebook link parameter (?item=)
+    // Parse incoming Facebook link parameter (?item=) or clean hash routing
     const urlParams = new URLSearchParams(window.location.search);
     const targetItem = urlParams.get("item");
     if (targetItem && window.TaraStore && window.TaraStore.getProductById(targetItem)) {
       setTimeout(() => this.openProductDetail(targetItem, true), 100);
+    } else if (window.location.hash) {
+      const hash = window.location.hash.replace("#", "");
+      if (hash === "admin") {
+        setTimeout(() => this.switchView("admin-view", null, true), 100);
+      } else if (["home", "personalized", "bracelets", "gemstones", "charms"].includes(hash)) {
+        setTimeout(() => this.selectTab(hash, true), 100);
+      }
     }
 
     console.log("Tara's Collection Storefront & Messenger Widget Initialized.");
@@ -114,7 +121,8 @@ class StorefrontApp {
     this.activeTab = tabName;
 
     if (!skipPush && !isInit) {
-      history.pushState({ tab: tabName, view: "home-view" }, "", `#${tabName}`);
+      const cleanUrl = window.location.pathname + (tabName === "home" ? "" : `#${tabName}`);
+      history.pushState({ tab: tabName, view: "home-view" }, "", cleanUrl);
     }
 
     // 1. Force view to home-view so the catalog is actually visible
@@ -196,7 +204,8 @@ class StorefrontApp {
   switchView(viewId, currentTab = null, skipPush = false) {
     this.toggleCartDrawer(false);
     if (!skipPush && viewId === "admin-view") {
-      history.pushState({ view: "admin-view" }, "", "#admin");
+      const cleanUrl = window.location.pathname + "#admin";
+      history.pushState({ view: "admin-view" }, "", cleanUrl);
     }
 
     const views = ["home-view", "product-view", "admin-view"];
@@ -376,6 +385,7 @@ class StorefrontApp {
   /* --- PRODUCT RENDERING --- */
   renderFeaturedProducts(options = {}) {
     const grid = document.getElementById("unified-product-grid");
+    const exploreContainer = document.getElementById("featured-explore-btn-container");
     if (!grid) return;
 
     let all = window.TaraStore?.getProducts({}) || [];
@@ -396,7 +406,16 @@ class StorefrontApp {
       }
     }
 
+    // Sort to ensure NEW items and recently created items show at the very top of the list
+    all = all.sort((a, b) => {
+      const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
+      const bNew = (b.badge === "NEW" || b.isNew === true) ? 1 : 0;
+      if (aNew !== bNew) return bNew - aNew;
+      return (new Date(b.createdAt || 0)) - (new Date(a.createdAt || 0));
+    });
+
     grid.innerHTML = "";
+    if (exploreContainer) exploreContainer.className = "mt-10 text-center hidden";
 
     if (all.length === 0) {
       grid.innerHTML = `
@@ -408,27 +427,59 @@ class StorefrontApp {
       return;
     }
 
-    all.forEach(product => {
+    const displayItems = options.featuredOnly ? all.slice(0, 12) : all;
+    displayItems.forEach(product => {
       grid.appendChild(this.createProductCard(product));
     });
+
+    if (options.featuredOnly && exploreContainer && all.length > 0) {
+      exploreContainer.className = "mt-12 text-center block";
+      exploreContainer.innerHTML = `
+        <button onclick="window.TaraApp.selectTab('bracelets')" class="inline-flex items-center space-x-2.5 bg-[#2E4C63] hover:bg-[#1E3A4F] text-white font-extrabold px-8 py-4 rounded-full text-xs uppercase tracking-widest shadow-lg transition-all hover:scale-105 cursor-pointer border border-white/10">
+          <span>✨ Explore All Featured Items</span>
+          <span class="text-sm">➔</span>
+        </button>
+      `;
+    }
   }
 
   renderCustomBracelets() {
     const grid = document.getElementById("custom-bases-grid");
+    const exploreContainer = document.getElementById("custom-explore-btn-container");
     if (!grid) return;
 
     const all = window.TaraStore?.getProducts({}) || [];
-    const items = all.filter(p => (p.category === "personalized" || p.isCustomBase === true) && p.status !== "Hidden" && p.featured === true);
+    let items = all.filter(p => (p.category === "personalized" || p.isCustomBase === true) && p.status !== "Hidden" && p.featured === true);
     
+    items = items.sort((a, b) => {
+      const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
+      const bNew = (b.badge === "NEW" || b.isNew === true) ? 1 : 0;
+      if (aNew !== bNew) return bNew - aNew;
+      return (new Date(b.createdAt || 0)) - (new Date(a.createdAt || 0));
+    });
+
     grid.innerHTML = "";
+    if (exploreContainer) exploreContainer.className = "mt-10 text-center hidden";
+
     if (items.length === 0) {
       grid.innerHTML = `<p class="col-span-4 text-center text-stone text-xs italic py-8">No custom bracelets available right now.</p>`;
       return;
     }
 
-    items.forEach(product => {
+    const displayItems = items.slice(0, 8);
+    displayItems.forEach(product => {
       grid.appendChild(this.createProductCard(product));
     });
+
+    if (exploreContainer && items.length > 0) {
+      exploreContainer.className = "mt-12 text-center block";
+      exploreContainer.innerHTML = `
+        <button onclick="window.TaraApp.selectTab('personalized')" class="inline-flex items-center space-x-2.5 bg-rust hover:bg-[#A04A3A] text-white font-extrabold px-8 py-4 rounded-full text-xs uppercase tracking-widest shadow-lg transition-all hover:scale-105 cursor-pointer border border-white/10">
+          <span>💎 View All Custom Bracelets</span>
+          <span class="text-sm">➔</span>
+        </button>
+      `;
+    }
   }
 
   createProductCard(product) {
@@ -496,7 +547,8 @@ class StorefrontApp {
     if (!product) return;
 
     if (!skipPush) {
-      history.pushState({ productId, view: "product-view" }, "", `?item=${productId}`);
+      const cleanUrl = window.location.pathname + `?item=${productId}`;
+      history.pushState({ productId, view: "product-view" }, "", cleanUrl);
     }
 
     this.activeProductId = productId;
@@ -512,6 +564,15 @@ class StorefrontApp {
         soldBadgeEl.classList.remove("hidden");
       } else {
         soldBadgeEl.classList.add("hidden");
+      }
+    }
+    const qtyBadgeEl = document.getElementById("pv-qty-badge");
+    if (qtyBadgeEl) {
+      if (product.stockQty && parseInt(product.stockQty, 10) > 0) {
+        qtyBadgeEl.textContent = `📦 Available Qty: ${product.stockQty}`;
+        qtyBadgeEl.classList.remove("hidden");
+      } else {
+        qtyBadgeEl.classList.add("hidden");
       }
     }
     document.getElementById("pv-desc").textContent = product.description || "Handcrafted natural energy piece by Tara's Collection.";
@@ -692,30 +753,21 @@ class StorefrontApp {
     container.innerHTML = "";
     if (label) label.textContent = this.selectedSize;
 
-    const standardSizes = ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"];
-    const allSizes = Array.from(new Set([...standardSizes, ...(availableSizes || [])]));
+    const allSizes = (availableSizes && availableSizes.length > 0) ? availableSizes : ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"];
 
     allSizes.forEach(size => {
       const btn = document.createElement("button");
-      const isAvailable = !availableSizes || availableSizes.includes(size);
       const isSelected = size === this.selectedSize;
 
-      if (!isAvailable) {
-        btn.className = "px-3.5 py-2 rounded-full text-[11px] font-bold uppercase tracking-wider border border-stone/30 bg-stone/15 text-stone/50 line-through cursor-not-allowed";
-        btn.textContent = `${size} (Sold Out)`;
-        btn.disabled = true;
-        btn.title = "Size Currently Unavailable";
-      } else {
-        btn.className = `px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
-          isSelected ? "bg-charcoal text-white border-charcoal shadow-sm" : "bg-white text-charcoal border-stone/50 hover:border-charcoal"
-        }`;
-        btn.textContent = size;
-        btn.onclick = () => {
-          this.selectedSize = size;
-          if (label) label.textContent = size;
-          this.renderSizePills(availableSizes);
-        };
-      }
+      btn.className = `px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer ${
+        isSelected ? "bg-charcoal text-white border-charcoal shadow-sm" : "bg-white text-charcoal border-stone/50 hover:border-charcoal"
+      }`;
+      btn.textContent = size;
+      btn.onclick = () => {
+        this.selectedSize = size;
+        if (label) label.textContent = size;
+        this.renderSizePills(availableSizes);
+      };
       container.appendChild(btn);
     });
   }

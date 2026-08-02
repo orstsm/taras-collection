@@ -144,6 +144,7 @@
             </div>
             
             <div id="unified-product-grid" class="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-10"></div>
+            <div id="featured-explore-btn-container" class="mt-10 text-center hidden"></div>
         </section>
 
         <!-- SECTION 1.5: CUSTOM BRACELETS (Only visible when on Home Tab or Personalized Tab) -->
@@ -155,11 +156,12 @@
                 </h2>
                 <div class="w-12 h-1 bg-clay mx-auto my-3"></div>
                 <p class="text-ocean text-xs md:text-sm leading-relaxed font-medium">
-                    Looking for fully tailored energy arrays? Pick any of our custom bracelets below! You can specify exact charm elements or extra stones via Messenger. Each additional stone costs from <strong>₱5.00 to ₱20.00</strong>.
+                    Looking for fully tailored energy arrays? Pick any of our custom bracelets below! You can specify exact charm elements or extra stones via Messenger. Each additional stone costs from <strong>₱10.00 above</strong>.
                 </p>
             </div>
             
             <div id="custom-bases-grid" class="grid grid-cols-2 md:grid-cols-4 gap-x-4 md:gap-x-8 gap-y-10"></div>
+            <div id="custom-explore-btn-container" class="mt-10 text-center hidden"></div>
         </section>
         
         <!-- SECTION 2: YOUTUBE SHORTS GALLERY -->
@@ -234,10 +236,11 @@
                     <div class="flex items-baseline space-x-4 mb-5">
                         <p id="pv-price" class="text-xl md:text-2xl text-ocean font-bold tracking-wide"></p>
                         <span id="pv-sold-badge" class="hidden text-xs md:text-sm font-bold text-rust"></span>
+                        <span id="pv-qty-badge" class="hidden text-xs md:text-sm font-bold bg-green-100 text-green-800 px-2.5 py-1 rounded-md border border-green-300"></span>
                     </div>
                     
                     <div class="text-[11px] md:text-xs uppercase tracking-widest text-charcoal/80 font-bold mb-6 border-y border-stone/30 py-3.5 space-y-2">
-                        <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Hand-strung & Cleansed with Singing Bowl</p>
+                        <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Hand-strung & Cleansed</p>
                         <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Fast Delivery Nationwide via J&T Express</p>
                         <p class="flex items-center"><span class="mr-2 text-rust text-sm">✦</span> Guaranteed Authentic Earth Gemstones</p>
                     </div>
@@ -401,19 +404,19 @@
 
                 <!-- STAT PILLS -->
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                    <div id="stat-card-all" onclick="window.TaraAdmin.filterByStatus('all')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105 ring-2 ring-ocean bg-ocean/5">
                         <span class="text-[10px] uppercase font-bold text-stone tracking-wider">Total Catalog</span>
                         <p id="stat-total" class="text-2xl font-serif font-bold text-charcoal mt-1">0</p>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                    <div id="stat-card-Available" onclick="window.TaraAdmin.filterByStatus('Available')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105">
                         <span class="text-[10px] uppercase font-bold text-green-700 tracking-wider">🟢 Available</span>
                         <p id="stat-available" class="text-2xl font-serif font-bold text-green-700 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                    <div id="stat-card-Sold" onclick="window.TaraAdmin.filterByStatus('Sold Out')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105">
                         <span class="text-[10px] uppercase font-bold text-red-600 tracking-wider">🔴 Sold Out</span>
                         <p id="stat-sold" class="text-2xl font-serif font-bold text-red-600 mt-1">0</p>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center">
+                    <div id="stat-card-Hidden" onclick="window.TaraAdmin.filterByStatus('Hidden')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105">
                         <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">👁️ Hidden</span>
                         <p id="stat-hidden" class="text-2xl font-serif font-bold text-gray-600 mt-1">0</p>
                     </div>
@@ -651,7 +654,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div>
                         <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Status (Inventory)</label>
                         <select id="form-prod-status" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none bg-white font-semibold text-xs">
@@ -663,6 +666,10 @@
                     <div>
                         <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Badge Text</label>
                         <input type="text" id="form-prod-badge" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none uppercase text-xs font-bold" placeholder="HEALING">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Available Qty</label>
+                        <input type="number" id="form-prod-qty" class="w-full px-3 py-2.5 border border-stone/50 rounded-xl focus:border-ocean outline-none text-xs font-extrabold text-ocean" placeholder="e.g. 5">
                     </div>
                     <div>
                         <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Units Sold</label>

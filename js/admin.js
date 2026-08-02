@@ -41,7 +41,7 @@ class AdminDashboard {
 
   /* --- AUTO-DRAFT SAVER ENGINE --- */
   bindAutoDraftSaver() {
-    const inputs = ["#form-prod-name", "#form-prod-price", "#form-prod-cat", "#form-prod-status", "#form-prod-badge", "#form-prod-sold", "#form-prod-img-url", "#form-prod-desc"];
+    const inputs = ["#form-prod-name", "#form-prod-price", "#form-prod-cat", "#form-prod-status", "#form-prod-badge", "#form-prod-qty", "#form-prod-sold", "#form-prod-img-url", "#form-prod-desc"];
     inputs.forEach(sel => {
       const el = document.querySelector(sel);
       if (el) {
@@ -60,6 +60,7 @@ class AdminDashboard {
       cat: document.getElementById("form-prod-cat")?.value || "bracelets-featured",
       status: document.getElementById("form-prod-status")?.value || "Available",
       badge: document.getElementById("form-prod-badge")?.value || "",
+      qty: document.getElementById("form-prod-qty")?.value || "",
       sold: document.getElementById("form-prod-sold")?.value || "",
       url: document.getElementById("form-prod-img-url")?.value || "",
       desc: document.getElementById("form-prod-desc")?.value || "",
@@ -239,7 +240,24 @@ class AdminDashboard {
     });
   }
 
-  /* --- INVENTORY LIST --- */
+  /* --- INVENTORY LIST & STATUS FILTERING --- */
+  filterByStatus(status) {
+    this.activeStatusFilter = status;
+    ["all", "Available", "Sold", "Hidden"].forEach(k => {
+      const cardId = k === "Sold Out" || k === "Sold" ? "stat-card-Sold" : `stat-card-${k}`;
+      const card = document.getElementById(cardId);
+      if (card) {
+        const isMatch = (status === "all" && k === "all") || (status === k) || (status === "Sold Out" && (k === "Sold" || k === "Sold Out"));
+        if (isMatch) {
+          card.classList.add("ring-2", "ring-ocean", "bg-ocean/5");
+        } else {
+          card.classList.remove("ring-2", "ring-ocean", "bg-ocean/5");
+        }
+      }
+    });
+    this.renderInventoryList();
+  }
+
   renderInventoryList() {
     const list = document.getElementById("admin-product-list");
     if (!list || !window.TaraStore) return;
@@ -259,7 +277,20 @@ class AdminDashboard {
     });
 
     const searchQuery = document.getElementById("admin-search-catalog")?.value.trim().toLowerCase() || "";
-    const visibleProducts = products.filter(p => !searchQuery || p.name.toLowerCase().includes(searchQuery) || (p.category && p.category.toLowerCase().includes(searchQuery)));
+    const statusFilter = this.activeStatusFilter || "all";
+    let visibleProducts = products.filter(p => {
+      const matchesSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery) || (p.category && p.category.toLowerCase().includes(searchQuery));
+      const matchesStatus = statusFilter === "all" || p.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+
+    // Ensure NEW items and recently added items are always displayed at the very top
+    visibleProducts = visibleProducts.sort((a, b) => {
+      const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
+      const bNew = (b.badge === "NEW" || b.isNew === true) ? 1 : 0;
+      if (aNew !== bNew) return bNew - aNew;
+      return (new Date(b.createdAt || 0)) - (new Date(a.createdAt || 0));
+    });
 
     if (visibleProducts.length === 0) {
       list.innerHTML = `<p class="text-center text-stone text-xs italic py-6">No catalog items found matching "${searchQuery}".</p>`;
@@ -288,6 +319,7 @@ class AdminDashboard {
             <div class="flex flex-wrap items-center gap-2 mt-1.5">
               <span class="text-sm font-extrabold text-ocean">₱${prod.price ? prod.price.toLocaleString() : 0}</span>
               <span class="text-[10px] bg-sand/80 px-2 py-0.5 rounded text-charcoal font-bold truncate">${sectionLabel}</span>
+              ${prod.stockQty && parseInt(prod.stockQty, 10) > 0 ? `<span class="text-[10px] bg-green-100 text-green-800 border border-green-300 px-2 py-0.5 rounded font-extrabold">📦 Qty: ${prod.stockQty}</span>` : ""}
             </div>
           </div>
         </div>
@@ -603,6 +635,7 @@ class AdminDashboard {
         document.getElementById("form-prod-cat").value = d.cat || "bracelets-featured";
         document.getElementById("form-prod-status").value = d.status || "Available";
         document.getElementById("form-prod-badge").value = d.badge || "NEW";
+        if (document.getElementById("form-prod-qty")) document.getElementById("form-prod-qty").value = d.qty || "";
         if (document.getElementById("form-prod-sold")) document.getElementById("form-prod-sold").value = d.sold || "";
         document.getElementById("form-prod-img-url").value = d.url || "";
         document.getElementById("form-prod-desc").value = d.desc || "";
@@ -627,6 +660,7 @@ class AdminDashboard {
       document.getElementById("form-prod-cat").value = "bracelets-featured";
       document.getElementById("form-prod-status").value = "Available";
       document.getElementById("form-prod-badge").value = "NEW";
+      if (document.getElementById("form-prod-qty")) document.getElementById("form-prod-qty").value = "";
       if (document.getElementById("form-prod-sold")) document.getElementById("form-prod-sold").value = "";
       document.getElementById("form-prod-img-url").value = "";
       document.getElementById("form-prod-desc").value = "";
@@ -665,6 +699,7 @@ class AdminDashboard {
 
     document.getElementById("form-prod-status").value = p.status;
     document.getElementById("form-prod-badge").value = p.badge || (p.status === "Sold Out" ? "SOLD OUT" : "");
+    if (document.getElementById("form-prod-qty")) document.getElementById("form-prod-qty").value = p.stockQty || "";
     if (document.getElementById("form-prod-sold")) document.getElementById("form-prod-sold").value = p.soldCount || "";
     document.getElementById("form-prod-img-url").value = "";
     document.getElementById("form-prod-desc").value = p.description || "";
@@ -704,6 +739,7 @@ class AdminDashboard {
     const rawCatVal = document.getElementById("form-prod-cat")?.value || "bracelets-featured";
     const status = document.getElementById("form-prod-status")?.value || "Available";
     const badge = document.getElementById("form-prod-badge")?.value.trim() || "";
+    const stockQty = parseInt(document.getElementById("form-prod-qty")?.value, 10) || 0;
     const soldCount = parseInt(document.getElementById("form-prod-sold")?.value, 10) || 0;
     const desc = document.getElementById("form-prod-desc")?.value.trim() || "";
 
@@ -746,6 +782,7 @@ class AdminDashboard {
           existing.isCustomBase = (actualCategory === "personalized");
           existing.status = status;
           existing.badge = status === "Sold Out" ? "SOLD OUT" : badge;
+          existing.stockQty = stockQty;
           existing.soldCount = soldCount;
           existing.description = desc;
           existing.images = finalImages;
@@ -763,6 +800,7 @@ class AdminDashboard {
           isCustomBase: (actualCategory === "personalized"),
           status: status,
           badge: status === "Sold Out" ? "SOLD OUT" : (badge || "NEW"),
+          stockQty: stockQty,
           soldCount: soldCount,
           isNew: true,
           createdAt: Date.now(),
