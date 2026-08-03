@@ -499,7 +499,11 @@ class StoreManager {
   }
 
   saveCart() {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(this.cart));
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(this.cart));
+    } catch (e) {
+      console.warn("Could not save cart to LocalStorage (retaining in RAM instead):", e);
+    }
     window.dispatchEvent(new CustomEvent("cartUpdated", { detail: this.cart }));
   }
 
@@ -513,18 +517,18 @@ class StoreManager {
     );
 
     if (existingIndex > -1) {
-      this.cart[existingIndex].quantity += quantity;
+      this.cart[existingIndex].quantity = (parseInt(this.cart[existingIndex].quantity, 10) || 1) + (parseInt(quantity, 10) || 1);
     } else {
       this.cart.push({
         id: "cart-" + Date.now() + Math.random().toString(36).substr(2, 4),
         productId: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images[0],
-        size: size,
-        category: category,
-        quantity: quantity,
-        customNotes: customNotes
+        name: product.name || "Unnamed Item",
+        price: parseFloat(product.price) || 0,
+        image: (Array.isArray(product.images) && product.images[0]) ? product.images[0] : "assets/brand/logo.jpg",
+        size: size || "16cm",
+        category: category || "Adult",
+        quantity: parseInt(quantity, 10) || 1,
+        customNotes: customNotes || ""
       });
     }
 
@@ -540,7 +544,7 @@ class StoreManager {
   updateCartQuantity(cartItemId, delta) {
     const item = this.cart.find(i => i.id === cartItemId);
     if (item) {
-      item.quantity += delta;
+      item.quantity = (parseInt(item.quantity, 10) || 1) + parseInt(delta, 10);
       if (item.quantity <= 0) {
         this.removeFromCart(cartItemId);
       } else {
@@ -555,11 +559,11 @@ class StoreManager {
   }
 
   getCartTotal() {
-    return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    return this.cart.reduce((total, item) => total + ((parseFloat(item.price) || 0) * (parseInt(item.quantity, 10) || 1)), 0);
   }
 
   getCartCount() {
-    return this.cart.reduce((count, item) => count + item.quantity, 0);
+    return this.cart.reduce((count, item) => count + (parseInt(item.quantity, 10) || 0), 0);
   }
 
   /* --- EXPORT / COPY TO GITHUB FUNCTIONALITY --- */

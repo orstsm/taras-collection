@@ -489,12 +489,14 @@ class StorefrontApp {
     div.className = `product-card relative group flex flex-col justify-between cursor-pointer transition-transform duration-300 hover:-translate-y-1.5 ${isSoldOut ? "card-sold-out" : ""}`;
     div.onclick = () => this.openProductDetail(product.id);
 
-    const mainImg = product.images && product.images.length > 0 ? product.images[0] : "assets/brand/logo.jpg";
-    const imgCount = product.images ? product.images.length : (mainImg ? 1 : 0);
+    const imgList = Array.isArray(product.images) && product.images.length > 0 ? product.images : ["assets/brand/logo.jpg"];
+    const mainImg = imgList[0];
+    const imgCount = imgList.length;
     const photoCountBadge = imgCount > 1 ? `<span class="absolute top-3 right-3 bg-charcoal/85 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-white/20 z-10 flex items-center space-x-1 shadow-lg backdrop-blur-sm"><svg class="w-3.5 h-3.5 text-sand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg><span>${imgCount} pictures</span></span>` : "";
 
     const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
-    const isOldUpload = product.createdAt && (Date.now() - product.createdAt >= thirtyDaysMs);
+    const createdAtMs = typeof product.createdAt === "number" ? product.createdAt : (Date.parse(product.createdAt) || 0);
+    const isOldUpload = createdAtMs && (Date.now() - createdAtMs >= thirtyDaysMs);
 
     let badgeText = (product.badge || "").trim().toUpperCase();
     let badgeClass = "badge-new";
@@ -518,6 +520,7 @@ class StorefrontApp {
     }
 
     const catLabel = product.category === "personalized" ? "Custom Bracelet" : (product.category || "").toUpperCase();
+    const formattedPrice = (parseFloat(product.price) || 0).toLocaleString();
 
     div.innerHTML = `
       <div>
@@ -525,14 +528,14 @@ class StorefrontApp {
         ${photoCountBadge}
         <div class="blob-wrapper mb-4 shadow-sm relative">
           <div class="blob-frame">
-            <img src="${mainImg}" alt="${product.name}" class="blob-image loading='lazy'">
+            <img src="${mainImg}" alt="${product.name || 'Bracelet'}" class="blob-image loading='lazy'">
           </div>
         </div>
         <div class="text-center md:text-left px-1">
           <p class="text-[10px] font-bold text-stone uppercase tracking-widest mb-1">${catLabel}</p>
-          <h3 class="text-sm md:text-base font-serif font-bold text-charcoal tracking-wide line-clamp-2 group-hover:text-rust transition-colors">${product.name}</h3>
+          <h3 class="text-sm md:text-base font-serif font-bold text-charcoal tracking-wide line-clamp-2 group-hover:text-rust transition-colors">${product.name || 'Handcrafted Bracelet'}</h3>
           <div class="flex items-baseline justify-center md:justify-between mt-1.5 gap-2">
-            <span class="text-sm md:text-base font-bold text-ocean">₱ ${product.price ? product.price.toLocaleString() : 0}</span>
+            <span class="text-sm md:text-base font-bold text-ocean">₱ ${formattedPrice}</span>
             ${(product.soldCount && parseInt(product.soldCount, 10) > 0) ? `<span class="text-xs font-bold text-rust whitespace-nowrap">${product.soldCount} sold</span>` : ""}
           </div>
         </div>
@@ -554,9 +557,10 @@ class StorefrontApp {
     this.activeProductId = productId;
     this.activeImageIndex = 0;
 
-    document.getElementById("pv-title-crumb").textContent = product.name;
-    document.getElementById("pv-title").textContent = product.name;
-    document.getElementById("pv-price").textContent = `₱ ${product.price ? product.price.toLocaleString() : 0}`;
+    const formattedPrice = (parseFloat(product.price) || 0).toLocaleString();
+    document.getElementById("pv-title-crumb").textContent = product.name || 'Handcrafted Bracelet';
+    document.getElementById("pv-title").textContent = product.name || 'Handcrafted Bracelet';
+    document.getElementById("pv-price").textContent = `₱ ${formattedPrice}`;
     const soldBadgeEl = document.getElementById("pv-sold-badge");
     if (soldBadgeEl) {
       if (product.soldCount && parseInt(product.soldCount, 10) > 0) {
@@ -579,12 +583,12 @@ class StorefrontApp {
 
     const mainImg = document.getElementById("pv-main-image");
     const thumbContainer = document.getElementById("pv-thumbnails");
-    const defaultImg = product.images && product.images.length > 0 ? product.images[0] : "assets/brand/logo.jpg";
-    if (mainImg) mainImg.src = defaultImg;
+    const imgList = Array.isArray(product.images) && product.images.length > 0 ? product.images : ["assets/brand/logo.jpg"];
+    if (mainImg) mainImg.src = imgList[0];
     
     if (thumbContainer) {
       thumbContainer.innerHTML = "";
-      product.images.forEach((url, idx) => {
+      imgList.forEach((url, idx) => {
         const btn = document.createElement("button");
         btn.className = `w-16 h-16 rounded-md overflow-hidden border-2 ${idx === 0 ? "border-rust" : "border-stone/30"} flex-shrink-0 cursor-pointer transition-transform hover:scale-105`;
         btn.innerHTML = `<img src="${url}" class="w-full h-full object-cover">`;

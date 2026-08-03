@@ -279,7 +279,7 @@ class AdminDashboard {
     const searchQuery = document.getElementById("admin-search-catalog")?.value.trim().toLowerCase() || "";
     const statusFilter = this.activeStatusFilter || "all";
     let visibleProducts = products.filter(p => {
-      const matchesSearch = !searchQuery || p.name.toLowerCase().includes(searchQuery) || (p.category && p.category.toLowerCase().includes(searchQuery));
+      const matchesSearch = !searchQuery || (p.name || "").toLowerCase().includes(searchQuery) || (p.category && p.category.toLowerCase().includes(searchQuery));
       const matchesStatus = statusFilter === "all" || p.status === statusFilter;
       return matchesSearch && matchesStatus;
     });
@@ -289,7 +289,9 @@ class AdminDashboard {
       const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
       const bNew = (b.badge === "NEW" || b.isNew === true) ? 1 : 0;
       if (aNew !== bNew) return bNew - aNew;
-      return (new Date(b.createdAt || 0)) - (new Date(a.createdAt || 0));
+      const aTime = typeof a.createdAt === "number" ? a.createdAt : (Date.parse(a.createdAt) || 0);
+      const bTime = typeof b.createdAt === "number" ? b.createdAt : (Date.parse(b.createdAt) || 0);
+      return bTime - aTime;
     });
 
     if (visibleProducts.length === 0) {
@@ -301,23 +303,24 @@ class AdminDashboard {
       const row = document.createElement("div");
       row.className = "flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white rounded-xl border border-stone/25 shadow-sm gap-3 transition-all hover:border-ocean/40";
 
-      const thumb = prod.images && prod.images.length > 0 ? prod.images[0] : "assets/brand/logo.jpg";
+      const thumb = (Array.isArray(prod.images) && prod.images[0]) ? prod.images[0] : "assets/brand/logo.jpg";
       let badgeColor = "bg-green-100 text-green-800 border-green-300";
       if (prod.status === "Sold Out") badgeColor = "bg-red-100 text-red-800 border-red-300";
       if (prod.status === "Hidden") badgeColor = "bg-gray-100 text-gray-800 border-gray-300";
 
       const sectionLabel = (prod.category === "personalized" ? "Custom" : (prod.category || "")) + (prod.featured ? " + Featured ⭐" : "");
+      const formattedPrice = (parseFloat(prod.price) || 0).toLocaleString();
 
       row.innerHTML = `
         <div class="flex items-start sm:items-center space-x-3.5 min-w-0 flex-1">
           <img src="${thumb}" class="w-14 h-14 rounded-xl object-cover border border-stone/30 flex-shrink-0">
           <div class="min-w-0 flex-1">
             <div class="flex items-center justify-between gap-2">
-              <h4 class="font-serif font-bold text-base text-charcoal truncate">${prod.name}</h4>
+              <h4 class="font-serif font-bold text-base text-charcoal truncate">${prod.name || 'Unnamed Item'}</h4>
               <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border flex-shrink-0 ${badgeColor}">${prod.status}</span>
             </div>
             <div class="flex flex-wrap items-center gap-2 mt-1.5">
-              <span class="text-sm font-extrabold text-ocean">₱${prod.price ? prod.price.toLocaleString() : 0}</span>
+              <span class="text-sm font-extrabold text-ocean">₱${formattedPrice}</span>
               <span class="text-[10px] bg-sand/80 px-2 py-0.5 rounded text-charcoal font-bold truncate">${sectionLabel}</span>
               ${prod.stockQty && parseInt(prod.stockQty, 10) > 0 ? `<span class="text-[10px] bg-green-100 text-green-800 border border-green-300 px-2 py-0.5 rounded font-extrabold">📦 Qty: ${prod.stockQty}</span>` : ""}
             </div>
