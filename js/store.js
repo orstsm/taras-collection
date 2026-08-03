@@ -205,11 +205,16 @@ class StoreManager {
     this.data = null;
     this.cart = [];
     this.observers = [];
+    const SUPABASE_URL = "https://asltoyrmipekmbsuhfvo.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_mn_d7xVx13Jy165OUTSH3g_YcUtaDEr";
+    this.supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+    if (this.supabase) {
+      console.log("⚡ Connected to Supabase Cloud Engine (Tokyo Instance)");
+    }
   }
 
-  // Initialize data from LocalStorage or products.json
+  // Initialize data from Supabase Cloud or fallback to products.json
   async init() {
-    // Automatically clean up older storage keys (v1-v5) that contained uncompressed test photos to free up 5MB quota
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
       if (key && (key.startsWith("taras_collection_") || key.startsWith("tara_")) && key !== LOCAL_STORAGE_KEY && key !== CART_STORAGE_KEY && key !== "tara_admin_unsaved_product_draft") {
@@ -219,35 +224,51 @@ class StoreManager {
 
     this.loadCart();
     
-    const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (localData) {
-      try {
-        this.data = JSON.parse(localData);
-        console.log("Loaded inventory from browser LocalStorage.");
-        this.sanitizeAndHealProductIds();
-        this.notifyObservers();
-        return this.data;
-      } catch (err) {
-        console.warn("Corrupt local data, resetting...", err);
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-      }
-    }
-
+    // Step 1: Load baseline catalog architecture (storeInfo, proofs, shorts, default items)
+    let baseData = null;
     try {
-      const response = await fetch("data/products.json");
+      const response = await fetch("data/products.json?v=" + Date.now());
       if (response.ok) {
-        this.data = await response.json();
-        this.sanitizeAndHealProductIds();
-        this.saveToStorage();
-        console.log("Loaded inventory from data/products.json.");
-        this.notifyObservers();
-        return this.data;
+        baseData = await response.json();
+        console.log("Loaded baseline storefront config from data/products.json.");
       }
     } catch (e) {
-      console.warn("Fetch fallback: running locally without HTTP server. Using default seed.");
+      console.warn("Fetch fallback: running without local HTTP server.");
+    }
+    if (!baseData) {
+      const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (localData) {
+        try { baseData = JSON.parse(localData); } catch (err) { localStorage.removeItem(LOCAL_STORAGE_KEY); }
+      }
+    }
+    this.data = baseData || JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
+
+    // Step 2: Query Supabase Cloud Database for live real-time inventory
+    if (this.supabase) {
+      try {
+        const { data: dbProducts, error } = await this.supabase
+          .from("products")
+          .select("*")
+          .order("createdAt", { ascending: false });
+
+        if (!error && dbProducts && dbProducts.length > 0) {
+          console.log(`⚡ Loaded ${dbProducts.length} live products directly from Supabase Cloud!`);
+          this.data.products = dbProducts;
+        } else if (!error && (!dbProducts || dbProducts.length === 0)) {
+          console.log("🌱 Supabase 'products' table is empty. Running one-time automatic cloud seeding from local catalog...");
+          const toSeed = [...(this.data.products || [])];
+          for (const p of toSeed) {
+            await this.saveProductToCloud(p);
+          }
+          console.log("✅ Automated initial cloud seeding complete!");
+        } else if (error) {
+          console.warn("Supabase fetch error, falling back to local catalog:", error.message);
+        }
+      } catch (cloudErr) {
+        console.warn("Could not connect to Supabase Cloud, running in fallback offline mode:", cloudErr);
+      }
     }
 
-    this.data = JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
     this.sanitizeAndHealProductIds();
     this.saveToStorage();
     this.notifyObservers();
@@ -363,14 +384,59 @@ class StoreManager {
     return this.data?.customerProofs || DEFAULT_SEED_DATA.customerProofs;
   }
 
+  /* --- SUPABASE CLOUD SYNC METHODS --- */
+  async saveProductToCloud(prod) {
+    if (!this.supabase || !prod) return;
+    try {
+      const row = {
+        id: prod.id || `prod-${Date.now()}`,
+        name: prod.name || "Unnamed Bracelet",
+        price: parseFloat(prod.price) || 0,
+        category: prod.category || "bracelets",
+        featured: !!prod.featured,
+        isCustomBase: !!prod.isCustomBase,
+        status: prod.status || "Available",
+        badge: prod.badge || "",
+        stockQty: parseInt(prod.stockQty, 10) || 0,
+        soldCount: parseInt(prod.soldCount, 10) || 0,
+        isNew: !!prod.isNew,
+        createdAt: typeof prod.createdAt === "number" ? prod.createdAt : (Date.parse(prod.createdAt) || Date.now()),
+        description: prod.description || "",
+        images: Array.isArray(prod.images) ? prod.images : ["assets/brand/logo.jpg"],
+        sizes: Array.isArray(prod.sizes) ? prod.sizes : ["14cm", "15cm", "16cm", "17cm", "18cm", "19cm", "20cm"],
+        stoneSizes: Array.isArray(prod.stoneSizes) ? prod.stoneSizes : []
+      };
+      const { error } = await this.supabase.from("products").upsert(row);
+      if (error) {
+        console.error("Supabase upsert error for", prod.name, error);
+      } else {
+        console.log(`☁️ Successfully synced "${row.name}" to Supabase Cloud!`);
+      }
+    } catch (e) {
+      console.error("Cloud saving exception:", e);
+    }
+  }
+
+  async deleteProductFromCloud(id) {
+    if (!this.supabase || !id) return;
+    try {
+      const { error } = await this.supabase.from("products").delete().eq("id", id);
+      if (error) console.error("Supabase delete error for id:", id, error);
+      else console.log(`☁️ Successfully removed item "${id}" from Supabase Cloud.`);
+    } catch (e) {
+      console.error("Cloud deletion exception:", e);
+    }
+  }
+
   /* --- ADMIN CATALOG OPERATIONS --- */
   addProduct(productObj) {
     if (!productObj.id) {
       productObj.id = "prod-" + Date.now().toString(36);
     }
-    productObj.createdAt = new Date().toISOString();
+    productObj.createdAt = Date.now();
     this.data.products.unshift(productObj);
     this.saveToStorage();
+    this.saveProductToCloud(productObj);
     return productObj;
   }
 
@@ -379,6 +445,7 @@ class StoreManager {
     if (index !== -1) {
       this.data.products[index] = { ...this.data.products[index], ...updatedFields };
       this.saveToStorage();
+      this.saveProductToCloud(this.data.products[index]);
       return this.data.products[index];
     }
     return null;
@@ -387,6 +454,7 @@ class StoreManager {
   deleteProduct(id) {
     this.data.products = this.data.products.filter(p => p.id !== id);
     this.saveToStorage();
+    this.deleteProductFromCloud(id);
   }
 
   setProductStatus(id, status) {

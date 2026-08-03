@@ -360,6 +360,7 @@ class AdminDashboard {
     const updated = Math.max(0, current + delta);
     p.soldCount = updated;
     window.TaraStore.saveData();
+    if (window.TaraStore?.saveProductToCloud) window.TaraStore.saveProductToCloud(p);
     window.TaraApp?.showToast(`🏷️ "${p.name}" marked as ${updated} sold!`, "success");
   }
 
@@ -376,6 +377,7 @@ class AdminDashboard {
       product.badge = "NEW";
     }
     window.TaraStore.saveData();
+    if (window.TaraStore?.saveProductToCloud) window.TaraStore.saveProductToCloud(product);
     window.TaraApp?.showToast(`Updated "${product.name}" to ${product.status}`, "info");
   }
 
@@ -385,6 +387,7 @@ class AdminDashboard {
     if (confirm(`Are you sure you want to delete "${product.name}" from your store inventory?`)) {
       window.TaraStore.data.products = window.TaraStore.data.products.filter(p => p.id !== productId);
       window.TaraStore.saveData();
+      if (window.TaraStore?.deleteProductFromCloud) window.TaraStore.deleteProductFromCloud(productId);
       window.TaraApp?.showToast(`Removed "${product.name}" from catalog.`, "info");
     }
   }
@@ -505,9 +508,9 @@ class AdminDashboard {
     const reader = new FileReader();
     reader.onload = (e) => {
       const img = new Image();
-      img.onload = () => {
-        const maxW = 500;
-        const maxH = 500;
+      img.onload = async () => {
+        const maxW = 1200; // Crisp Full HD e-commerce standard
+        const maxH = 1200;
         let w = img.width;
         let h = img.height;
         if (w > h) {
@@ -520,7 +523,41 @@ class AdminDashboard {
         canvas.height = h;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, w, h);
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.58);
+
+        // Upload directly to Supabase Storage 'media' bucket if connected
+        if (window.TaraStore && window.TaraStore.supabase) {
+          try {
+            canvas.toBlob(async (blob) => {
+              if (blob) {
+                const cleanName = file.name ? file.name.toLowerCase().replace(/[^a-z0-9.]+/g, "_") : "photo.jpg";
+                const fileName = `hd_${Date.now()}_${Math.random().toString(36).substr(2, 5)}_${cleanName}`;
+                window.TaraApp?.showToast("☁️ Uploading HD photo to Supabase Cloud...", "info");
+                const { data, error } = await window.TaraStore.supabase.storage
+                  .from("media")
+                  .upload(fileName, blob, { contentType: "image/jpeg", cacheControl: "3600", upsert: true });
+
+                if (!error && data) {
+                  const { data: publicUrlData } = window.TaraStore.supabase.storage
+                    .from("media")
+                    .getPublicUrl(fileName);
+                  if (publicUrlData && publicUrlData.publicUrl) {
+                    window.TaraApp?.showToast("✨ HD Photo uploaded successfully!", "success");
+                    callback(publicUrlData.publicUrl);
+                    return;
+                  }
+                } else {
+                  console.warn("Supabase upload failed, falling back to data URL:", error?.message);
+                }
+              }
+              callback(canvas.toDataURL("image/jpeg", 0.85));
+            }, "image/jpeg", 0.85);
+            return;
+          } catch (cloudErr) {
+            console.warn("Cloud media upload exception:", cloudErr);
+          }
+        }
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
         callback(dataUrl);
       };
       img.onerror = () => callback(e.target.result);
@@ -804,6 +841,7 @@ class AdminDashboard {
           existing.images = finalImages;
           existing.sizes = finalSizes;
           existing.stoneSizes = finalStones;
+          if (window.TaraStore?.saveProductToCloud) window.TaraStore.saveProductToCloud(existing);
         }
       } else {
         const newId = window.TaraStore.generateCleanId ? window.TaraStore.generateCleanId(name) : (name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") + "-" + Date.now().toString(36));
@@ -827,6 +865,7 @@ class AdminDashboard {
         };
         if (window.TaraStore && window.TaraStore.data && window.TaraStore.data.products) {
           window.TaraStore.data.products.unshift(newProduct);
+          if (window.TaraStore?.saveProductToCloud) window.TaraStore.saveProductToCloud(newProduct);
         }
       }
 
