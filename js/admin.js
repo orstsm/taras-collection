@@ -1011,20 +1011,44 @@ class AdminDashboard {
     const file = event.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const importedData = JSON.parse(e.target.result);
-        if (importedData && importedData.products && importedData.storeInfo) {
-          window.TaraStore.data = importedData;
-          window.TaraStore.saveData();
+        if (importedData && Array.isArray(importedData.products)) {
+          window.TaraApp?.showToast(`⚡ Importing & syncing ${importedData.products.length} items to Supabase Cloud...`, "info");
+          
+          // Sanitize out bloated Base64 photo strings to prevent 7MB memory crash quotas
+          for (const prod of importedData.products) {
+            if (Array.isArray(prod.images)) {
+              prod.images = prod.images.filter(url => typeof url === "string" && !url.startsWith("data:image/"));
+              if (prod.images.length === 0) {
+                prod.images = ["assets/brand/logo.jpg"]; // Clean lightweight placeholder until re-uploaded via HD cloud
+              }
+            } else {
+              prod.images = ["assets/brand/logo.jpg"];
+            }
+            if (window.TaraStore && typeof window.TaraStore.saveProductToCloud === "function") {
+              await window.TaraStore.saveProductToCloud(prod);
+            }
+          }
+
+          if (window.TaraStore) {
+            window.TaraStore.data = importedData;
+            if (typeof window.TaraStore.sanitizeAndHealProductIds === "function") {
+              window.TaraStore.sanitizeAndHealProductIds();
+            }
+            window.TaraStore.saveData();
+          }
+
           this.renderInventoryList();
           this.renderProofsList();
-          window.TaraApp?.showToast("✅ Successfully imported draft catalog from file!", "success");
+          window.TaraApp?.showToast(`✅ Successfully synced all ${importedData.products.length} items to Supabase Cloud!`, "success");
         } else {
-          alert("Invalid catalog JSON file.");
+          alert("Invalid catalog JSON file. Missing products list.");
         }
       } catch (err) {
-        alert("Error parsing JSON file.");
+        console.error("Import error:", err);
+        alert("Error parsing JSON file. Please ensure it is a valid file.");
       }
     };
     reader.readAsText(file);
