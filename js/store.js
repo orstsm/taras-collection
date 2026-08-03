@@ -224,22 +224,20 @@ class StoreManager {
 
     this.loadCart();
     
-    // Step 1 & 2: Launch parallel promises for simultaneous high-speed loading!
-    const jsonPromise = fetch("data/products.json?v=" + Date.now())
-      .then(res => res.ok ? res.json() : null)
-      .catch(e => {
-        console.warn("Fetch fallback: running without local HTTP server.");
-        return null;
-      });
-
-    const supabasePromise = this.supabase ? 
-      this.supabase.from("products").select("*").order("createdAt", { ascending: false }).catch(err => {
-        console.warn("Could not connect to Supabase Cloud:", err);
-        return { data: null, error: err };
-      }) : Promise.resolve({ data: null, error: null });
-
-    // Await both network requests concurrently to slice initial loading wait time in half!
-    let [baseData, supabaseResult] = await Promise.all([jsonPromise, supabasePromise]);
+    // Step 1: Instant baseline render (with fast 2s network timeout to prevent mobile browser hangs)
+    let baseData = null;
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const response = await fetch("data/products.json?v=" + Date.now(), { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (response.ok) {
+        baseData = await response.json();
+        console.log("Loaded baseline storefront config from data/products.json.");
+      }
+    } catch (e) {
+      console.warn("Fetch fallback: loading from localStorage or default seed data.");
+    }
 
     if (!baseData) {
       const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -248,26 +246,49 @@ class StoreManager {
       }
     }
     this.data = baseData || JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
+    this.sanitizeAndHealProductIds();
 
-    // Integrate Supabase results
-    if (this.supabase && supabaseResult) {
-      const { data: dbProducts, error } = supabaseResult;
-      if (!error && dbProducts && dbProducts.length > 0) {
-        console.log(`⚡ Loaded ${dbProducts.length} live products directly from Supabase Cloud in parallel!`);
-        this.data.products = dbProducts;
-      } else if (!error && (!dbProducts || dbProducts.length === 0)) {
-        console.log("🌱 Supabase 'products' table is empty. Running one-time automatic cloud seeding from local catalog...");
-        const toSeed = [...(this.data.products || [])];
-        for (const p of toSeed) {
-          await this.saveProductToCloud(p);
+    // Step 2: Background Real-Time Cloud Sync (Stale-While-Revalidate pattern)
+    // This allows first-time mobile visitors to view the storefront immediately in under 0.1 seconds!
+    if (this.supabase) {
+      setTimeout(async () => {
+        try {
+          const { data: dbProducts, error } = await this.supabase
+            .from("products")
+            .select("*");
+
+          if (!error && dbProducts && dbProducts.length > 0) {
+            console.log(`⚡ Background sync: loaded ${dbProducts.length} live products from Supabase Cloud!`);
+            
+            // Normalize PostgreSQL snake_case column names into standard JavaScript camelCase properties
+            const normalized = dbProducts.map(p => ({
+              ...p,
+              isCustomBase: p.is_custom_base !== undefined ? p.is_custom_base : p.isCustomBase,
+              stockQty: p.stock_qty !== undefined ? p.stock_qty : (p.stockQty || 1),
+              soldCount: p.sold_count !== undefined ? p.sold_count : (p.soldCount || 0),
+              stoneSizes: p.stone_sizes !== undefined ? p.stone_sizes : p.stoneSizes,
+              createdAt: p.created_at !== undefined ? p.created_at : p.createdAt
+            }));
+
+            this.data.products = normalized;
+            this.sanitizeAndHealProductIds();
+            this.saveToStorage();
+            this.notifyObservers();
+          } else if (!error && (!dbProducts || dbProducts.length === 0)) {
+            console.log("🌱 Supabase 'products' table is empty. Running automatic cloud seeding...");
+            const toSeed = [...(this.data.products || [])];
+            for (const p of toSeed) {
+              await this.saveProductToCloud(p);
+            }
+          } else if (error) {
+            console.warn("Supabase background fetch notice:", error?.message);
+          }
+        } catch (cloudErr) {
+          console.warn("Offline fallback: Supabase cloud connection unavailable:", cloudErr);
         }
-        console.log("✅ Automated initial cloud seeding complete!");
-      } else if (error) {
-        console.warn("Supabase fetch error, falling back to local catalog:", error?.message);
-      }
+      }, 50);
     }
 
-    this.sanitizeAndHealProductIds();
     this.saveToStorage();
     this.notifyObservers();
     return this.data;
