@@ -224,17 +224,23 @@ class StoreManager {
 
     this.loadCart();
     
-    // Step 1: Load baseline catalog architecture (storeInfo, proofs, shorts, default items)
-    let baseData = null;
-    try {
-      const response = await fetch("data/products.json?v=" + Date.now());
-      if (response.ok) {
-        baseData = await response.json();
-        console.log("Loaded baseline storefront config from data/products.json.");
-      }
-    } catch (e) {
-      console.warn("Fetch fallback: running without local HTTP server.");
-    }
+    // Step 1 & 2: Launch parallel promises for simultaneous high-speed loading!
+    const jsonPromise = fetch("data/products.json?v=" + Date.now())
+      .then(res => res.ok ? res.json() : null)
+      .catch(e => {
+        console.warn("Fetch fallback: running without local HTTP server.");
+        return null;
+      });
+
+    const supabasePromise = this.supabase ? 
+      this.supabase.from("products").select("*").order("createdAt", { ascending: false }).catch(err => {
+        console.warn("Could not connect to Supabase Cloud:", err);
+        return { data: null, error: err };
+      }) : Promise.resolve({ data: null, error: null });
+
+    // Await both network requests concurrently to slice initial loading wait time in half!
+    let [baseData, supabaseResult] = await Promise.all([jsonPromise, supabasePromise]);
+
     if (!baseData) {
       const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (localData) {
@@ -243,29 +249,21 @@ class StoreManager {
     }
     this.data = baseData || JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
 
-    // Step 2: Query Supabase Cloud Database for live real-time inventory
-    if (this.supabase) {
-      try {
-        const { data: dbProducts, error } = await this.supabase
-          .from("products")
-          .select("*")
-          .order("createdAt", { ascending: false });
-
-        if (!error && dbProducts && dbProducts.length > 0) {
-          console.log(`⚡ Loaded ${dbProducts.length} live products directly from Supabase Cloud!`);
-          this.data.products = dbProducts;
-        } else if (!error && (!dbProducts || dbProducts.length === 0)) {
-          console.log("🌱 Supabase 'products' table is empty. Running one-time automatic cloud seeding from local catalog...");
-          const toSeed = [...(this.data.products || [])];
-          for (const p of toSeed) {
-            await this.saveProductToCloud(p);
-          }
-          console.log("✅ Automated initial cloud seeding complete!");
-        } else if (error) {
-          console.warn("Supabase fetch error, falling back to local catalog:", error.message);
+    // Integrate Supabase results
+    if (this.supabase && supabaseResult) {
+      const { data: dbProducts, error } = supabaseResult;
+      if (!error && dbProducts && dbProducts.length > 0) {
+        console.log(`⚡ Loaded ${dbProducts.length} live products directly from Supabase Cloud in parallel!`);
+        this.data.products = dbProducts;
+      } else if (!error && (!dbProducts || dbProducts.length === 0)) {
+        console.log("🌱 Supabase 'products' table is empty. Running one-time automatic cloud seeding from local catalog...");
+        const toSeed = [...(this.data.products || [])];
+        for (const p of toSeed) {
+          await this.saveProductToCloud(p);
         }
-      } catch (cloudErr) {
-        console.warn("Could not connect to Supabase Cloud, running in fallback offline mode:", cloudErr);
+        console.log("✅ Automated initial cloud seeding complete!");
+      } else if (error) {
+        console.warn("Supabase fetch error, falling back to local catalog:", error?.message);
       }
     }
 
