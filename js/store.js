@@ -95,7 +95,7 @@ const DEFAULT_SEED_DATA = {
       featured: false,
       isCustomBase: true,
       badge: "CUSTOMIZABLE",
-      description: "Ideal foundational base for customized charms and auxiliary gemstones. Each additional stone selected in Messenger costs ₱5.00 to ₱20.00.",
+      description: "Ideal foundational base for customized charms and auxiliary gemstones. Tailored directly to your exact personal intentions and wrist measurements via Messenger.",
       images: [
         "https://images.unsplash.com/photo-1611591472159-259f7ce8f1df?q=80&w=800&auto=format&fit=crop"
       ],
