@@ -246,7 +246,6 @@ class StoreManager {
       }
     }
     this.data = baseData || JSON.parse(JSON.stringify(DEFAULT_SEED_DATA));
-    this.sanitizeAndHealProductIds();
 
     // Step 2: Background Real-Time Cloud Sync (Stale-While-Revalidate pattern)
     // This allows first-time mobile visitors to view the storefront immediately in under 0.1 seconds!
@@ -257,7 +256,7 @@ class StoreManager {
             .from("products")
             .select("*");
 
-          if (!error && dbProducts && dbProducts.length > 0) {
+          if (!error && dbProducts) {
             console.log(`⚡ Background sync: loaded ${dbProducts.length} live products from Supabase Cloud!`);
             
             // Normalize PostgreSQL snake_case column names into standard JavaScript camelCase properties
@@ -271,15 +270,8 @@ class StoreManager {
             }));
 
             this.data.products = normalized;
-            this.sanitizeAndHealProductIds();
             this.saveToStorage();
             this.notifyObservers();
-          } else if (!error && (!dbProducts || dbProducts.length === 0)) {
-            console.log("🌱 Supabase 'products' table is empty. Running automatic cloud seeding...");
-            const toSeed = [...(this.data.products || [])];
-            for (const p of toSeed) {
-              await this.saveProductToCloud(p);
-            }
           } else if (error) {
             console.warn("Supabase background fetch notice:", error?.message);
           }
@@ -308,28 +300,9 @@ class StoreManager {
   }
 
   sanitizeAndHealProductIds() {
-    if (!this.data || !Array.isArray(this.data.products)) return;
-    let changed = false;
-    this.data.products.forEach(p => {
-      if (!p.name || !p.id) return;
-      const baseSlug = p.name.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-      if (baseSlug && !p.id.startsWith(baseSlug)) {
-        const oldId = p.id;
-        const newId = this.generateCleanId(p.name, oldId);
-        p.id = newId;
-        changed = true;
-        if (this.cart && Array.isArray(this.cart)) {
-          this.cart.forEach(c => {
-            if (c.productId === oldId) c.productId = newId;
-          });
-        }
-        console.log(`✨ Self-healed product link ID from "${oldId}" to "${newId}" (${p.name})`);
-      }
-    });
-    if (changed) {
-      this.saveToStorage();
-      if (typeof this.saveCart === "function") this.saveCart();
-    }
+    // Disabled: Do NOT alter or re-generate product primary keys after instantiation!
+    // Changing IDs after loading causes database deletions and edits to target mismatched rows.
+    return;
   }
 
   saveToStorage() {
@@ -436,12 +409,16 @@ class StoreManager {
     }
   }
 
-  async deleteProductFromCloud(id) {
-    if (!this.supabase || !id) return;
+  async deleteProductFromCloud(id, name) {
+    if (!this.supabase || (!id && !name)) return;
     try {
-      const { error } = await this.supabase.from("products").delete().eq("id", id);
-      if (error) console.error("Supabase delete error for id:", id, error);
-      else console.log(`☁️ Successfully removed item "${id}" from Supabase Cloud.`);
+      if (id) {
+        await this.supabase.from("products").delete().eq("id", id);
+      }
+      if (name) {
+        await this.supabase.from("products").delete().eq("name", name);
+      }
+      console.log(`☁️ Successfully removed item (${id || name}) from Supabase Cloud.`);
     } catch (e) {
       console.error("Cloud deletion exception:", e);
     }
@@ -471,9 +448,11 @@ class StoreManager {
   }
 
   deleteProduct(id) {
-    this.data.products = this.data.products.filter(p => p.id !== id);
+    const item = this.data.products.find(p => p.id === id);
+    const name = item ? item.name : null;
+    this.data.products = this.data.products.filter(p => p.id !== id && p.name !== name);
     this.saveToStorage();
-    this.deleteProductFromCloud(id);
+    this.deleteProductFromCloud(id, name);
   }
 
   setProductStatus(id, status) {

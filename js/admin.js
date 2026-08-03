@@ -388,10 +388,11 @@ class AdminDashboard {
     const product = window.TaraStore.getProductById(productId);
     if (!product) return;
     if (confirm(`Are you sure you want to delete "${product.name}" from your store inventory?`)) {
-      window.TaraStore.data.products = window.TaraStore.data.products.filter(p => p.id !== productId);
+      window.TaraStore.data.products = window.TaraStore.data.products.filter(p => p.id !== productId && p.name !== product.name);
       window.TaraStore.saveData();
-      if (window.TaraStore?.deleteProductFromCloud) window.TaraStore.deleteProductFromCloud(productId);
+      if (window.TaraStore?.deleteProductFromCloud) window.TaraStore.deleteProductFromCloud(product.id, product.name);
       window.TaraApp?.showToast(`Removed "${product.name}" from catalog.`, "info");
+      this.renderInventoryList();
     }
   }
 
