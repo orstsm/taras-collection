@@ -686,7 +686,6 @@ class StorefrontApp {
     }
 
     const btnContainer = document.getElementById("pv-button-container");
-    const isSoldOut = product.status === "Sold Out";
     if (btnContainer) {
       if (isSoldOut) {
         btnContainer.innerHTML = `
@@ -695,7 +694,7 @@ class StorefrontApp {
       } else {
         btnContainer.innerHTML = `
           <button onclick="window.TaraApp.addDetailToCart()" class="w-full bg-charcoal hover:bg-ocean text-white py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-md active:scale-95 cursor-pointer touch-min mb-3">
-            ADD TO CART &bull; ₱${product.price}
+            ADD TO CART &bull; ₱${discountedPrice.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2})}
           </button>
           <button onclick="window.TaraApp.inquireViaMessenger()" class="w-full border border-charcoal bg-transparent hover:bg-charcoal hover:text-white text-charcoal py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all cursor-pointer touch-min">
             INQUIRE VIA FACEBOOK MESSENGER
