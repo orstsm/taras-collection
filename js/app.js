@@ -224,6 +224,11 @@ class StorefrontApp {
 
     this.currentView = viewId;
 
+    const floatingChatBtn = document.getElementById("floating-chat-btn");
+    if (floatingChatBtn) {
+      floatingChatBtn.style.display = (viewId === "admin-view") ? "none" : "flex";
+    }
+
     if (viewId === "admin-view") {
       document.querySelectorAll(".bottom-nav-bar .nav-item").forEach(item => item.classList.remove("active"));
       const mobileAcc = document.getElementById("mobile-nav-account");
@@ -933,14 +938,19 @@ class StorefrontApp {
     const shorts = window.TaraStore.getYouTubeShorts();
     container.innerHTML = "";
     shorts.forEach(video => {
+      const videoId = video.id || "";
+      const videoUrl = video.url || `https://www.youtube.com/shorts/${videoId}`;
+      const thumbnail = video.thumbnail || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+      const fallbackThumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+
       const a = document.createElement("a");
-      a.href = video.url;
+      a.href = videoUrl;
       a.target = "_blank";
       a.className = "block aspect-[9/16] bg-stone/20 rounded-xl overflow-hidden shadow-md relative group cursor-pointer border border-stone/40";
       a.innerHTML = `
-        <img src="${video.thumbnail}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-transform duration-500 group-hover:scale-105" alt="${video.title}">
+        <img src="${thumbnail}" onerror="this.onerror=null; this.src='${fallbackThumb}';" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-transform duration-500 group-hover:scale-105" alt="${video.title || 'YouTube Short'}">
         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-4">
-          <h4 class="text-white text-xs md:text-sm font-bold truncate mb-2">${video.title}</h4>
+          <h4 class="text-white text-xs md:text-sm font-bold truncate mb-2">${video.title || ''}</h4>
           <div class="bg-rust rounded-full w-12 h-12 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform mx-auto mb-2">
             <svg class="w-6 h-6 text-white pl-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
           </div>

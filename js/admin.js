@@ -14,7 +14,7 @@ class AdminDashboard {
     this.adminUsername = "tara";
     this.adminPin = "tara2026";
     
-    this.isAdminLoggedIn = false;
+    this.isAdminLoggedIn = localStorage.getItem("tara_admin_authenticated") === "true";
     this.currentCustomer = JSON.parse(localStorage.getItem("tara_active_customer")) || null;
 
     this.editingProductId = null;
@@ -168,6 +168,7 @@ class AdminDashboard {
 
         if ((userVal === "tara" || userVal === "admin" || userVal === "tara@admin.com") && pwVal === this.adminPin) {
           this.isAdminLoggedIn = true;
+          localStorage.setItem("tara_admin_authenticated", "true");
           this.currentCustomer = null;
           if (userInput) userInput.value = "";
           if (pwInput) pwInput.value = "";
@@ -231,6 +232,7 @@ class AdminDashboard {
     document.querySelectorAll(".account-logout-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         this.isAdminLoggedIn = false;
+        localStorage.removeItem("tara_admin_authenticated");
         this.currentCustomer = null;
         localStorage.removeItem("tara_active_customer");
         this.checkSession();
