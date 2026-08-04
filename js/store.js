@@ -368,11 +368,17 @@ class StoreManager {
     if (existingIndex > -1) {
       this.cart[existingIndex].quantity = (parseInt(this.cart[existingIndex].quantity, 10) || 1) + (parseInt(quantity, 10) || 1);
     } else {
+      const origPrice = parseFloat(product.price) || 0;
+      const salePct = parseFloat(product.salePercentage) || 0;
+      const finalPrice = (salePct > 0) ? Number((origPrice * (1 - salePct / 100)).toFixed(2)) : origPrice;
       this.cart.push({
         id: "cart-" + Date.now() + Math.random().toString(36).substr(2, 4),
         productId: product.id,
         name: product.name || "Unnamed Item",
-        price: parseFloat(product.price) || 0,
+        price: finalPrice,
+        origPrice: origPrice,
+        salePercentage: salePct,
+        saleUntil: product.saleUntil || "",
         image: (Array.isArray(product.images) && product.images[0]) ? product.images[0] : "assets/brand/logo.jpg",
         size: size || "16cm",
         category: category || "Adult",

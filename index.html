@@ -267,8 +267,9 @@
                 <!-- Right: Information & Action Buttons -->
                 <div class="w-full md:w-1/2 flex flex-col justify-start">
                     <h1 id="pv-title" class="text-2xl md:text-4xl font-serif font-bold text-charcoal mb-2 leading-tight tracking-wide"></h1>
-                    <div class="flex items-baseline space-x-4 mb-5">
+                    <div class="flex flex-wrap items-baseline gap-3 mb-5">
                         <p id="pv-price" class="text-xl md:text-2xl text-ocean font-bold tracking-wide"></p>
+                        <span id="pv-sale-until-badge" class="hidden text-xs md:text-sm font-extrabold bg-rust text-white px-2.5 py-1 rounded-md shadow-sm animate-pulse whitespace-nowrap"></span>
                         <span id="pv-sold-badge" class="hidden text-xs md:text-sm font-bold text-rust"></span>
                         <span id="pv-qty-badge" class="hidden text-xs md:text-sm font-bold bg-green-100 text-green-800 px-2.5 py-1 rounded-md border border-green-300"></span>
                     </div>
@@ -416,7 +417,7 @@
                 </div>
 
                 <!-- STAT PILLS -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-8">
                     <div id="stat-card-all" onclick="window.TaraAdmin.filterByStatus('all')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105 ring-2 ring-ocean bg-ocean/5">
                         <span class="text-[10px] uppercase font-bold text-stone tracking-wider">Total Catalog</span>
                         <p id="stat-total" class="text-2xl font-serif font-bold text-charcoal mt-1">0</p>
@@ -432,6 +433,10 @@
                     <div id="stat-card-Hidden" onclick="window.TaraAdmin.filterByStatus('Hidden')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105">
                         <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">👁️ Hidden</span>
                         <p id="stat-hidden" class="text-2xl font-serif font-bold text-gray-600 mt-1">0</p>
+                    </div>
+                    <div id="stat-card-gross-sales" onclick="window.TaraAdmin.openGrossSalesModal()" class="bg-gradient-to-br from-white via-sand/30 to-sand p-4 rounded-xl border-2 border-rust/50 shadow-sm text-center cursor-pointer transition-all hover:scale-105 col-span-2 sm:col-span-1">
+                        <span class="text-[10px] uppercase font-extrabold text-rust tracking-wider">💰 Gross Sales</span>
+                        <p id="stat-gross-sales" class="text-xl md:text-2xl font-serif font-extrabold text-rust mt-1">₱ 0</p>
                     </div>
                 </div>
 
@@ -508,11 +513,11 @@
             <span>Cart</span>
             <span class="cart-counter-badge hidden absolute top-1 right-5 bg-rust text-white text-[9px] font-bold px-1.5 py-0.2 rounded-full">0</span>
         </a>
-        <a href="https://m.me/109568137198741" target="_blank" onclick="window.TaraApp.toggleCartDrawer(false);" class="nav-item text-[#0084ff]">
-            <svg class="w-6 h-6 fill-current" viewBox="0 0 512 512">
-                <path d="M256 32C132.3 32 32 126.2 32 242.3c0 66 31.9 124.6 81.3 162.7 5.6 4.3 9.1 10.9 9.4 18.1l2.4 47.9c.7 13.9 16.3 22 28.4 14.8l52.1-30.8c5.4-3.2 11.7-4.6 17.9-4 10.6 1.1 21.5 1.7 32.5 1.7 123.7 0 224-94.2 224-210.3S379.7 32 256 32zM128 274l71-77.5c7.8-8.5 21.6-9.5 30.7-2.3l48.6 38.9c6.6 5.3 16 5.6 23 .8l74.9-52.1c8.1-5.7 18 3.5 13.1 11.9l-71 77.5c-7.8 8.5-21.6 9.5-30.7 2.3l-48.6-38.9c-6.6-5.3-16-5.6-23-.8l-74.9 52.1c-8.2 5.7-18.1-3.6-13.1-11.9z"/>
+        <a href="#" id="mobile-nav-sale" onclick="window.TaraApp.selectTab('sale'); window.TaraApp.toggleCartDrawer(false); return false;" class="nav-item group text-rust">
+            <svg class="w-6 h-6 stroke-current fill-rust/20 group-hover:fill-rust transition-colors animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
             </svg>
-            <span class="text-charcoal font-bold">Messenger</span>
+            <span class="text-rust font-extrabold text-[10px] tracking-widest">SALE 🔥</span>
         </a>
     </nav>
 
@@ -667,6 +672,28 @@
                         </select>
                     </div>
                 </div>
+                <!-- PROMO SALE SETTINGS BOX -->
+                <div class="p-4 bg-sand/30 rounded-xl border border-rust/30 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-extrabold uppercase tracking-widest text-rust flex items-center gap-1.5">
+                            <span>🔥 Promo Sale Settings (Optional)</span>
+                        </span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-charcoal mb-1">Sale Discount (%)</label>
+                            <input type="number" id="form-prod-sale-pct" class="w-full px-3 py-2 border border-stone/50 rounded-xl focus:border-rust outline-none font-extrabold text-rust bg-white text-xs" placeholder="e.g. 15 for 15% OFF" min="0" max="99">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-charcoal mb-1">Sale Until Date</label>
+                            <input type="date" id="form-prod-sale-until" class="w-full px-3 py-2 border border-stone/50 rounded-xl focus:border-rust outline-none bg-white font-bold text-charcoal text-xs">
+                        </div>
+                    </div>
+                    <div id="sale-price-preview" class="hidden p-2.5 bg-white rounded-lg border border-rust/40 text-xs font-semibold text-charcoal text-center flex items-center justify-center gap-1">
+                        <span>✨ Discounted Promo Price will be:</span>
+                        <strong class="text-rust font-extrabold text-sm">₱ <span id="preview-discount-val">0</span></strong>
+                    </div>
+                </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div>
                         <label class="block text-[11px] font-bold uppercase text-charcoal mb-1">Status (Inventory)</label>
@@ -732,6 +759,33 @@
         </div>
     </div>
 
+    <div id="gross-sales-modal" class="fixed inset-0 bg-charcoal/85 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm overflow-y-auto" onclick="document.getElementById('gross-sales-modal').classList.add('hidden'); document.getElementById('gross-sales-modal').classList.remove('flex');">
+        <div class="bg-white max-w-lg w-full rounded-2xl shadow-2xl border border-stone/30 overflow-hidden my-auto" onclick="event.stopPropagation()">
+            <div class="p-5 bg-gradient-to-r from-ocean to-charcoal text-sand flex justify-between items-center border-b border-stone/20">
+                <div class="flex items-center space-x-2.5">
+                    <span class="text-2xl">💰</span>
+                    <h3 class="text-lg font-serif font-bold text-white tracking-wide">Gross Sales Summary</h3>
+                </div>
+                <button onclick="document.getElementById('gross-sales-modal').classList.add('hidden'); document.getElementById('gross-sales-modal').classList.remove('flex');" class="text-sand/80 hover:text-white font-extrabold text-xl p-1 leading-none cursor-pointer">&times;</button>
+            </div>
+            <div class="p-6 bg-sand/30 border-b border-stone/20 text-center">
+                <p id="gross-sales-total" class="text-2xl sm:text-3xl font-serif font-extrabold text-rust tracking-wider">Gross Sale: ₱ 0.00</p>
+                <p class="text-xs font-bold text-stone uppercase tracking-widest mt-1">Total Earnings From Sold Items</p>
+            </div>
+            <div class="p-6">
+                <h4 class="text-xs font-extrabold uppercase tracking-widest text-charcoal mb-3 flex items-center gap-2">
+                    <span>📦 Sold Items Breakdown</span>
+                </h4>
+                <div id="gross-sales-items" class="max-h-[50vh] overflow-y-auto divide-y divide-stone/20 -my-2 pr-1">
+                    <p class="text-center text-stone text-xs italic py-6">Calculating sales data...</p>
+                </div>
+            </div>
+            <div class="p-4 bg-sand/40 border-t border-stone/20 flex justify-end">
+                <button type="button" onclick="document.getElementById('gross-sales-modal').classList.add('hidden'); document.getElementById('gross-sales-modal').classList.remove('flex');" class="px-6 py-2 bg-charcoal text-white hover:bg-ocean rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-colors cursor-pointer">Close Report</button>
+            </div>
+        </div>
+    </div>
+
     <div id="proof-modal" onclick="window.TaraApp.closeModal('proof-modal')" class="fixed inset-0 bg-charcoal/90 z-[80] hidden items-center justify-center p-4 backdrop-blur-md cursor-pointer">
         <div class="bg-white p-4 rounded-2xl shadow-2xl max-w-lg w-full text-center relative" onclick="event.stopPropagation()">
             <button onclick="window.TaraApp.prevProof(event)" class="absolute -left-3 sm:-left-14 top-1/2 -translate-y-1/2 bg-charcoal/90 hover:bg-charcoal text-white p-3 rounded-full shadow-xl transition-transform hover:scale-110 z-20 cursor-pointer border border-white/20 touch-min" title="Previous Proof">
@@ -786,12 +840,6 @@
                     <div class="flex items-center justify-center md:justify-end space-x-5 pt-3">
                         <a href="https://www.facebook.com/TarasOnline" target="_blank" rel="noopener noreferrer" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified Facebook Page">
                             <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                        </a>
-                        <a href="#instagram" onclick="window.TaraApp?.showToast('Our Instagram page is launching very soon!', 'info'); return false;" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified Instagram">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                        <a href="#tiktok" onclick="window.TaraApp?.showToast('Our TikTok page is launching very soon!', 'info'); return false;" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified TikTok">
-                            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
                         </a>
                         <a href="https://www.youtube.com/@TARA-LNM/shorts" target="_blank" rel="noopener noreferrer" class="text-white hover:text-clay transition-transform hover:scale-110 p-2 cursor-pointer" title="Verified YouTube Channel">
                             <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>

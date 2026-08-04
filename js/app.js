@@ -145,9 +145,12 @@ class StorefrontApp {
     document.querySelectorAll(".bottom-nav-bar .nav-item").forEach(item => item.classList.remove("active"));
     const mobileHome = document.getElementById("mobile-nav-home");
     const mobileCatalog = document.getElementById("mobile-nav-catalog");
+    const mobileSale = document.getElementById("mobile-nav-sale");
 
     if (tabName === "home") {
       if (mobileHome) mobileHome.classList.add("active");
+    } else if (tabName === "sale") {
+      if (mobileSale) mobileSale.classList.add("active");
     } else {
       if (mobileCatalog) mobileCatalog.classList.add("active");
     }
@@ -189,6 +192,12 @@ class StorefrontApp {
       if (titleEl) titleEl.textContent = "Sacred Charms & Amulets";
       if (subEl) subEl.textContent = "Symbolic elements that bring abundance, good luck, and protection";
       this.renderFeaturedProducts({ category: "charms" });
+    } else if (tabName === "sale") {
+      if (heroSection) heroSection.classList.add("hidden");
+      if (customSection) customSection.classList.add("hidden");
+      if (titleEl) titleEl.textContent = "🔥 Current On Sale Collections";
+      if (subEl) subEl.textContent = "Grab these handcrafted energy pieces before our promotional discounts end!";
+      this.renderFeaturedProducts({ saleOnly: true });
     }
 
     if (!isInit) {
@@ -403,6 +412,9 @@ class StorefrontApp {
       if (options.featuredOnly) {
         all = all.filter(p => p.featured === true && p.category !== "personalized" && !p.isCustomBase);
       }
+      else if (options.saleOnly) {
+        all = all.filter(p => parseFloat(p.salePercentage) > 0 && p.status !== "Sold Out");
+      }
       else if (options.category === "personalized") {
         all = all.filter(p => p.category === "personalized" || p.isCustomBase === true);
       }
@@ -496,8 +508,9 @@ class StorefrontApp {
 
     const imgList = Array.isArray(product.images) && product.images.length > 0 ? product.images : ["assets/brand/logo.jpg"];
     const mainImg = imgList[0];
-    const imgCount = imgList.length;
-    const photoCountBadge = imgCount > 1 ? `<span class="absolute top-3 right-3 bg-charcoal/85 text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-white/20 z-10 flex items-center space-x-1 shadow-lg backdrop-blur-sm"><svg class="w-3.5 h-3.5 text-sand flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg><span>${imgCount} pictures</span></span>` : "";
+    const salePct = parseFloat(product.salePercentage) || 0;
+    const isOnSale = !isSoldOut && salePct > 0;
+    const photoCountBadge = isOnSale ? `<span class="absolute top-3 right-3 bg-rust text-white text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border border-white/20 z-10 flex items-center space-x-1 shadow-lg animate-pulse"><span>🔥 ${salePct}% OFF</span></span>` : "";
 
     const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
     const createdAtMs = typeof product.createdAt === "number" ? product.createdAt : (Date.parse(product.createdAt) || 0);
@@ -525,7 +538,11 @@ class StorefrontApp {
     }
 
     const catLabel = product.category === "personalized" ? "Custom Bracelet" : (product.category || "").toUpperCase();
-    const formattedPrice = (parseFloat(product.price) || 0).toLocaleString();
+    const origPrice = parseFloat(product.price) || 0;
+    const discountedPrice = isOnSale ? Number((origPrice * (1 - salePct / 100)).toFixed(2)) : origPrice;
+    const priceDisplayHTML = isOnSale 
+      ? `<span class="text-xs text-stone line-through font-semibold">₱ ${origPrice.toLocaleString()}</span> <span class="text-sm md:text-base font-extrabold text-rust ml-1">₱ ${discountedPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`
+      : `<span class="text-sm md:text-base font-bold text-ocean">₱ ${origPrice.toLocaleString()}</span>`;
 
     div.innerHTML = `
       <div>
@@ -540,7 +557,7 @@ class StorefrontApp {
           <p class="text-[10px] font-bold text-stone uppercase tracking-widest mb-1">${catLabel}</p>
           <h3 class="text-sm md:text-base font-serif font-bold text-charcoal tracking-wide line-clamp-2 group-hover:text-rust transition-colors">${product.name || 'Handcrafted Bracelet'}</h3>
           <div class="flex items-baseline justify-center md:justify-between mt-1.5 gap-2">
-            <span class="text-sm md:text-base font-bold text-ocean">₱ ${formattedPrice}</span>
+            ${priceDisplayHTML}
             ${(product.soldCount && parseInt(product.soldCount, 10) > 0) ? `<span class="text-xs font-bold text-rust whitespace-nowrap">${product.soldCount} sold</span>` : ""}
           </div>
         </div>
@@ -562,10 +579,45 @@ class StorefrontApp {
     this.activeProductId = productId;
     this.activeImageIndex = 0;
 
-    const formattedPrice = (parseFloat(product.price) || 0).toLocaleString();
+    const origPrice = parseFloat(product.price) || 0;
+    const salePct = parseFloat(product.salePercentage) || 0;
+    const isSoldOut = product.status === "Sold Out";
+    const isOnSale = !isSoldOut && salePct > 0;
+    const discountedPrice = isOnSale ? Number((origPrice * (1 - salePct / 100)).toFixed(2)) : origPrice;
+
     document.getElementById("pv-title-crumb").textContent = product.name || 'Handcrafted Bracelet';
     document.getElementById("pv-title").textContent = product.name || 'Handcrafted Bracelet';
-    document.getElementById("pv-price").textContent = `₱ ${formattedPrice}`;
+    
+    const priceEl = document.getElementById("pv-price");
+    if (priceEl) {
+      if (isOnSale) {
+        priceEl.innerHTML = `<span class="text-base md:text-xl text-stone line-through font-semibold mr-2">₱ ${origPrice.toLocaleString()}</span><span class="text-xl md:text-2xl text-rust font-extrabold">₱ ${discountedPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>`;
+      } else {
+        priceEl.textContent = `₱ ${origPrice.toLocaleString()}`;
+      }
+    }
+
+    const saleUntilEl = document.getElementById("pv-sale-until-badge");
+    if (saleUntilEl) {
+      if (isOnSale && product.saleUntil) {
+        try {
+          const dateObj = new Date(product.saleUntil);
+          if (!isNaN(dateObj)) {
+            const monthNames = ["Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.", "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec."];
+            const dateFormatted = `${monthNames[dateObj.getMonth()]} ${dateObj.getDate()}`;
+            saleUntilEl.textContent = `🔥 Sale until ${dateFormatted}`;
+            saleUntilEl.classList.remove("hidden");
+          } else {
+            saleUntilEl.classList.add("hidden");
+          }
+        } catch(e) {
+          saleUntilEl.classList.add("hidden");
+        }
+      } else {
+        saleUntilEl.classList.add("hidden");
+      }
+    }
+
     const soldBadgeEl = document.getElementById("pv-sold-badge");
     if (soldBadgeEl) {
       if (product.soldCount && parseInt(product.soldCount, 10) > 0) {

@@ -41,12 +41,12 @@ class AdminDashboard {
 
   /* --- AUTO-DRAFT SAVER ENGINE --- */
   bindAutoDraftSaver() {
-    const inputs = ["#form-prod-name", "#form-prod-price", "#form-prod-cat", "#form-prod-status", "#form-prod-badge", "#form-prod-qty", "#form-prod-sold", "#form-prod-img-url", "#form-prod-desc"];
+    const inputs = ["#form-prod-name", "#form-prod-price", "#form-prod-cat", "#form-prod-status", "#form-prod-badge", "#form-prod-qty", "#form-prod-sold", "#form-prod-img-url", "#form-prod-desc", "#form-prod-sale-pct", "#form-prod-sale-until"];
     inputs.forEach(sel => {
       const el = document.querySelector(sel);
       if (el) {
-        el.addEventListener("input", () => this.saveUnfinishedDraft());
-        el.addEventListener("change", () => this.saveUnfinishedDraft());
+        el.addEventListener("input", () => { this.saveUnfinishedDraft(); this.updateSalePricePreview(); });
+        el.addEventListener("change", () => { this.saveUnfinishedDraft(); this.updateSalePricePreview(); });
       }
     });
   }
@@ -57,6 +57,8 @@ class AdminDashboard {
     const draft = {
       name: document.getElementById("form-prod-name")?.value || "",
       price: document.getElementById("form-prod-price")?.value || "",
+      salePct: document.getElementById("form-prod-sale-pct")?.value || "",
+      saleUntil: document.getElementById("form-prod-sale-until")?.value || "",
       cat: document.getElementById("form-prod-cat")?.value || "bracelets-featured",
       status: document.getElementById("form-prod-status")?.value || "Available",
       badge: document.getElementById("form-prod-badge")?.value || "",
@@ -85,12 +87,15 @@ class AdminDashboard {
     this.selectedStoneSizes = [];
     if (document.getElementById("form-prod-name")) document.getElementById("form-prod-name").value = "";
     if (document.getElementById("form-prod-price")) document.getElementById("form-prod-price").value = "";
+    if (document.getElementById("form-prod-sale-pct")) document.getElementById("form-prod-sale-pct").value = "";
+    if (document.getElementById("form-prod-sale-until")) document.getElementById("form-prod-sale-until").value = "";
     if (document.getElementById("form-prod-cat")) document.getElementById("form-prod-cat").value = "bracelets-featured";
     if (document.getElementById("form-prod-status")) document.getElementById("form-prod-status").value = "Available";
     if (document.getElementById("form-prod-badge")) document.getElementById("form-prod-badge").value = "NEW";
     if (document.getElementById("form-prod-img-url")) document.getElementById("form-prod-img-url").value = "";
     if (document.getElementById("form-prod-desc")) document.getElementById("form-prod-desc").value = "";
     if (document.getElementById("admin-file-upload")) document.getElementById("admin-file-upload").value = "";
+    this.updateSalePricePreview();
     this.renderMultiImagePreview();
     this.renderWristSizeSelector();
     if (this.renderStoneSizeSelector) this.renderStoneSizeSelector();
@@ -271,11 +276,21 @@ class AdminDashboard {
     let avail = 0;
     let sold = 0;
     let hidden = 0;
+    let grossSales = 0;
 
     products.forEach(prod => {
       if (prod.status === "Available") avail++;
       else if (prod.status === "Sold Out") sold++;
       else if (prod.status === "Hidden") hidden++;
+
+      const soldNum = parseInt(prod.soldCount || 0, 10);
+      const effectiveSold = soldNum > 0 ? soldNum : (prod.status === "Sold Out" ? 1 : 0);
+      if (effectiveSold > 0) {
+        const origPrice = parseFloat(prod.price) || 0;
+        const salePct = parseFloat(prod.salePercentage) || 0;
+        const finalPrice = (salePct > 0) ? Number((origPrice * (1 - salePct / 100)).toFixed(2)) : origPrice;
+        grossSales += (effectiveSold * finalPrice);
+      }
     });
 
     const searchQuery = document.getElementById("admin-search-catalog")?.value.trim().toLowerCase() || "";
@@ -351,11 +366,13 @@ class AdminDashboard {
     const elAvail = document.getElementById("stat-available");
     const elSold = document.getElementById("stat-sold");
     const elHidden = document.getElementById("stat-hidden");
+    const elGross = document.getElementById("stat-gross-sales");
 
     if (elTotal) elTotal.textContent = total;
     if (elAvail) elAvail.textContent = avail;
     if (elSold) elSold.textContent = sold;
     if (elHidden) elHidden.textContent = hidden;
+    if (elGross) elGross.textContent = `₱ ${grossSales.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
   }
 
   adjustSoldCount(id, delta) {
@@ -675,6 +692,8 @@ class AdminDashboard {
         const d = JSON.parse(savedDraftStr);
         document.getElementById("form-prod-name").value = d.name || "";
         document.getElementById("form-prod-price").value = d.price || "";
+        if (document.getElementById("form-prod-sale-pct")) document.getElementById("form-prod-sale-pct").value = d.salePct || "";
+        if (document.getElementById("form-prod-sale-until")) document.getElementById("form-prod-sale-until").value = d.saleUntil || "";
         document.getElementById("form-prod-cat").value = d.cat || "bracelets-featured";
         document.getElementById("form-prod-status").value = d.status || "Available";
         document.getElementById("form-prod-badge").value = d.badge || "NEW";
@@ -700,6 +719,8 @@ class AdminDashboard {
     } else {
       document.getElementById("form-prod-name").value = "";
       document.getElementById("form-prod-price").value = "";
+      if (document.getElementById("form-prod-sale-pct")) document.getElementById("form-prod-sale-pct").value = "";
+      if (document.getElementById("form-prod-sale-until")) document.getElementById("form-prod-sale-until").value = "";
       document.getElementById("form-prod-cat").value = "bracelets-featured";
       document.getElementById("form-prod-status").value = "Available";
       document.getElementById("form-prod-badge").value = "NEW";
@@ -709,6 +730,7 @@ class AdminDashboard {
       document.getElementById("form-prod-desc").value = "";
     }
 
+    this.updateSalePricePreview();
     this.renderMultiImagePreview();
     this.renderWristSizeSelector();
     this.renderStoneSizeSelector();
@@ -734,6 +756,8 @@ class AdminDashboard {
     document.getElementById("admin-modal-title").textContent = `Edit: ${p.name}`;
     document.getElementById("form-prod-name").value = p.name;
     document.getElementById("form-prod-price").value = p.price;
+    if (document.getElementById("form-prod-sale-pct")) document.getElementById("form-prod-sale-pct").value = p.salePercentage || "";
+    if (document.getElementById("form-prod-sale-until")) document.getElementById("form-prod-sale-until").value = p.saleUntil || "";
     
     let catVal = p.category;
     if (p.featured === true) catVal += "-featured";
@@ -747,6 +771,7 @@ class AdminDashboard {
     document.getElementById("form-prod-img-url").value = "";
     document.getElementById("form-prod-desc").value = p.description || "";
 
+    this.updateSalePricePreview();
     this.renderMultiImagePreview();
     this.renderWristSizeSelector();
     this.renderStoneSizeSelector();
@@ -779,6 +804,8 @@ class AdminDashboard {
     if (this.isSaving) return; // Prevent double-clicking and duplicate uploads!
     const name = document.getElementById("form-prod-name")?.value.trim();
     const priceVal = parseFloat(document.getElementById("form-prod-price")?.value);
+    const salePercentage = parseFloat(document.getElementById("form-prod-sale-pct")?.value) || 0;
+    const saleUntil = document.getElementById("form-prod-sale-until")?.value || "";
     const rawCatVal = document.getElementById("form-prod-cat")?.value || "bracelets-featured";
     const status = document.getElementById("form-prod-status")?.value || "Available";
     const badge = document.getElementById("form-prod-badge")?.value.trim() || "";
@@ -836,6 +863,8 @@ class AdminDashboard {
           }
           existing.name = name;
           existing.price = priceVal;
+          existing.salePercentage = salePercentage;
+          existing.saleUntil = saleUntil;
           existing.category = actualCategory;
           existing.featured = isFeatured;
           existing.isCustomBase = (actualCategory === "personalized");
@@ -855,6 +884,8 @@ class AdminDashboard {
           id: newId,
           name: name,
           price: priceVal,
+          salePercentage: salePercentage,
+          saleUntil: saleUntil,
           category: actualCategory,
           featured: isFeatured,
           isCustomBase: (actualCategory === "personalized"),
@@ -1081,6 +1112,69 @@ class AdminDashboard {
         document.execCommand("copy");
       });
     }
+  }
+
+  updateSalePricePreview() {
+    const price = parseFloat(document.getElementById("form-prod-price")?.value) || 0;
+    const salePct = parseFloat(document.getElementById("form-prod-sale-pct")?.value) || 0;
+    const previewBox = document.getElementById("sale-price-preview");
+    const previewVal = document.getElementById("preview-discount-val");
+    if (!previewBox || !previewVal) return;
+    if (price > 0 && salePct > 0 && salePct < 100) {
+      const discounted = Number((price * (1 - salePct / 100)).toFixed(2));
+      previewVal.textContent = discounted.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      previewBox.classList.remove("hidden");
+    } else {
+      previewBox.classList.add("hidden");
+    }
+  }
+
+  openGrossSalesModal() {
+    const modal = document.getElementById("gross-sales-modal");
+    const summaryList = document.getElementById("gross-sales-items");
+    const totalHeader = document.getElementById("gross-sales-total");
+    if (!modal || !summaryList || !totalHeader) return;
+
+    const products = window.TaraStore?.getProducts({}) || [];
+    let grossTotal = 0;
+    let itemsHTML = "";
+
+    products.forEach(p => {
+      const soldNum = parseInt(p.soldCount || 0, 10);
+      const effectiveSold = soldNum > 0 ? soldNum : (p.status === "Sold Out" ? 1 : 0);
+      if (effectiveSold > 0) {
+        const origPrice = parseFloat(p.price) || 0;
+        const salePct = parseFloat(p.salePercentage) || 0;
+        const isSale = salePct > 0;
+        const unitPrice = isSale ? Number((origPrice * (1 - salePct / 100)).toFixed(2)) : origPrice;
+        const itemTotal = effectiveSold * unitPrice;
+        grossTotal += itemTotal;
+
+        const priceNote = isSale 
+          ? `Sale price (${effectiveSold} x ₱ ${unitPrice.toLocaleString()})`
+          : `List price (${effectiveSold} x ₱ ${unitPrice.toLocaleString()})`;
+
+        itemsHTML += `
+          <div class="flex justify-between items-center py-3 border-b border-stone/20 text-xs sm:text-sm">
+            <div class="pr-2">
+              <p class="font-serif font-bold text-charcoal">${effectiveSold} x ${p.name || 'Custom Bracelet'}</p>
+              <p class="text-[11px] text-stone font-medium mt-0.5">${priceNote}</p>
+            </div>
+            <span class="font-extrabold text-rust ml-2 whitespace-nowrap">₱ ${itemTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+          </div>
+        `;
+      }
+    });
+
+    if (!itemsHTML) {
+      itemsHTML = `<p class="text-center text-stone text-xs italic py-8">No sold items recorded yet!</p>`;
+    }
+
+    totalHeader.textContent = `Gross Sale: ₱ ${grossTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    summaryList.innerHTML = itemsHTML;
+
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
   }
 }
 
