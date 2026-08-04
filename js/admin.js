@@ -250,7 +250,7 @@ class AdminDashboard {
   /* --- INVENTORY LIST & STATUS FILTERING --- */
   filterByStatus(status) {
     this.activeStatusFilter = status;
-    ["all", "Available", "Sold", "Hidden"].forEach(k => {
+    ["all", "Available", "Sold", "Hidden", "Sale"].forEach(k => {
       const cardId = k === "Sold Out" || k === "Sold" ? "stat-card-Sold" : `stat-card-${k}`;
       const card = document.getElementById(cardId);
       if (card) {
@@ -276,12 +276,14 @@ class AdminDashboard {
     let avail = 0;
     let sold = 0;
     let hidden = 0;
+    let sale = 0;
     let grossSales = 0;
 
     products.forEach(prod => {
       if (prod.status === "Available") avail++;
       else if (prod.status === "Sold Out") sold++;
       else if (prod.status === "Hidden") hidden++;
+      if (parseFloat(prod.salePercentage) > 0 && prod.status !== "Sold Out") sale++;
 
       const soldNum = parseInt(prod.soldCount || 0, 10);
       const effectiveSold = soldNum > 0 ? soldNum : (prod.status === "Sold Out" ? 1 : 0);
@@ -297,7 +299,7 @@ class AdminDashboard {
     const statusFilter = this.activeStatusFilter || "all";
     let visibleProducts = products.filter(p => {
       const matchesSearch = !searchQuery || (p.name || "").toLowerCase().includes(searchQuery) || (p.category && p.category.toLowerCase().includes(searchQuery));
-      const matchesStatus = statusFilter === "all" || p.status === statusFilter;
+      const matchesStatus = statusFilter === "all" || (statusFilter === "Sale" ? (parseFloat(p.salePercentage) > 0 && p.status !== "Sold Out") : p.status === statusFilter);
       return matchesSearch && matchesStatus;
     });
 
@@ -338,6 +340,7 @@ class AdminDashboard {
             </div>
             <div class="flex flex-wrap items-center gap-2 mt-1.5">
               <span class="text-sm font-extrabold text-ocean">₱${formattedPrice}</span>
+              ${parseFloat(prod.salePercentage) > 0 && prod.status !== "Sold Out" ? `<span class="text-[10px] bg-rust text-white border border-rust/30 px-2 py-0.5 rounded font-extrabold shadow-sm animate-pulse">🔥 ${prod.salePercentage}% OFF</span>` : ""}
               <span class="text-[10px] bg-sand/80 px-2 py-0.5 rounded text-charcoal font-bold truncate">${sectionLabel}</span>
               ${prod.stockQty && parseInt(prod.stockQty, 10) > 0 ? `<span class="text-[10px] bg-green-100 text-green-800 border border-green-300 px-2 py-0.5 rounded font-extrabold">📦 Qty: ${prod.stockQty}</span>` : ""}
             </div>
@@ -366,12 +369,14 @@ class AdminDashboard {
     const elAvail = document.getElementById("stat-available");
     const elSold = document.getElementById("stat-sold");
     const elHidden = document.getElementById("stat-hidden");
+    const elSale = document.getElementById("stat-sale");
     const elGross = document.getElementById("stat-gross-sales");
 
     if (elTotal) elTotal.textContent = total;
     if (elAvail) elAvail.textContent = avail;
     if (elSold) elSold.textContent = sold;
     if (elHidden) elHidden.textContent = hidden;
+    if (elSale) elSale.textContent = sale;
     if (elGross) elGross.textContent = `₱ ${grossSales.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
   }
 
@@ -741,6 +746,7 @@ class AdminDashboard {
       modal.style.removeProperty("display");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
     }
   }
 
@@ -782,6 +788,7 @@ class AdminDashboard {
       modal.style.removeProperty("display");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
+      document.body.style.overflow = "hidden";
     }
   }
 
@@ -791,6 +798,7 @@ class AdminDashboard {
       modal.style.setProperty("display", "none", "important");
       modal.classList.add("hidden");
       modal.classList.remove("flex");
+      document.body.style.overflow = "";
     }
     this.isSaving = false;
     const saveBtn = document.getElementById("admin-save-product-btn");
@@ -835,8 +843,9 @@ class AdminDashboard {
     const tabNames = {
       "personalized": "Personalized tab",
       "bracelets": "Bracelets tab",
-      "gemstones": "Gemstones tab",
-      "charms": "Charms tab"
+      "gemstones": "Natural Stones > Gemstones sub-tab",
+      "charms": "Natural Stones > Charms sub-tab",
+      "charms_grid": "Natural Stones > Charms Grid sub-tab"
     };
     const targetTabName = tabNames[actualCategory] || "catalog";
     const destName = isFeatured ? `${targetTabName} & Home (Featured)` : `${targetTabName} only`;
@@ -913,11 +922,15 @@ class AdminDashboard {
       window.TaraApp?.showToast(`✅ ${actionText}! Redirecting in 2s...`, "success");
 
       // Automatically navigate to the destination tab after 2 seconds
-      const targetTab = (actualCategory && ["personalized", "bracelets", "gemstones", "charms"].includes(actualCategory)) 
-        ? actualCategory : "home";
+      const targetTab = (actualCategory && ["personalized", "bracelets", "gemstones", "charms", "charms_grid"].includes(actualCategory)) 
+        ? (["gemstones", "charms", "charms_grid"].includes(actualCategory) ? "natural-stones" : actualCategory) : "home";
       setTimeout(() => {
         if (window.TaraApp && typeof window.TaraApp.selectTab === "function") {
-          window.TaraApp.selectTab(targetTab);
+          if (["gemstones", "charms", "charms_grid"].includes(actualCategory) && typeof window.TaraApp.setNaturalStonesSubTab === "function") {
+            window.TaraApp.setNaturalStonesSubTab(actualCategory);
+          } else {
+            window.TaraApp.selectTab(targetTab);
+          }
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }, 2000);
@@ -1175,6 +1188,16 @@ class AdminDashboard {
 
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  }
+
+  closeGrossSalesModal() {
+    const modal = document.getElementById("gross-sales-modal");
+    if (modal) {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+    document.body.style.overflow = "";
   }
 }
 

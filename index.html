@@ -120,8 +120,7 @@
                     Personalized <span class="ml-1 text-sm animate-pulse">🔥</span>
                 </button>
                 <button id="nav-tab-bracelets" onclick="window.TaraApp.selectTab('bracelets')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Bracelets</button>
-                <button id="nav-tab-gemstones" onclick="window.TaraApp.selectTab('gemstones')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Gemstones</button>
-                <button id="nav-tab-charms" onclick="window.TaraApp.selectTab('charms')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Charms</button>
+                <button id="nav-tab-natural-stones" onclick="window.TaraApp.selectTab('natural-stones')" class="nav-tier-item hover:text-rust whitespace-nowrap transition-colors cursor-pointer pb-0.5 border-b-2 border-transparent">Natural Stones</button>
             </nav>
         </div>
     </header>
@@ -168,7 +167,7 @@
             </div>
         </section>
 
-        <!-- STATUS SUB-NAVIGATION FILTER BAR (Visible on category pages: Personalized, Bracelets, Gemstones, Charms) -->
+        <!-- STATUS SUB-NAVIGATION FILTER BAR (Visible on Personalized & Bracelets tabs) -->
         <section id="status-filter-section" class="hidden max-w-2xl mx-auto px-3 sm:px-6 lg:px-8 mb-8">
             <div class="flex items-center justify-center gap-1.5 sm:gap-2.5 overflow-x-auto py-1.5 px-2 bg-sand/40 border border-stone/20 rounded-2xl shadow-inner max-w-full">
                 <button type="button" id="subfilter-all" onclick="window.TaraApp.setSubFilter('all')" class="subfilter-pill flex-shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer bg-rust text-white shadow-md scale-105">
@@ -182,6 +181,21 @@
                 </button>
                 <button type="button" id="subfilter-soldout" onclick="window.TaraApp.setSubFilter('soldout')" class="subfilter-pill flex-shrink-0 px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 hover:text-stone border border-stone/20">
                     📦 Sold Out
+                </button>
+            </div>
+        </section>
+
+        <!-- NATURAL STONES SUB-NAVIGATION TABS (Visible exclusively on Natural Stones tab) -->
+        <section id="natural-stones-subnav" class="hidden max-w-2xl mx-auto px-3 sm:px-6 lg:px-8 mb-8">
+            <div class="flex items-center justify-center gap-2 sm:gap-3 overflow-x-auto py-1.5 px-2.5 bg-sand/40 border border-stone/20 rounded-2xl shadow-inner max-w-full">
+                <button type="button" id="subnav-stone-gemstones" onclick="window.TaraApp.setNaturalStonesSubTab('gemstones')" class="stone-subnav-pill flex-shrink-0 px-4 sm:px-5 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer bg-rust text-white shadow-md scale-105">
+                    💎 Gemstones
+                </button>
+                <button type="button" id="subnav-stone-charms" onclick="window.TaraApp.setNaturalStonesSubTab('charms')" class="stone-subnav-pill flex-shrink-0 px-4 sm:px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 hover:text-rust border border-stone/20">
+                    ✨ Charms
+                </button>
+                <button type="button" id="subnav-stone-charms_grid" onclick="window.TaraApp.setNaturalStonesSubTab('charms_grid')" class="stone-subnav-pill flex-shrink-0 px-4 sm:px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 hover:text-rust border border-stone/20">
+                    🔲 Charms Grid
                 </button>
             </div>
         </section>
@@ -436,7 +450,7 @@
                 </div>
 
                 <!-- STAT PILLS -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-8">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 mb-8">
                     <div id="stat-card-all" onclick="window.TaraAdmin.filterByStatus('all')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105 ring-2 ring-ocean bg-ocean/5">
                         <span class="text-[10px] uppercase font-bold text-stone tracking-wider">Total Catalog</span>
                         <p id="stat-total" class="text-2xl font-serif font-bold text-charcoal mt-1">0</p>
@@ -452,6 +466,10 @@
                     <div id="stat-card-Hidden" onclick="window.TaraAdmin.filterByStatus('Hidden')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105">
                         <span class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">👁️ Hidden</span>
                         <p id="stat-hidden" class="text-2xl font-serif font-bold text-gray-600 mt-1">0</p>
+                    </div>
+                    <div id="stat-card-Sale" onclick="window.TaraAdmin.filterByStatus('Sale')" class="bg-white p-4 rounded-xl border border-stone/30 shadow-sm text-center cursor-pointer transition-all hover:scale-105">
+                        <span class="text-[10px] uppercase font-extrabold text-rust tracking-wider">🔥 On Sale</span>
+                        <p id="stat-sale" class="text-2xl font-serif font-extrabold text-rust mt-1">0</p>
                     </div>
                     <div id="stat-card-gross-sales" onclick="window.TaraAdmin.openGrossSalesModal()" class="bg-gradient-to-br from-white via-sand/30 to-sand p-4 rounded-xl border-2 border-rust/50 shadow-sm text-center cursor-pointer transition-all hover:scale-105 col-span-2 sm:col-span-1">
                         <span class="text-[10px] uppercase font-extrabold text-rust tracking-wider">💰 Gross Sales</span>
@@ -684,10 +702,12 @@
                             <option value="bracelets-featured" selected>Bracelet - Add to Featured ⭐</option>
                             <option value="personalized">Custom Bracelet (Personalized Tab Only)</option>
                             <option value="personalized-featured">Custom Bracelet - Add to Featured ⭐</option>
-                            <option value="gemstones">Gemstone (Gemstones Tab Only)</option>
+                            <option value="gemstones">Gemstone (Natural Stones > Gemstones Only)</option>
                             <option value="gemstones-featured">Gemstone - Add to Featured ⭐</option>
-                            <option value="charms">Charm (Charms Tab Only)</option>
+                            <option value="charms">Charm (Natural Stones > Charms Only)</option>
                             <option value="charms-featured">Charm - Add to Featured ⭐</option>
+                            <option value="charms_grid">Charm Grid (Natural Stones > Charms Grid Only)</option>
+                            <option value="charms_grid-featured">Charm Grid - Add to Featured ⭐</option>
                         </select>
                     </div>
                 </div>
@@ -778,14 +798,14 @@
         </div>
     </div>
 
-    <div id="gross-sales-modal" class="fixed inset-0 bg-charcoal/85 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm overflow-y-auto" onclick="document.getElementById('gross-sales-modal').classList.add('hidden'); document.getElementById('gross-sales-modal').classList.remove('flex');">
+    <div id="gross-sales-modal" class="fixed inset-0 bg-charcoal/85 z-[80] hidden items-center justify-center p-4 backdrop-blur-sm overflow-y-auto" onclick="window.TaraAdmin.closeGrossSalesModal()">
         <div class="bg-white max-w-lg w-full rounded-2xl shadow-2xl border border-stone/30 overflow-hidden my-auto" onclick="event.stopPropagation()">
             <div class="p-5 bg-gradient-to-r from-ocean to-charcoal text-sand flex justify-between items-center border-b border-stone/20">
                 <div class="flex items-center space-x-2.5">
                     <span class="text-2xl">💰</span>
                     <h3 class="text-lg font-serif font-bold text-white tracking-wide">Gross Sales Summary</h3>
                 </div>
-                <button onclick="document.getElementById('gross-sales-modal').classList.add('hidden'); document.getElementById('gross-sales-modal').classList.remove('flex');" class="text-sand/80 hover:text-white font-extrabold text-xl p-1 leading-none cursor-pointer">&times;</button>
+                <button onclick="window.TaraAdmin.closeGrossSalesModal()" class="text-sand/80 hover:text-white font-extrabold text-xl p-1 leading-none cursor-pointer">&times;</button>
             </div>
             <div class="p-6 bg-sand/30 border-b border-stone/20 text-center">
                 <p id="gross-sales-total" class="text-2xl sm:text-3xl font-serif font-extrabold text-rust tracking-wider">Gross Sale: ₱ 0.00</p>
@@ -800,7 +820,7 @@
                 </div>
             </div>
             <div class="p-4 bg-sand/40 border-t border-stone/20 flex justify-end">
-                <button type="button" onclick="document.getElementById('gross-sales-modal').classList.add('hidden'); document.getElementById('gross-sales-modal').classList.remove('flex');" class="px-6 py-2 bg-charcoal text-white hover:bg-ocean rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-colors cursor-pointer">Close Report</button>
+                <button type="button" onclick="window.TaraAdmin.closeGrossSalesModal()" class="px-6 py-2 bg-charcoal text-white hover:bg-ocean rounded-xl text-xs font-bold uppercase tracking-wider shadow-sm transition-colors cursor-pointer">Close Report</button>
             </div>
         </div>
     </div>

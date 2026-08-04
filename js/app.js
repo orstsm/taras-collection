@@ -108,7 +108,7 @@ class StorefrontApp {
       const hash = window.location.hash.replace("#", "");
       if (hash === "admin") {
         setTimeout(() => this.switchView("admin-view", null, true), 100);
-      } else if (["home", "personalized", "bracelets", "gemstones", "charms"].includes(hash)) {
+      } else if (["home", "personalized", "bracelets", "gemstones", "charms", "natural-stones"].includes(hash)) {
         setTimeout(() => this.selectTab(hash, true), 100);
       }
     }
@@ -119,16 +119,30 @@ class StorefrontApp {
   /* --- ROBUST TAB SWITCHER WITH EXACT ACTIVE-ONLY HIGHLIGHTING --- */
   selectTab(tabName, isInit = false, skipPush = false, preserveSubFilter = false) {
     this.toggleCartDrawer(false);
+    if (tabName === "gemstones" || tabName === "charms" || tabName === "charms_grid") {
+      this.activeNaturalStoneSubTab = tabName;
+      tabName = "natural-stones";
+    }
     this.activeTab = tabName;
 
     if (!preserveSubFilter && typeof this.resetSubFilterUI === "function") {
       this.resetSubFilterUI();
     }
     const statusFilterSection = document.getElementById("status-filter-section");
+    const naturalStonesSubnav = document.getElementById("natural-stones-subnav");
     if (statusFilterSection) {
-      const allowSubFilter = ["personalized", "bracelets", "gemstones", "charms"].includes(tabName);
+      const allowSubFilter = ["personalized", "bracelets"].includes(tabName);
       if (allowSubFilter) statusFilterSection.classList.remove("hidden");
       else statusFilterSection.classList.add("hidden");
+    }
+    if (naturalStonesSubnav) {
+      if (tabName === "natural-stones") {
+        naturalStonesSubnav.classList.remove("hidden");
+        if (!this.activeNaturalStoneSubTab) this.activeNaturalStoneSubTab = "gemstones";
+        this.updateNaturalStonesSubNavUI(this.activeNaturalStoneSubTab);
+      } else {
+        naturalStonesSubnav.classList.add("hidden");
+      }
     }
 
     if (!skipPush && !isInit) {
@@ -191,18 +205,21 @@ class StorefrontApp {
       if (titleEl) titleEl.textContent = "Personalized & Custom Bracelets";
       if (subEl) subEl.textContent = "Tailored designs made specifically to match your energy needs";
       this.renderFeaturedProducts({ category: "personalized" });
-    } else if (tabName === "gemstones") {
+    } else if (tabName === "natural-stones") {
       if (heroSection) heroSection.classList.add("hidden");
       if (customSection) customSection.classList.add("hidden");
-      if (titleEl) titleEl.textContent = "Gemstones & Healing Stones";
-      if (subEl) subEl.textContent = "Raw and polished natural crystals cleansed with sound vibrations";
-      this.renderFeaturedProducts({ category: "gemstones" });
-    } else if (tabName === "charms") {
-      if (heroSection) heroSection.classList.add("hidden");
-      if (customSection) customSection.classList.add("hidden");
-      if (titleEl) titleEl.textContent = "Sacred Charms & Amulets";
-      if (subEl) subEl.textContent = "Symbolic elements that bring abundance, good luck, and protection";
-      this.renderFeaturedProducts({ category: "charms" });
+      const activeSub = this.activeNaturalStoneSubTab || "gemstones";
+      if (activeSub === "gemstones") {
+        if (titleEl) titleEl.textContent = "Gemstones & Healing Stones";
+        if (subEl) subEl.textContent = "Raw and polished natural crystals cleansed with sound vibrations";
+      } else if (activeSub === "charms") {
+        if (titleEl) titleEl.textContent = "Sacred Charms & Amulets";
+        if (subEl) subEl.textContent = "Symbolic elements that bring abundance, good luck, and protection";
+      } else if (activeSub === "charms_grid") {
+        if (titleEl) titleEl.textContent = "Charms Grid Collection";
+        if (subEl) subEl.textContent = "Curated grids and charm sets designed for energy harmonization";
+      }
+      this.renderFeaturedProducts({ category: activeSub });
     } else if (tabName === "sale") {
       if (heroSection) heroSection.classList.add("hidden");
       if (customSection) customSection.classList.add("hidden");
@@ -240,6 +257,22 @@ class StorefrontApp {
       selectedBtn.className = `subfilter-pill flex-shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs transition-all cursor-pointer ${activeClass}`;
     }
     this.selectTab(this.activeTab, true, true, true);
+  }
+
+  updateNaturalStonesSubNavUI(subCat) {
+    document.querySelectorAll(".stone-subnav-pill").forEach(btn => {
+      btn.className = "stone-subnav-pill flex-shrink-0 px-4 sm:px-5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 border border-stone/20";
+    });
+    const selectedBtn = document.getElementById(`subnav-stone-${subCat}`);
+    if (selectedBtn) {
+      selectedBtn.className = "stone-subnav-pill flex-shrink-0 px-4 sm:px-5 py-2 rounded-xl text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer bg-rust text-white shadow-md scale-105";
+    }
+  }
+
+  setNaturalStonesSubTab(subCat = 'gemstones') {
+    this.activeNaturalStoneSubTab = subCat;
+    this.updateNaturalStonesSubNavUI(subCat);
+    this.selectTab("natural-stones", true, true, true);
   }
 
   renderCurrentTab() {
@@ -471,8 +504,11 @@ class StorefrontApp {
       }
     }
 
-    // Sort to ensure NEW items and recently created items show at the very top of the list
+    // Sort to ensure NEW items are at the very top and Sold Out items are demoted to the very bottom
     all = all.sort((a, b) => {
+      const aSold = (a.status === "Sold Out") ? 1 : 0;
+      const bSold = (b.status === "Sold Out") ? 1 : 0;
+      if (aSold !== bSold) return aSold - bSold;
       const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
       const bNew = (b.badge === "NEW" || b.isNew === true) ? 1 : 0;
       if (aNew !== bNew) return bNew - aNew;
@@ -524,6 +560,9 @@ class StorefrontApp {
     let items = all.filter(p => (p.category === "personalized" || p.isCustomBase === true) && p.status !== "Hidden" && p.featured === true);
     
     items = items.sort((a, b) => {
+      const aSold = (a.status === "Sold Out") ? 1 : 0;
+      const bSold = (b.status === "Sold Out") ? 1 : 0;
+      if (aSold !== bSold) return aSold - bSold;
       const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
       const bNew = (b.badge === "NEW" || b.isNew === true) ? 1 : 0;
       if (aNew !== bNew) return bNew - aNew;
@@ -726,7 +765,7 @@ class StorefrontApp {
     }
 
     const sizeSelectorEl = document.getElementById("pv-size-selector");
-    const isStoneOrCharm = (product.category === "gemstones" || product.category === "charms");
+    const isStoneOrCharm = (product.category === "gemstones" || product.category === "charms" || product.category === "charms_grid");
     
     if (isStoneOrCharm) {
       if (sizeSelectorEl) sizeSelectorEl.classList.add("hidden");
