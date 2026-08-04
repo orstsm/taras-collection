@@ -1,19 +1,34 @@
 /**
  * ==========================================================================
- * TARA'S COLLECTION - DISCRETE ACCOUNT & SECRET ADMIN AUTHENTICATION
+ * TARA'S COLLECTION - DISCRETE ACCOUNT & CRYPTOGRAPHIC ADMIN AUTHENTICATION
  * Masks admin inventory controls behind a standard Customer Account portal.
  * Features automatic Draft Saving and full Customer Proofs of Transaction management!
- * Admin Credentials: Username: "tara" / "admin" | PIN: "tara2026"
+ * Protected via Web Crypto API Salted SHA-256 Hashing & Supabase Cloud JWTs.
  * ==========================================================================
  */
 
 const ADMIN_DRAFT_KEY = "tara_admin_unsaved_product_draft";
+const ADMIN_SALT = "TARA_CRYPTO_SALT_2026_#@!9981::";
+const TARGET_ADMIN_HASH = "e6c345d24fa13bc852f3d873ae854f5919eca47a00bd3bd54935b9b173b0c2a4";
+
+async function verifySecurePin(inputPin) {
+  try {
+    if (!window.crypto || !window.crypto.subtle) return false;
+    const encoder = new TextEncoder();
+    const data = encoder.encode(ADMIN_SALT + inputPin);
+    const hashBuffer = await window.crypto.subtle.digest("SHA-256", data);
+    const hashHex = Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex === TARGET_ADMIN_HASH;
+  } catch (e) {
+    console.error("Crypto hashing error:", e);
+    return false;
+  }
+}
 
 class AdminDashboard {
   constructor() {
-    this.adminUsername = "tara";
-    this.adminPin = "tara2026";
-    
     this.isAdminLoggedIn = localStorage.getItem("tara_admin_authenticated") === "true";
     this.currentCustomer = JSON.parse(localStorage.getItem("tara_active_customer")) || null;
 
@@ -159,7 +174,7 @@ class AdminDashboard {
     }
 
     if (loginBtn) {
-      const handleLogin = () => {
+      const handleLogin = async () => {
         const userVal = (userInput?.value || "").trim().toLowerCase();
         const pwVal = (pwInput?.value || "").trim();
 
@@ -171,7 +186,8 @@ class AdminDashboard {
           return;
         }
 
-        if ((userVal === "tara" || userVal === "admin" || userVal === "tara@admin.com") && pwVal === this.adminPin) {
+        const isPinValid = await verifySecurePin(pwVal);
+        if ((userVal === "tara" || userVal === "admin" || userVal === "tara@admin.com" || userVal === "admin@tarascollection.store") && isPinValid) {
           this.isAdminLoggedIn = true;
           localStorage.setItem("tara_admin_authenticated", "true");
           this.currentCustomer = null;
@@ -179,6 +195,24 @@ class AdminDashboard {
           if (pwInput) pwInput.value = "";
           if (errorMsg) errorMsg.classList.add("hidden");
           this.checkSession();
+
+          // Simultaneously authenticate with Supabase Cloud for Row-Level Security JWT write privileges
+          if (window.TaraStore && window.TaraStore.supabase && window.TaraStore.supabase.auth) {
+            try {
+              const { error: authErr } = await window.TaraStore.supabase.auth.signInWithPassword({
+                email: "admin@tarascollection.store",
+                password: pwVal
+              });
+              if (authErr) {
+                console.warn("Notice: Supabase Cloud Auth login notice (ensure admin account is created in dashboard):", authErr.message);
+              } else {
+                console.log("☁️ Successfully authenticated with Supabase Cloud Engine (RLS Write Enabled)!");
+              }
+            } catch (authEx) {
+              console.warn("Supabase auth exception:", authEx);
+            }
+          }
+
           window.TaraApp?.showToast("Authenticated as Store Manager! 👑", "success");
           return;
         }
@@ -235,7 +269,14 @@ class AdminDashboard {
     }
 
     document.querySelectorAll(".account-logout-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", async () => {
+        if (window.TaraStore && window.TaraStore.supabase && window.TaraStore.supabase.auth) {
+          try {
+            await window.TaraStore.supabase.auth.signOut();
+          } catch (e) {
+            console.warn("Supabase sign out notice:", e);
+          }
+        }
         this.isAdminLoggedIn = false;
         localStorage.removeItem("tara_admin_authenticated");
         this.currentCustomer = null;

@@ -276,6 +276,10 @@ class StoreManager {
       const { error } = await this.supabase.from("products").upsert(row);
       if (error) {
         console.error("Supabase upsert error for", prod.name, error);
+        if (error.code === '42501' || error.message?.toLowerCase().includes("row-level security") || error.message?.toLowerCase().includes("policy")) {
+          console.warn("🔒 RLS Write Denied: Please sign out and sign back in to Store Manager to refresh your cloud authorization token.");
+          window.TaraApp?.showToast("⚠️ Supabase RLS write denied. Re-login to Store Manager to authorize!", "error");
+        }
       } else {
         console.log(`☁️ Successfully synced "${row.name}" to Supabase Cloud!`);
       }
@@ -287,13 +291,23 @@ class StoreManager {
   async deleteProductFromCloud(id, name) {
     if (!this.supabase || (!id && !name)) return;
     try {
+      let err;
       if (id) {
-        await this.supabase.from("products").delete().eq("id", id);
+        const res = await this.supabase.from("products").delete().eq("id", id);
+        err = res.error;
       }
-      if (name) {
-        await this.supabase.from("products").delete().eq("name", name);
+      if (name && !err) {
+        const res = await this.supabase.from("products").delete().eq("name", name);
+        err = res.error;
       }
-      console.log(`☁️ Successfully removed item (${id || name}) from Supabase Cloud.`);
+      if (err) {
+        console.error("Supabase deletion error:", err);
+        if (err.code === '42501' || err.message?.toLowerCase().includes("row-level security") || err.message?.toLowerCase().includes("policy")) {
+          window.TaraApp?.showToast("⚠️ Supabase RLS delete denied. Re-login to Store Manager to authorize!", "error");
+        }
+      } else {
+        console.log(`☁️ Successfully removed item (${id || name}) from Supabase Cloud.`);
+      }
     } catch (e) {
       console.error("Cloud deletion exception:", e);
     }
