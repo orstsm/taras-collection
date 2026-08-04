@@ -955,18 +955,25 @@ class StorefrontApp {
     }
 
     container.innerHTML = "";
+    if (window.TaraStore && typeof window.TaraStore.syncCartWithLiveCatalog === "function") {
+      window.TaraStore.syncCartWithLiveCatalog();
+    }
     cart.forEach(item => {
       const row = document.createElement("div");
       row.className = "flex items-center space-x-3 bg-white p-3 rounded-xl border border-stone/20 shadow-sm";
       const detailDesc = (item.size === "N/A" || !item.size) ? "Stone / Charm Element" : `Wrist Size: ${item.size}`;
       
-      const subtotal = (item.price * item.quantity).toLocaleString();
-      const priceFormatted = item.price ? item.price.toLocaleString() : "0";
+      const subtotal = (item.price * item.quantity).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2});
+      const priceFormatted = item.price ? item.price.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2}) : "0";
+      const priceDisplay = (item.salePercentage && parseFloat(item.salePercentage) > 0 && item.origPrice)
+        ? `<span class="line-through text-stone font-normal">₱${parseFloat(item.origPrice).toLocaleString()}</span> <span class="text-rust font-extrabold">₱${priceFormatted} (🔥${item.salePercentage}% OFF)</span>`
+        : `₱${priceFormatted}`;
+
       row.innerHTML = `
         <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg border border-stone/30 flex-shrink-0">
         <div class="flex-1 min-w-0">
           <h4 class="font-serif font-bold text-sm text-charcoal truncate">${item.name}</h4>
-          <p class="text-[11px] text-ocean font-semibold">${detailDesc} &bull; ₱${priceFormatted} <span class="text-rust font-extrabold ml-1">* subtotal ₱${subtotal}</span></p>
+          <p class="text-[11px] text-ocean font-semibold">${detailDesc} &bull; ${priceDisplay} <span class="text-rust font-extrabold ml-1">* subtotal ₱${subtotal}</span></p>
           <div class="flex items-center space-x-2 mt-2">
             <button onclick="window.TaraStore.updateCartQuantity('${item.id}', -1)" class="w-6 h-6 rounded-full bg-sand hover:bg-stone/30 font-bold text-charcoal flex items-center justify-center text-xs">-</button>
             <span class="text-xs font-bold text-charcoal w-4 text-center">${item.quantity}</span>
@@ -979,7 +986,7 @@ class StorefrontApp {
     });
 
     if (totalEl) {
-      totalEl.textContent = window.TaraStore.getCartTotal().toLocaleString();
+      totalEl.textContent = window.TaraStore.getCartTotal().toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 2});
     }
   }
 

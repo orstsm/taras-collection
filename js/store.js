@@ -136,10 +136,13 @@ class StoreManager {
               stockQty: p.stock_qty !== undefined ? p.stock_qty : (p.stockQty || 1),
               soldCount: p.sold_count !== undefined ? p.sold_count : (p.soldCount || 0),
               stoneSizes: p.stone_sizes !== undefined ? p.stone_sizes : p.stoneSizes,
-              createdAt: p.created_at !== undefined ? p.created_at : p.createdAt
+              createdAt: p.created_at !== undefined ? p.created_at : p.createdAt,
+              salePercentage: p.sale_percentage !== undefined ? p.sale_percentage : (p.salePercentage !== undefined ? p.salePercentage : 0),
+              saleUntil: p.sale_until !== undefined ? p.sale_until : (p.saleUntil || "")
             }));
 
             this.data.products = normalized;
+            if (typeof this.syncCartWithLiveCatalog === "function") this.syncCartWithLiveCatalog();
             this.saveToStorage();
             this.notifyObservers();
           } else if (error) {
@@ -254,6 +257,8 @@ class StoreManager {
         id: prod.id || `prod-${Date.now()}`,
         name: prod.name || "Unnamed Bracelet",
         price: parseFloat(prod.price) || 0,
+        salePercentage: parseFloat(prod.salePercentage) || 0,
+        saleUntil: prod.saleUntil || "",
         category: prod.category || "bracelets",
         featured: !!prod.featured,
         isCustomBase: !!prod.isCustomBase,
@@ -356,6 +361,32 @@ class StoreManager {
     window.dispatchEvent(new CustomEvent("cartUpdated", { detail: this.cart }));
   }
 
+  syncCartWithLiveCatalog() {
+    if (!Array.isArray(this.cart)) return;
+    let changed = false;
+    this.cart.forEach(item => {
+      const prod = this.getProductById(item.productId);
+      if (prod) {
+        const origPrice = parseFloat(prod.price) || 0;
+        const salePct = parseFloat(prod.salePercentage) || 0;
+        const isSoldOut = prod.status === "Sold Out";
+        const isOnSale = !isSoldOut && salePct > 0;
+        const correctPrice = isOnSale ? Number((origPrice * (1 - salePct / 100)).toFixed(2)) : origPrice;
+
+        if (item.price !== correctPrice || item.origPrice !== origPrice || item.salePercentage !== salePct || item.saleUntil !== (prod.saleUntil || "")) {
+          item.price = correctPrice;
+          item.origPrice = origPrice;
+          item.salePercentage = salePct;
+          item.saleUntil = prod.saleUntil || "";
+          changed = true;
+        }
+      }
+    });
+    if (changed) {
+      this.saveCart();
+    }
+  }
+
   addToCart(productId, size = "16cm", category = "Adult", quantity = 1, customNotes = "") {
     const product = this.getProductById(productId);
     if (!product) return false;
@@ -387,6 +418,7 @@ class StoreManager {
       });
     }
 
+    this.syncCartWithLiveCatalog();
     this.saveCart();
     return true;
   }
@@ -414,6 +446,7 @@ class StoreManager {
   }
 
   getCartTotal() {
+    if (typeof this.syncCartWithLiveCatalog === "function") this.syncCartWithLiveCatalog();
     return this.cart.reduce((total, item) => total + ((parseFloat(item.price) || 0) * (parseInt(item.quantity, 10) || 1)), 0);
   }
 
