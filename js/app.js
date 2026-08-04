@@ -10,6 +10,7 @@ class StorefrontApp {
   constructor() {
     this.currentView = "home-view";
     this.activeTab = "home";
+    this.currentSubFilter = "all";
     this.selectedCategory = "Adult";
     this.selectedSize = "16cm";
     this.activeProductId = null;
@@ -116,9 +117,19 @@ class StorefrontApp {
   }
 
   /* --- ROBUST TAB SWITCHER WITH EXACT ACTIVE-ONLY HIGHLIGHTING --- */
-  selectTab(tabName, isInit = false, skipPush = false) {
+  selectTab(tabName, isInit = false, skipPush = false, preserveSubFilter = false) {
     this.toggleCartDrawer(false);
     this.activeTab = tabName;
+
+    if (!preserveSubFilter && typeof this.resetSubFilterUI === "function") {
+      this.resetSubFilterUI();
+    }
+    const statusFilterSection = document.getElementById("status-filter-section");
+    if (statusFilterSection) {
+      const allowSubFilter = ["personalized", "bracelets", "gemstones", "charms"].includes(tabName);
+      if (allowSubFilter) statusFilterSection.classList.remove("hidden");
+      else statusFilterSection.classList.add("hidden");
+    }
 
     if (!skipPush && !isInit) {
       const cleanUrl = window.location.pathname + (tabName === "home" ? "" : `#${tabName}`);
@@ -205,8 +216,34 @@ class StorefrontApp {
     }
   }
 
+  resetSubFilterUI() {
+    this.currentSubFilter = "all";
+    document.querySelectorAll(".subfilter-pill").forEach(btn => {
+      btn.className = "subfilter-pill flex-shrink-0 px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 border border-stone/20";
+    });
+    const allBtn = document.getElementById("subfilter-all");
+    if (allBtn) {
+      allBtn.className = "subfilter-pill flex-shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer bg-rust text-white shadow-md scale-105";
+    }
+  }
+
+  setSubFilter(filterType = 'all') {
+    this.currentSubFilter = filterType;
+    document.querySelectorAll(".subfilter-pill").forEach(btn => {
+      btn.className = "subfilter-pill flex-shrink-0 px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 border border-stone/20";
+    });
+    const selectedBtn = document.getElementById(`subfilter-${filterType}`);
+    if (selectedBtn) {
+      let activeClass = "bg-rust text-white shadow-md scale-105 font-extrabold";
+      if (filterType === "available") activeClass = "bg-[#1E3A4F] text-white shadow-md scale-105 font-extrabold";
+      else if (filterType === "soldout") activeClass = "bg-stone text-white shadow-md scale-105 font-extrabold";
+      selectedBtn.className = `subfilter-pill flex-shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs transition-all cursor-pointer ${activeClass}`;
+    }
+    this.selectTab(this.activeTab, true, true, true);
+  }
+
   renderCurrentTab() {
-    this.selectTab(this.activeTab, true);
+    this.selectTab(this.activeTab, true, true, true);
   }
 
   /* --- VIEW SWITCHER --- */
@@ -423,6 +460,17 @@ class StorefrontApp {
       }
     }
 
+    // Apply status sub-navigation filters (Sale, Available, Sold Out) for category views
+    if (!options.featuredOnly && !options.saleOnly && !options.query) {
+      if (this.currentSubFilter === "sale") {
+        all = all.filter(p => parseFloat(p.salePercentage) > 0 && p.status !== "Sold Out");
+      } else if (this.currentSubFilter === "available") {
+        all = all.filter(p => p.status !== "Sold Out");
+      } else if (this.currentSubFilter === "soldout") {
+        all = all.filter(p => p.status === "Sold Out");
+      }
+    }
+
     // Sort to ensure NEW items and recently created items show at the very top of the list
     all = all.sort((a, b) => {
       const aNew = (a.badge === "NEW" || a.isNew === true) ? 1 : 0;
@@ -435,10 +483,17 @@ class StorefrontApp {
     if (exploreContainer) exploreContainer.className = "mt-10 text-center hidden";
 
     if (all.length === 0) {
+      const subFilterMsg = (this.currentSubFilter && this.currentSubFilter !== 'all' && !options.featuredOnly && !options.saleOnly) 
+        ? `No items found matching the "<b>${this.currentSubFilter.toUpperCase()}</b>" status filter in this category.` 
+        : `No items found in this section yet.`;
+      const actionBtn = (this.currentSubFilter && this.currentSubFilter !== 'all' && !options.featuredOnly && !options.saleOnly)
+        ? `<button onclick="window.TaraApp.setSubFilter('all')" class="mt-4 text-xs font-bold uppercase text-rust hover:underline cursor-pointer px-4 py-2 bg-sand/50 rounded-xl border border-stone/20">Reset to View All</button>`
+        : `<button onclick="window.TaraApp.selectTab('home')" class="mt-4 text-xs font-bold uppercase text-rust hover:underline cursor-pointer">Return to Home Catalog</button>`;
+
       grid.innerHTML = `
         <div class="col-span-2 md:col-span-4 text-center py-16">
-          <p class="text-stone font-serif text-lg">No items found in this section yet.</p>
-          <button onclick="window.TaraApp.selectTab('home')" class="mt-4 text-xs font-bold uppercase text-rust hover:underline cursor-pointer">Return to Home Catalog</button>
+          <p class="text-stone font-serif text-base md:text-lg">${subFilterMsg}</p>
+          ${actionBtn}
         </div>
       `;
       return;

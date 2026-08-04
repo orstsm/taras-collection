@@ -156,7 +156,7 @@
         </section>
         
         <!-- SEARCH BAR -->
-        <section id="catalog-section" class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <section id="catalog-section" class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
             <div class="relative shadow-sm">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <svg class="w-5 h-5 text-stone" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -167,6 +167,25 @@
                 </button>
             </div>
         </section>
+
+        <!-- STATUS SUB-NAVIGATION FILTER BAR (Visible on category pages: Personalized, Bracelets, Gemstones, Charms) -->
+        <section id="status-filter-section" class="hidden max-w-2xl mx-auto px-3 sm:px-6 lg:px-8 mb-8">
+            <div class="flex items-center justify-center gap-1.5 sm:gap-2.5 overflow-x-auto py-1.5 px-2 bg-sand/40 border border-stone/20 rounded-2xl shadow-inner max-w-full">
+                <button type="button" id="subfilter-all" onclick="window.TaraApp.setSubFilter('all')" class="subfilter-pill flex-shrink-0 px-3.5 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-extrabold transition-all cursor-pointer bg-rust text-white shadow-md scale-105">
+                    ✨ All
+                </button>
+                <button type="button" id="subfilter-sale" onclick="window.TaraApp.setSubFilter('sale')" class="subfilter-pill flex-shrink-0 px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 hover:text-rust border border-stone/20">
+                    🔥 Sale Items
+                </button>
+                <button type="button" id="subfilter-available" onclick="window.TaraApp.setSubFilter('available')" class="subfilter-pill flex-shrink-0 px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 hover:text-ocean border border-stone/20">
+                    💎 Available
+                </button>
+                <button type="button" id="subfilter-soldout" onclick="window.TaraApp.setSubFilter('soldout')" class="subfilter-pill flex-shrink-0 px-3 sm:px-4 py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer bg-white text-charcoal hover:bg-white/80 hover:text-stone border border-stone/20">
+                    📦 Sold Out
+                </button>
+            </div>
+        </section>
+
 
         <!-- SECTION 1: CUSTOM BRACELETS (Only visible when on Home Tab or Personalized Tab) -->
         <section id="custom-bracelets-section" class="py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
