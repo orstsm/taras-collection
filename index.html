@@ -443,6 +443,9 @@
                         <button id="admin-open-add-modal-btn" class="px-5 py-2.5 bg-rust hover:bg-sand text-white hover:text-charcoal rounded-xl text-xs font-bold uppercase tracking-widest shadow-md transition-colors cursor-pointer flex items-center gap-1.5 touch-min">
                             <span>➕ Add New Product</span>
                         </button>
+                        <button onclick="document.getElementById('admin-add-proof-form').classList.remove('hidden'); document.getElementById('admin-add-proof-form').scrollIntoView({behavior: 'smooth', block: 'center'})" class="px-5 py-2.5 bg-[#1877F2] hover:bg-[#155DBD] text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-md transition-colors cursor-pointer flex items-center gap-1.5 touch-min" title="Quick add proof">
+                            <span>📜 Add Proof</span>
+                        </button>
                         <button class="account-logout-btn px-4 py-2.5 bg-stone/20 hover:bg-stone/40 text-charcoal rounded-xl text-xs font-bold uppercase tracking-widest transition-colors cursor-pointer" title="Sign out">
                             Sign Out
                         </button>
