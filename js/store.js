@@ -148,6 +148,24 @@ class StoreManager {
           } else if (error) {
             console.warn("Supabase background fetch notice:", error?.message);
           }
+
+          const { data: dbProofs, error: proofsError } = await this.supabase
+            .from("proofs")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+          if (!proofsError && dbProofs) {
+            console.log(`⚡ Background sync: loaded ${dbProofs.length} live proofs from Supabase Cloud!`);
+            this.data.customerProofs = dbProofs.map(p => ({
+              id: p.id,
+              image: p.image,
+              link: p.link,
+              caption: p.caption,
+              createdAt: p.created_at
+            }));
+            this.saveToStorage();
+            this.notifyObservers();
+          }
         } catch (cloudErr) {
           console.warn("Offline fallback: Supabase cloud connection unavailable:", cloudErr);
         }
@@ -310,6 +328,47 @@ class StoreManager {
       }
     } catch (e) {
       console.error("Cloud deletion exception:", e);
+    }
+  }
+
+  async saveProofToCloud(proof) {
+    if (!this.supabase || !proof) return;
+    try {
+      const row = {
+        id: proof.id || `proof-${Date.now()}`,
+        image: proof.image || "",
+        link: proof.link || "",
+        caption: proof.caption || "Verified Transaction",
+        created_at: proof.createdAt || new Date().toISOString()
+      };
+      const { error } = await this.supabase.from("proofs").upsert(row);
+      if (error) {
+        console.error("Supabase proof upsert error:", error);
+        if (error.code === '42501' || error.message?.toLowerCase().includes("row-level security")) {
+          window.TaraApp?.showToast("⚠️ Supabase RLS write denied for proof. Re-login to Store Manager!", "error");
+        }
+      } else {
+        console.log(`☁️ Successfully synced proof "${row.id}" to Supabase Cloud!`);
+      }
+    } catch (e) {
+      console.error("Cloud saving exception for proof:", e);
+    }
+  }
+
+  async deleteProofFromCloud(id) {
+    if (!this.supabase || !id) return;
+    try {
+      const { error } = await this.supabase.from("proofs").delete().eq("id", id);
+      if (error) {
+        console.error("Supabase proof deletion error:", error);
+        if (error.code === '42501' || error.message?.toLowerCase().includes("row-level security")) {
+          window.TaraApp?.showToast("⚠️ Supabase RLS delete denied for proof. Re-login to Store Manager!", "error");
+        }
+      } else {
+        console.log(`☁️ Successfully removed proof (${id}) from Supabase Cloud.`);
+      }
+    } catch (e) {
+      console.error("Cloud deletion exception for proof:", e);
     }
   }
 

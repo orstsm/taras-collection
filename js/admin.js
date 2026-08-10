@@ -1017,7 +1017,7 @@ class AdminDashboard {
     this.uploadedProofBase64 = null;
   }
 
-  saveNewProof() {
+  async saveNewProof() {
     let img = this.uploadedProofBase64 || document.getElementById("proof-img-url")?.value.trim();
     const fbUrl = document.getElementById("proof-fb-url")?.value.trim() || "";
     const cap = document.getElementById("proof-caption-input")?.value.trim() || "Verified Transaction";
@@ -1040,15 +1040,21 @@ class AdminDashboard {
 
     window.TaraStore.data.customerProofs.unshift(newProof);
     window.TaraStore.saveData();
+    if (window.TaraStore.saveProofToCloud) {
+      await window.TaraStore.saveProofToCloud(newProof);
+    }
     this.toggleAddProofForm();
     this.renderProofsList();
     window.TaraApp?.showToast("✅ New Proof of Transaction published to storefront!", "success");
   }
 
-  deleteProof(proofId) {
+  async deleteProof(proofId) {
     if (confirm("Are you sure you want to delete this Proof of Transaction photo?")) {
       window.TaraStore.data.customerProofs = (window.TaraStore.data.customerProofs || []).filter(p => p.id !== proofId && p.image !== proofId);
       window.TaraStore.saveData();
+      if (window.TaraStore.deleteProofFromCloud) {
+        await window.TaraStore.deleteProofFromCloud(proofId);
+      }
       this.renderProofsList();
       window.TaraApp?.showToast("Removed proof from website carousel.", "info");
     }
